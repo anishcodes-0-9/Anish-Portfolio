@@ -2,10 +2,11 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export class PortfolioRoom {
-  constructor(scene, camera, controls) {
+  constructor(scene, camera, controls, interaction) {
     this.scene = scene;
     this.camera = camera;
     this.controls = controls;
+    this.interaction = interaction; // ✅ added
     this.loader = new GLTFLoader();
   }
 
@@ -18,11 +19,14 @@ export class PortfolioRoom {
 
         console.log("Loaded:", child.name);
 
-        ((child.material = child.material.clone()),
-          (child.material.side = THREE.DoubleSide),
-          (child.material.roughness = 0.7),
-          (child.material.metalness = 0.1),
-          this.applyMaterialLogic(child));
+        // ✅ Clean material setup (no comma operator)
+        child.material = child.material.clone();
+        child.material.side = THREE.DoubleSide;
+        child.material.roughness = 0.7;
+        child.material.metalness = 0.1;
+
+        this.applyMaterialLogic(child);
+        this.tagInteractiveObjects(child); // ✅ tagging
       });
 
       this.scene.add(model);
@@ -109,5 +113,75 @@ export class PortfolioRoom {
         child.material.emissiveIntensity = 0.5;
         break;
     }
+  }
+
+  tagInteractiveObjects(child) {
+    switch (child.name) {
+      case "Window":
+        child.userData.type = "window";
+        break;
+
+      case "Football":
+        child.userData.type = "football";
+        break;
+
+      case "Chair":
+        child.userData.type = "chair";
+        break;
+
+      case "CPU":
+        child.userData.type = "cpu";
+        break;
+
+      case "Keyboard":
+        child.userData.type = "keyboard";
+        break;
+
+      case "Mouse":
+        child.userData.type = "mouse";
+        break;
+
+      case "Monitor_Left":
+        child.userData.type = "monitor_left";
+        break;
+
+      case "Monitor_Right":
+        child.userData.type = "monitor_right";
+        break;
+
+      case "BatmanLogo":
+        child.userData.type = "batman";
+        break;
+
+      case "Dumbell_L":
+        child.userData.type = "certifications";
+        break;
+
+      case "Dumbell_R":
+        child.userData.type = "hobbies";
+        break;
+
+      case "Photo_Frame":
+        child.userData.type = "about";
+        break;
+
+      case "Alexa_Base":
+        child.userData.type = "alexa";
+        break;
+
+      case "Diary_LP":
+        child.userData.type = "random_fact";
+        break;
+
+      case "Diary_RP":
+        child.userData.type = "random_thought";
+        break;
+
+      default:
+        return;
+    }
+
+    // ✅ register only interactive meshes
+    this.interaction.register(child);
   }
 }

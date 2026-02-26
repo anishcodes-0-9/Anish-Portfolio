@@ -4,6 +4,7 @@ import { Camera } from "./Camera.js";
 import { Controls } from "./Controls.js";
 import { Lighting } from "../world/Lighting.js";
 import { PortfolioRoom } from "../world/PortfolioRoom.js";
+import { InteractionSystem } from "../systems/InteractionSystem.js";
 
 export class Experience {
   constructor() {
@@ -18,11 +19,18 @@ export class Experience {
       this.renderer.instance.domElement,
     );
 
+    this.interaction = new InteractionSystem(
+      this.scene,
+      this.camera.instance,
+      this.renderer.instance.domElement,
+    );
+
     this.lighting = new Lighting(this.scene);
     this.room = new PortfolioRoom(
       this.scene,
       this.camera.instance,
       this.controls.instance,
+      this.interaction,
     );
 
     window.addEventListener("resize", this.onResize.bind(this));
@@ -32,6 +40,7 @@ export class Experience {
     this.renderer.init();
     this.lighting.init();
     this.room.init();
+    this.interaction.init();
     this.animate();
   }
 
