@@ -1,0 +1,101 @@
+/* Root */
+#ui-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Soft pastel overlay */
+#ui-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 245, 240, 0.6);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+#ui-root.panel-open::before {
+  opacity: 1;
+}
+
+/* Elegant floating card */
+.panel {
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  transform: translateY(-50%) translateX(130%) scale(0.97);
+
+  width: 440px;
+  max-height: 85vh;
+
+  background: #f2ebe4;
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.06);
+
+  color: #2f2a26;
+
+  transition: none;
+
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  background: linear-gradient(to bottom, #f6f0ea 0%, #f2ebe4 60%, #eee6de 100%);
+}
+
+/* Active state */
+.panel.active {
+  transform: translateY(-50%) translateX(0) scale(1);
+  opacity: 1;
+}
+
+.panel.initialized {
+  transition:
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.8s ease;
+}
+
+/* Header */
+.panel-header {
+  padding: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Close button */
+.panel-header button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f0e9e4;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.panel-header button:hover {
+  background: #e6ded8;
+  transform: scale(1.08);
+}
+
+/* Content */
+#panel-content {
+  padding: 36px;
+  overflow-y: auto;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.7;
+  font-size: 15px;
+}
