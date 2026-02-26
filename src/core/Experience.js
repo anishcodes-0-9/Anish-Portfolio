@@ -6,6 +6,12 @@ import { Lighting } from "../world/Lighting.js";
 import { PortfolioRoom } from "../world/PortfolioRoom.js";
 import { InteractionSystem } from "../systems/InteractionSystem.js";
 
+import { UIManager } from "../systems/UIManager.js";
+import { AudioManager } from "../systems/AudioManager.js";
+import { TimeManager } from "../systems/TimeManager.js";
+import { LightManager } from "../systems/LightManager.js";
+import { GameManager } from "../systems/GameManager.js";
+
 export class Experience {
   constructor() {
     this.scene = new THREE.Scene();
@@ -24,6 +30,11 @@ export class Experience {
       this.camera.instance,
       this.renderer.instance.domElement,
     );
+    this.ui = new UIManager();
+    this.audio = new AudioManager();
+    this.time = new TimeManager();
+    this.lights = new LightManager(this.scene);
+    this.game = new GameManager();
 
     this.lighting = new Lighting(this.scene);
     this.room = new PortfolioRoom(
