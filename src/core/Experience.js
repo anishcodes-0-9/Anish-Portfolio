@@ -5,8 +5,8 @@ import { Controls } from "./Controls.js";
 import { Lighting } from "../world/Lighting.js";
 import { PortfolioRoom } from "../world/PortfolioRoom.js";
 import { InteractionSystem } from "../systems/InteractionSystem.js";
-
-import { UIManager } from "../systems/UIManager.js";
+import { registerAllPanels } from "../ui/registerPanels.js";
+import { UIManager } from "../ui/UIManager.js";
 import { AudioManager } from "../systems/AudioManager.js";
 import { TimeManager } from "../systems/TimeManager.js";
 import { LightManager } from "../systems/LightManager.js";
@@ -31,6 +31,8 @@ export class Experience {
       this.renderer.instance.domElement,
     );
     this.ui = new UIManager();
+    this.ui = new UIManager();
+    registerAllPanels(this.ui);
     this.audio = new AudioManager();
     this.time = new TimeManager();
     this.lights = new LightManager(this.scene);

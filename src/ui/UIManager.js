@@ -28,20 +28,13 @@ export class UIManager {
       }
     });
 
-    // Panel registry
-    this.panels = {
-      test: {
-        type: "side",
-        render: () => `
-          <h2>Test Panel</h2>
-          <p>This is Phase 2 working.</p>
-        `,
-      },
-    };
+    // ===== EMPTY PANEL REGISTRY (IMPORTANT CHANGE) =====
+    this.panels = {};
   }
 
   open(panelName) {
     const panelData = this.panels[panelName];
+
     if (!panelData) {
       console.warn(`Panel "${panelName}" not registered.`);
       return;
@@ -89,5 +82,9 @@ export class UIManager {
       type,
       render: renderFn,
     };
+  }
+
+  getActivePanel() {
+    return this.activePanel;
   }
 }
