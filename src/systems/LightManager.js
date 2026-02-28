@@ -1,19 +1,42 @@
 export class LightManager {
-  constructor(scene) {
-    this.scene = scene;
-    this.rgbEnabled = false;
+  constructor(renderer) {
+    this.renderer = renderer;
+    this.windowMesh = null;
   }
 
-  toggleRGB() {
-    this.rgbEnabled = !this.rgbEnabled;
-    console.log("RGB Mode:", this.rgbEnabled);
+  setWindowMesh(mesh) {
+    this.windowMesh = mesh;
   }
 
-  setBatmanMode() {
-    console.log("Batman mode activated");
-  }
+  applyMode(mode) {
+    if (!this.windowMesh) return;
 
-  reset() {
-    console.log("Lights reset");
+    switch (mode) {
+      case "morning":
+        this.windowMesh.material.emissive.set(0xffcc88);
+        this.windowMesh.material.emissiveIntensity = 0.8;
+        this.renderer.toneMappingExposure = 1.1;
+        break;
+
+      case "noon":
+        this.windowMesh.material.emissive.set(0xffffff);
+        this.windowMesh.material.emissiveIntensity = 1.2;
+        this.renderer.toneMappingExposure = 1.3;
+        break;
+
+      case "evening":
+        this.windowMesh.material.emissive.set(0xff8844);
+        this.windowMesh.material.emissiveIntensity = 0.9;
+        this.renderer.toneMappingExposure = 1.0;
+        break;
+
+      case "night":
+        this.windowMesh.material.emissive.set(0x2244ff);
+        this.windowMesh.material.emissiveIntensity = 0.6;
+        this.renderer.toneMappingExposure = 0.7;
+        break;
+    }
+
+    console.log("Theme applied:", mode);
   }
 }

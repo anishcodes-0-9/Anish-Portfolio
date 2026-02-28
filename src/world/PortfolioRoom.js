@@ -10,23 +10,24 @@ export class PortfolioRoom {
     this.loader = new GLTFLoader();
   }
 
-  init() {
+  init(onLoaded) {
     this.loader.load("/src/assets/models/portfolio-room.glb", (gltf) => {
       const model = gltf.scene;
 
       model.traverse((child) => {
         if (!child.isMesh) return;
 
-        console.log("Loaded:", child.name);
+        if (child.name === "Window") {
+          this.windowMesh = child;
+        }
 
-        // ✅ Clean material setup (no comma operator)
         child.material = child.material.clone();
         child.material.side = THREE.DoubleSide;
         child.material.roughness = 0.7;
         child.material.metalness = 0.1;
 
         this.applyMaterialLogic(child);
-        this.tagInteractiveObjects(child); // ✅ tagging
+        this.tagInteractiveObjects(child);
       });
 
       this.scene.add(model);
@@ -34,6 +35,8 @@ export class PortfolioRoom {
       this.camera.position.set(0, 2.2, -6);
       this.controls.target.set(0, 1.5, 0);
       this.controls.update();
+
+      if (onLoaded) onLoaded();
     });
   }
 

@@ -30,15 +30,20 @@ export class Experience {
       this.camera.instance,
       this.renderer.instance.domElement,
     );
-    this.ui = new UIManager();
+
+    // UI
     this.ui = new UIManager();
     registerAllPanels(this.ui);
+
+    // Systems
     this.audio = new AudioManager();
     this.time = new TimeManager();
-    this.lights = new LightManager(this.scene);
+    this.lightManager = new LightManager(this.renderer.instance);
     this.game = new GameManager();
 
+    // World
     this.lighting = new Lighting(this.scene);
+
     this.room = new PortfolioRoom(
       this.scene,
       this.camera.instance,
@@ -52,7 +57,15 @@ export class Experience {
   init() {
     this.renderer.init();
     this.lighting.init();
-    this.room.init();
+
+    this.room.init(() => {
+      // model finished loading
+      if (this.room.windowMesh) {
+        this.lightManager.setWindowMesh(this.room.windowMesh);
+        this.lightManager.applyMode(this.time.getMode());
+      }
+    });
+
     this.interaction.init();
     this.animate();
   }
