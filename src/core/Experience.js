@@ -38,7 +38,7 @@ export class Experience {
     // Systems
     this.audio = new AudioManager();
     this.time = new TimeManager();
-    this.lightManager = new LightManager(this.renderer.instance);
+    this.lightManager = new LightManager(this.renderer.instance, this.lighting);
     this.game = new GameManager();
 
     // World

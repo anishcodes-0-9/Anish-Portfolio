@@ -3,18 +3,23 @@ import * as THREE from "three";
 export class Lighting {
   constructor(scene) {
     this.scene = scene;
+
+    // We declare them here so they are public properties
+    this.ambient = null;
+    this.keyLight = null;
+    this.fillLight = null;
   }
 
   init() {
-    const ambient = new THREE.AmbientLight(0xffffff, 1.1);
-    this.scene.add(ambient);
+    this.ambient = new THREE.AmbientLight(0xffffff, 1.1);
+    this.scene.add(this.ambient);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    keyLight.position.set(5, 8, 5);
-    this.scene.add(keyLight);
+    this.keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    this.keyLight.position.set(5, 8, 5);
+    this.scene.add(this.keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    fillLight.position.set(-5, 5, -5);
-    this.scene.add(fillLight);
+    this.fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    this.fillLight.position.set(-5, 5, -5);
+    this.scene.add(this.fillLight);
   }
 }
