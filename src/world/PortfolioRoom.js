@@ -16,9 +16,29 @@ export class PortfolioRoom {
 
       model.traverse((child) => {
         if (!child.isMesh) return;
+        child.castShadow = true;
+        child.receiveShadow = true;
 
         if (child.name === "Window") {
           this.windowMesh = child;
+
+          if (child.name === "Window") {
+            this.windowMesh = child;
+
+            const frameGeo = new THREE.BoxGeometry(1.2, 2.2, 0.1);
+            const frameMat = new THREE.MeshStandardMaterial({
+              color: 0x1a1a1a,
+              roughness: 0.6,
+              metalness: 0.2,
+            });
+
+            const frame = new THREE.Mesh(frameGeo, frameMat);
+            frame.position.copy(child.position);
+            frame.position.z += 0.05; // slightly outward
+            frame.scale.copy(child.scale);
+
+            this.scene.add(frame);
+          }
         }
 
         child.material = child.material.clone();
@@ -43,6 +63,8 @@ export class PortfolioRoom {
   applyMaterialLogic(child) {
     switch (child.name) {
       case "Room_Floor":
+        child.material.roughness = 0.5;
+        child.material.metalness = 0.05;
         child.material.color.set(0x444444);
         break;
 

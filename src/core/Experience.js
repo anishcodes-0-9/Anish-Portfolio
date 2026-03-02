@@ -38,11 +38,13 @@ export class Experience {
     // Systems
     this.audio = new AudioManager();
     this.time = new TimeManager();
-    this.lightManager = new LightManager(this.renderer.instance, this.lighting);
     this.game = new GameManager();
 
     // World
-    this.lighting = new Lighting(this.scene);
+    this.lighting = new Lighting(this.scene, this.renderer.instance);
+
+    // IMPORTANT: create LightManager AFTER lighting
+    this.lightManager = new LightManager(this.lighting, this.renderer.instance);
 
     this.room = new PortfolioRoom(
       this.scene,
@@ -59,11 +61,7 @@ export class Experience {
     this.lighting.init();
 
     this.room.init(() => {
-      // model finished loading
-      if (this.room.windowMesh) {
-        this.lightManager.setWindowMesh(this.room.windowMesh);
-        this.lightManager.applyMode(this.time.getMode());
-      }
+      this.lightManager.applyMode(this.time.getMode());
     });
 
     this.interaction.init();
@@ -77,6 +75,10 @@ export class Experience {
 
   animate() {
     requestAnimationFrame(this.animate.bind(this));
+
+    const delta = 0.016; // simple fixed delta (60fps approx)
+    this.lightManager.update(delta);
+
     this.controls.update();
     this.renderer.render(this.scene, this.camera.instance);
   }

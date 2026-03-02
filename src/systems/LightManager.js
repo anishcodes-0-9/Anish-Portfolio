@@ -1,70 +1,147 @@
 import * as THREE from "three";
 
 export class LightManager {
-  constructor(renderer, lighting) {
+  constructor(lighting, renderer) {
+    this.lighting = lighting;
     this.renderer = renderer;
-    this.lighting = lighting; // reference to Lighting class
-    this.windowMesh = null;
-    this.currentMode = null;
-    this.overrideMode = null;
-  }
 
-  setWindowMesh(mesh) {
-    this.windowMesh = mesh;
-  }
+    this.current = {
+      pos: new THREE.Vector3(),
+      color: new THREE.Color(),
+      intensity: 1,
+      ambient: 0.6,
+      exposure: 1,
+    };
 
-  setOverride(mode) {
-    this.overrideMode = mode;
-    this.applyMode(mode);
-  }
+    this.target = null;
 
-  clearOverride() {
-    this.overrideMode = null;
+    this.progress = 1;
+    this.duration = 3.0; // cinematic duration
   }
 
   applyMode(mode) {
-    if (!this.windowMesh) return;
-
     this.currentMode = mode;
+    const configs = {
+      morning: {
+        pos: new THREE.Vector3(15, 4, 0),
+        color: 0xffc27f,
+        ambient: 0.65,
+        intensity: 1.6,
+        exposure: 1.65,
+        shadowBias: -0.0002,
+        skyTop: "#ffcc99",
+        skyBottom: "#ffe6cc",
+      },
 
-    switch (mode) {
-      case "morning":
-        this._applyWindow(0xffcc88, 0.8);
-        this._applyLighting(1.2, 0xffe0b2);
-        this.renderer.toneMappingExposure = 1.1;
-        break;
+      noon: {
+        pos: new THREE.Vector3(15, 10, 0),
+        color: 0xffffff,
+        intensity: 1.8,
+        ambient: 0.85,
+        exposure: 1.2,
+        skyTop: "#75c3ff",
+        skyBottom: "#ffffff",
+      },
 
-      case "noon":
-        this._applyWindow(0xffffff, 1.2);
-        this._applyLighting(1.4, 0xffffff);
-        this.renderer.toneMappingExposure = 1.3;
-        break;
+      evening: {
+        pos: new THREE.Vector3(15, 4, -5),
+        color: 0xff8c42,
+        intensity: 1.0,
+        ambient: 0.4,
+        exposure: 0.85,
+        skyTop: "#ff9966",
+        skyBottom: "#4b2e83",
+      },
 
-      case "evening":
-        this._applyWindow(0xff8844, 0.9);
-        this._applyLighting(1.0, 0xffb366);
-        this.renderer.toneMappingExposure = 1.0;
-        break;
+      night: {
+        pos: new THREE.Vector3(3, 5, -3),
+        color: 0x334466,
+        intensity: 0.7,
+        ambient: 0.3,
+        exposure: 0.75,
+        skyTop: "#13233f",
+        skyBottom: "#0b1220",
+      },
 
-      case "night":
-        this._applyWindow(0x2244ff, 0.6);
-        this._applyLighting(0.6, 0x88aaff);
-        this.renderer.toneMappingExposure = 0.7;
-        break;
-    }
+      batman: {
+        pos: new THREE.Vector3(2, 4, -2),
+        color: 0x1a1a2e,
+        intensity: 0.4,
+        ambient: 0.1,
+        exposure: 0.45,
+        skyTop: "#050510",
+        skyBottom: "#000000",
+      },
+    };
+
+    const config = configs[mode];
+    if (!config) return;
+
+    // Set sky instantly (sky doesn't need interpolation)
+    this.lighting.setSkyColor(config.skyTop, config.skyBottom);
+
+    // Store current state before transition
+    this.current.pos.copy(this.lighting.sun.position);
+    this.current.color.copy(this.lighting.sun.color);
+    this.current.intensity = this.lighting.sun.intensity;
+    this.current.ambient = this.lighting.ambient.intensity;
+    this.current.exposure = this.renderer.toneMappingExposure;
+
+    this.target = config;
+    this.progress = 0;
 
     console.log("Theme applied:", mode);
   }
 
-  _applyWindow(color, intensity) {
-    this.windowMesh.material.emissive.set(color);
-    this.windowMesh.material.emissiveIntensity = intensity;
+  update(delta) {
+    if (!this.target || this.progress >= 1) return;
+
+    this.progress += delta / this.duration;
+    this.lighting.sun.shadow.bias = this.target.shadowBias;
+    const t = Math.min(this.progress, 1);
+
+    const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+    const sun = this.lighting.sun;
+    const ambient = this.lighting.ambient;
+
+    sun.position.lerpVectors(this.current.pos, this.target.pos, eased);
+
+    const targetColor = new THREE.Color(this.target.color);
+    sun.color.copy(this.current.color.clone().lerp(targetColor, eased));
+
+    sun.intensity = THREE.MathUtils.lerp(
+      this.current.intensity,
+      this.target.intensity,
+      eased,
+    );
+
+    ambient.intensity = THREE.MathUtils.lerp(
+      this.current.ambient,
+      this.target.ambient,
+      eased,
+    );
+
+    this.renderer.toneMappingExposure = THREE.MathUtils.lerp(
+      this.current.exposure,
+      this.target.exposure,
+      eased,
+    );
   }
 
-  _applyLighting(ambientIntensity, keyColor) {
-    if (!this.lighting) return;
+  /* 🔥 ADD THESE METHODS RIGHT HERE */
 
-    this.lighting.ambient.intensity = ambientIntensity;
-    this.lighting.keyLight.color.set(keyColor);
+  setOverride(mode) {
+    this.previousMode = this.currentMode;
+    this.applyMode(mode);
+    this.isOverride = true;
   }
+
+  clearOverride() {
+    if (!this.previousMode) return;
+    this.applyMode(this.previousMode);
+    this.isOverride = false;
+  }
+
+  /* 🔥 THEN THIS LAST BRACE CLOSES THE CLASS */
 }
