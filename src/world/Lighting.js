@@ -10,7 +10,7 @@ export class Lighting {
     // ---------------------------
     // Enable shadow system
     // ---------------------------
-    this.renderer.shadowMap.enabled = true;
+    //this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // ---------------------------

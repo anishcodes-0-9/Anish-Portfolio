@@ -6,7 +6,7 @@ export class PortfolioRoom {
     this.scene = scene;
     this.camera = camera;
     this.controls = controls;
-    this.interaction = interaction; // ✅ added
+    this.interaction = interaction;
     this.loader = new GLTFLoader();
   }
 
@@ -16,35 +16,17 @@ export class PortfolioRoom {
 
       model.traverse((child) => {
         if (!child.isMesh) return;
+
         child.castShadow = true;
         child.receiveShadow = true;
 
-        if (child.name === "Window") {
-          this.windowMesh = child;
-
-          if (child.name === "Window") {
-            this.windowMesh = child;
-
-            const frameGeo = new THREE.BoxGeometry(1.2, 2.2, 0.1);
-            const frameMat = new THREE.MeshStandardMaterial({
-              color: 0x1a1a1a,
-              roughness: 0.6,
-              metalness: 0.2,
-            });
-
-            const frame = new THREE.Mesh(frameGeo, frameMat);
-            frame.position.copy(child.position);
-            frame.position.z += 0.05; // slightly outward
-            frame.scale.copy(child.scale);
-
-            this.scene.add(frame);
-          }
-        }
-
+        // Clone material so we don't mutate shared material
         child.material = child.material.clone();
         child.material.side = THREE.DoubleSide;
         child.material.roughness = 0.7;
         child.material.metalness = 0.1;
+
+        // ❌ Removed ALL window frame creation logic
 
         this.applyMaterialLogic(child);
         this.tagInteractiveObjects(child);
@@ -206,7 +188,6 @@ export class PortfolioRoom {
         return;
     }
 
-    // ✅ register only interactive meshes
     this.interaction.register(child);
   }
 }

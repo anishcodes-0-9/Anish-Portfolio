@@ -78,8 +78,9 @@ export class Experience {
 
     const delta = 0.016; // simple fixed delta (60fps approx)
     this.lightManager.update(delta);
-
+    this.interaction.update();
     this.controls.update();
+
     this.renderer.render(this.scene, this.camera.instance);
   }
 }
