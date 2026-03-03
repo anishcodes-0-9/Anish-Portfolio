@@ -12,8 +12,21 @@ export class InteractionSystem {
     this.interactiveObjects = [];
 
     this.hovered = null;
+
     this.originalScales = new Map();
-    this.hoverScale = 1.08;
+    this.originalPositions = new Map();
+
+    this.hoverScale = 1.06;
+
+    // FIXED: removed comma inside "phone"
+    this.wallTypes = [
+      "monitor_left",
+      "monitor_right",
+      "window",
+      "batman",
+      "about",
+      "phone",
+    ];
   }
 
   register(object) {
@@ -43,7 +56,8 @@ export class InteractionSystem {
       return;
     }
 
-    const hit = intersects[0].object;
+    // FIXED: always resolve to root interactive object
+    const hit = this.getRootInteractive(intersects[0].object);
 
     if (this.hovered !== hit) {
       this.clearHover();
@@ -57,31 +71,42 @@ export class InteractionSystem {
     if (!this.originalScales.has(object)) {
       this.originalScales.set(object, object.scale.clone());
     }
+
+    if (!this.originalPositions.has(object)) {
+      this.originalPositions.set(object, object.position.clone());
+    }
+
+    // Subtle glow for wall objects
+    if (
+      this.wallTypes.includes(object.userData.type) &&
+      object.material &&
+      object.material.emissive
+    ) {
+      object.material.emissiveIntensity = 0.4;
+    }
+
+    this.domElement.style.cursor = "pointer";
   }
 
   clearHover() {
     if (!this.hovered) return;
 
-    const type = this.hovered.userData.type;
+    const originalPos = this.originalPositions.get(this.hovered);
+    if (originalPos) {
+      this.hovered.position.copy(originalPos);
+    }
 
-    const wallTypes = [
-      "monitor_left",
-      "monitor_right",
-      "window",
-      "batman",
-      "about",
-    ];
+    const originalScale = this.originalScales.get(this.hovered);
+    if (originalScale) {
+      this.hovered.scale.copy(originalScale);
+    }
 
-    if (wallTypes.includes(type)) {
-      this.hovered.position.z = 0;
-    } else {
-      const original = this.originalScales.get(this.hovered);
-      if (original) {
-        this.hovered.scale.copy(original);
-      }
+    if (this.hovered.material && this.hovered.material.emissive) {
+      this.hovered.material.emissiveIntensity = 0;
     }
 
     this.hovered = null;
+    this.domElement.style.cursor = "default";
   }
 
   update() {
@@ -89,26 +114,32 @@ export class InteractionSystem {
 
     const type = this.hovered.userData.type;
 
-    // Wall mounted objects → move forward slightly
-    const wallTypes = [
-      "monitor_left",
-      "monitor_right",
-      "window",
-      "batman",
-      "about",
-    ];
+    // WALL OBJECTS → move toward camera slightly
+    if (this.wallTypes.includes(type)) {
+      const original = this.originalPositions.get(this.hovered);
+      if (!original) return;
 
-    if (wallTypes.includes(type)) {
-      this.hovered.position.z += 0.01;
+      const worldPos = new THREE.Vector3();
+      this.hovered.getWorldPosition(worldPos);
+
+      const dirToCamera = new THREE.Vector3()
+        .subVectors(this.camera.position, worldPos)
+        .normalize();
+
+      const offset = dirToCamera.multiplyScalar(0.05);
+
+      const target = original.clone().add(offset);
+
+      this.hovered.position.lerp(target, 0.15);
       return;
     }
 
-    // Everything else → scale pop
-    const original = this.originalScales.get(this.hovered);
-    if (!original) return;
+    // OTHER OBJECTS → scale pop
+    const originalScale = this.originalScales.get(this.hovered);
+    if (!originalScale) return;
 
-    const target = original.clone().multiplyScalar(this.hoverScale);
-    this.hovered.scale.lerp(target, 0.1);
+    const targetScale = originalScale.clone().multiplyScalar(this.hoverScale);
+    this.hovered.scale.lerp(targetScale, 0.1);
   }
 
   onClick(event) {
@@ -126,10 +157,21 @@ export class InteractionSystem {
 
     if (intersects.length === 0) return;
 
-    const clicked = intersects[0].object;
+    const clicked = this.getRootInteractive(intersects[0].object);
 
     if (clicked.userData.type) {
       console.log("Clicked:", clicked.userData.type);
     }
+  }
+
+  // FIXED: Properly placed inside class (not inside onClick)
+  getRootInteractive(object) {
+    let current = object;
+
+    while (current && !current.userData.type) {
+      current = current.parent;
+    }
+
+    return current || object;
   }
 }

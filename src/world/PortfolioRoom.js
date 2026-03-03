@@ -83,6 +83,10 @@ export class PortfolioRoom {
         child.material.color.set(0x111111);
         break;
 
+      case "Phone":
+        child.userData.type = "phone";
+        break;
+
       case "Mouse":
         child.material.color.set(0x333333);
         break;
@@ -121,31 +125,10 @@ export class PortfolioRoom {
         break;
     }
   }
-
   tagInteractiveObjects(child) {
     switch (child.name) {
-      case "Window":
-        child.userData.type = "window";
-        break;
-
-      case "Football":
-        child.userData.type = "football";
-        break;
-
-      case "Chair":
-        child.userData.type = "chair";
-        break;
-
-      case "CPU":
-        child.userData.type = "cpu";
-        break;
-
-      case "Keyboard":
-        child.userData.type = "keyboard";
-        break;
-
-      case "Mouse":
-        child.userData.type = "mouse";
+      case "Phone":
+        child.userData.type = "phone";
         break;
 
       case "Monitor_Left":
@@ -156,11 +139,11 @@ export class PortfolioRoom {
         child.userData.type = "monitor_right";
         break;
 
-      case "BatmanLogo":
-        child.userData.type = "batman";
+      case "Football":
+        child.userData.type = "football";
         break;
 
-      case "Dumbell_L":
+      case "_Dumbell_L":
         child.userData.type = "certifications";
         break;
 
@@ -168,12 +151,20 @@ export class PortfolioRoom {
         child.userData.type = "hobbies";
         break;
 
-      case "Photo_Frame":
-        child.userData.type = "about";
+      case "Window":
+        child.userData.type = "window";
         break;
 
-      case "Alexa_Base":
-        child.userData.type = "alexa";
+      case "BatmanLogo":
+        child.userData.type = "batman";
+        break;
+
+      case "Chair":
+        child.userData.type = "chair";
+        break;
+
+      case "Keyboard":
+        child.userData.type = "keyboard";
         break;
 
       case "Diary_LP":
@@ -184,10 +175,27 @@ export class PortfolioRoom {
         child.userData.type = "random_thought";
         break;
 
+      case "Mouse":
+        child.userData.type = "mouse";
+        break;
+
+      case "CPU":
+        child.userData.type = "cpu";
+        break;
+
+      case "Photo_Frame":
+        child.userData.type = "about";
+        break;
+
+      case "Alexa_Base":
+        child.userData.type = "alexa";
+        break;
+
       default:
-        return;
+        return; // only skip if truly not interactive
     }
 
+    // IMPORTANT: Always register after assigning type
     this.interaction.register(child);
   }
 }
