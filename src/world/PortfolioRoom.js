@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
+const textureLoader = new THREE.TextureLoader();
+
 export class PortfolioRoom {
   constructor(scene, camera, controls, interaction) {
     this.scene = scene;
@@ -25,8 +27,6 @@ export class PortfolioRoom {
         child.material.side = THREE.DoubleSide;
         child.material.roughness = 0.7;
         child.material.metalness = 0.1;
-
-        // ❌ Removed ALL window frame creation logic
 
         this.applyMaterialLogic(child);
         this.tagInteractiveObjects(child);
@@ -91,8 +91,20 @@ export class PortfolioRoom {
         child.material.color.set(0x333333);
         break;
 
+      // ⭐ Batman logo texture applied here
       case "BatmanLogo":
-        child.material.color.set(0x000000);
+        const batTexture = textureLoader.load("/textures/batman-logo.png");
+
+        child.material = new THREE.MeshStandardMaterial({
+          map: batTexture,
+          transparent: true,
+          roughness: 0.4,
+          metalness: 0.2,
+        });
+
+        // slight glow effect
+        child.material.emissive = new THREE.Color(0xffff00);
+        child.material.emissiveIntensity = 0.25;
         break;
 
       case "Photo_Frame":
@@ -125,6 +137,7 @@ export class PortfolioRoom {
         break;
     }
   }
+
   tagInteractiveObjects(child) {
     switch (child.name) {
       case "Phone":
@@ -192,10 +205,10 @@ export class PortfolioRoom {
         break;
 
       default:
-        return; // only skip if truly not interactive
+        return;
     }
 
-    // IMPORTANT: Always register after assigning type
+    // register interactive object
     this.interaction.register(child);
   }
 }
