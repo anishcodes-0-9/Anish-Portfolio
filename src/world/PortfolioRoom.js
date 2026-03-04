@@ -29,6 +29,16 @@ export class PortfolioRoom {
         child.material.metalness = 0.1;
 
         this.applyMaterialLogic(child);
+        // store references for systems
+        window.portfolioObjects = window.portfolioObjects || {};
+
+        if (child.name === "BatmanLogo") {
+          window.portfolioObjects.batmanLogo = child;
+        }
+
+        if (child.name === "Window") {
+          window.portfolioObjects.window = child;
+        }
         this.tagInteractiveObjects(child);
       });
 

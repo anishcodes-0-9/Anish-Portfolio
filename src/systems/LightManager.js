@@ -64,12 +64,12 @@ export class LightManager {
       },
 
       batman: {
-        pos: new THREE.Vector3(2, 4, -2),
-        color: 0x1a1a2e,
-        intensity: 0.4,
-        ambient: 0.1,
-        exposure: 0.45,
-        skyTop: "#050510",
+        pos: new THREE.Vector3(3, 5, -2),
+        color: 0xff3300,
+        intensity: 0.9,
+        ambient: 0.35,
+        exposure: 0.85,
+        skyTop: "#0a0a12",
         skyBottom: "#000000",
       },
     };

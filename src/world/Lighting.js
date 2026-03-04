@@ -50,6 +50,23 @@ export class Lighting {
     this.scene.add(this.sun.target);
 
     this.scene.add(this.sun);
+
+    // ---------------------------
+    // Fog Ground (environment base)
+    // ---------------------------
+    const fogGround = new THREE.Mesh(
+      new THREE.PlaneGeometry(200, 200),
+      new THREE.MeshStandardMaterial({
+        color: 0x050510,
+        roughness: 1,
+        metalness: 0,
+      }),
+    );
+
+    fogGround.rotation.x = -Math.PI / 2;
+    fogGround.position.y = -0.02;
+
+    this.scene.add(fogGround);
   }
 
   setSkyColor(topColor, bottomColor) {

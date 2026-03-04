@@ -1,6 +1,17 @@
+import * as THREE from "three";
+
 export class GameManager {
-  constructor() {
+  constructor(lightManager) {
+    this.lightManager = lightManager;
+
     this.active = false;
+    this.batmanMode = false;
+
+    this.batLight = null;
+    this.batSignal = null;
+    this.batLogo = null;
+
+    this.textureLoader = new THREE.TextureLoader();
   }
 
   start() {
@@ -13,7 +24,134 @@ export class GameManager {
     console.log("Game stopped");
   }
 
-  update() {
-    if (!this.active) return;
+  activateBatmanMode() {
+    // Toggle OFF
+    if (this.batmanMode) {
+      this.disableBatmanMode();
+      return;
+    }
+
+    // Toggle ON
+    this.batmanMode = true;
+
+    if (window.app && window.app.audio) {
+      window.app.audio.play("batman");
+    }
+
+    console.log("Batman mode activated");
+
+    const objects = window.portfolioObjects || {};
+    const batLogo = objects.batmanLogo;
+
+    this.batLogo = batLogo;
+
+    // 🔥 Logo ignite (yellow base + red glow)
+    if (batLogo && batLogo.material) {
+      batLogo.material.color.set(0xffcc33);
+      batLogo.material.emissive = new THREE.Color(0xff2200);
+      batLogo.material.emissiveIntensity = 1.2;
+    }
+
+    // Switch lighting theme
+    if (this.lightManager) {
+      this.lightManager.setOverride("batman");
+    }
+
+    // 🔥 Fire light near logo
+    if (batLogo && !this.batLight) {
+      const batLight = new THREE.PointLight(0xff3300, 2.2, 10);
+
+      batLight.position.set(
+        batLogo.position.x,
+        batLogo.position.y + 1.5,
+        batLogo.position.z + 0.3,
+      );
+
+      batLogo.parent.add(batLight);
+
+      this.batLight = batLight;
+    }
+
+    // 🦇 Bat-Signal projection
+    if (batLogo && !this.batSignal) {
+      const texture = this.textureLoader.load("/textures/bat-signal.png");
+
+      const signal = new THREE.SpotLight(
+        0xffffff,
+        10,
+        40,
+        Math.PI / 12,
+        0.05,
+        1,
+      );
+
+      signal.castShadow = false;
+      signal.decay = 1.5;
+
+      signal.map = texture;
+      texture.anisotropy = 16;
+
+      // projector near ceiling
+      signal.position.set(0, 3.5, -3);
+
+      // aim at wall
+      signal.target.position.set(0, 2, 4);
+      batLogo.parent.add(signal.target);
+
+      batLogo.parent.add(signal);
+
+      this.batSignal = signal;
+    }
+  }
+
+  disableBatmanMode() {
+    console.log("Batman mode disabled");
+
+    this.batmanMode = false;
+
+    // restore lighting
+    if (this.lightManager) {
+      this.lightManager.clearOverride();
+    }
+
+    // remove fire light
+    if (this.batLight) {
+      this.batLight.parent.remove(this.batLight);
+      this.batLight = null;
+    }
+
+    // remove bat signal
+    if (this.batSignal) {
+      this.batSignal.parent.remove(this.batSignal.target);
+      this.batSignal.parent.remove(this.batSignal);
+      this.batSignal = null;
+    }
+
+    // stop audio
+    if (window.app && window.app.audio) {
+      window.app.audio.stop("batman");
+    }
+
+    // restore logo
+    if (this.batLogo && this.batLogo.material) {
+      this.batLogo.material.color.set(0xffffff);
+      this.batLogo.material.emissive = new THREE.Color(0x000000);
+      this.batLogo.material.emissiveIntensity = 0.25;
+    }
+  }
+
+  update(time) {
+    // 🔥 Fire flicker
+    if (this.batLight) {
+      const flicker = Math.sin(time * 8) * 0.3 + Math.sin(time * 17) * 0.15;
+
+      this.batLight.intensity = 2.5 + flicker;
+    }
+
+    // 🔥 Logo pulse glow
+    if (this.batLogo && this.batLogo.material && this.batmanMode) {
+      this.batLogo.material.emissiveIntensity =
+        1.15 + Math.sin(time * 6) * 0.15;
+    }
   }
 }

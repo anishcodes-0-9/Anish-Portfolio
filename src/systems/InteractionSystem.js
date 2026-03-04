@@ -161,6 +161,12 @@ export class InteractionSystem {
 
     if (clicked.userData.type) {
       console.log("Clicked:", clicked.userData.type);
+
+      if (clicked.userData.type === "batman") {
+        if (window.app && window.app.gameManager) {
+          window.app.gameManager.activateBatmanMode();
+        }
+      }
     }
   }
 

@@ -15,6 +15,8 @@ import { GameManager } from "../systems/GameManager.js";
 export class Experience {
   constructor() {
     this.scene = new THREE.Scene();
+    // Gotham style fog around the environment
+    this.scene.fog = new THREE.FogExp2(0x050510, 0.045);
     this.scene.background = new THREE.Color(0x111111);
 
     this.camera = new Camera();
@@ -37,15 +39,19 @@ export class Experience {
 
     // Systems
     this.audio = new AudioManager();
+    this.audio.register("batman", "/audio/batman-theme.mp3", true);
     this.time = new TimeManager();
-    this.game = new GameManager();
 
-    // World
+    // World lighting
     this.lighting = new Lighting(this.scene, this.renderer.instance);
 
-    // IMPORTANT: create LightManager AFTER lighting
+    // LightManager must be created AFTER Lighting
     this.lightManager = new LightManager(this.lighting, this.renderer.instance);
 
+    // GameManager now receives LightManager
+    this.gameManager = new GameManager(this.lightManager);
+
+    // World
     this.room = new PortfolioRoom(
       this.scene,
       this.camera.instance,
@@ -65,6 +71,10 @@ export class Experience {
     });
 
     this.interaction.init();
+
+    // expose for interaction system
+    window.app = this;
+
     this.animate();
   }
 
@@ -76,8 +86,10 @@ export class Experience {
   animate() {
     requestAnimationFrame(this.animate.bind(this));
 
-    const delta = 0.016; // simple fixed delta (60fps approx)
+    const delta = 0.016;
+
     this.lightManager.update(delta);
+    this.gameManager.update(performance.now() * 0.001); // bat light flicker
     this.interaction.update();
     this.controls.update();
 
