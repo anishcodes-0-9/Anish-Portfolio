@@ -1,7 +1,7 @@
 export class UIManager {
   constructor() {
     this.activePanel = null;
-    this.activeType = null; // "side" or "modal"
+    this.activeType = null;
 
     // ===== Side Panel =====
     this.panel = document.getElementById("side-panel");
@@ -21,45 +21,49 @@ export class UIManager {
       this.modalClose.addEventListener("click", () => this.close());
     }
 
-    // ESC support for both
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        this.close();
-      }
+      if (e.key === "Escape") this.close();
     });
 
-    // ===== EMPTY PANEL REGISTRY (IMPORTANT CHANGE) =====
     this.panels = {};
   }
 
+  /* OPEN PANEL */
   open(panelName) {
-    console.log("Opening panel:", panelName);
-
     const panelData = this.panels[panelName];
-
-    console.log("Panel data:", panelData);
 
     if (!panelData) {
       console.warn("Panel not registered:", panelName);
       return;
     }
 
-    console.log("Render function:", panelData.panel.render);
-
     this.activePanel = panelName;
     this.activeType = panelData.type;
 
-    this.content.innerHTML = "";
+    /* SIDE PANEL */
+    if (panelData.type === "side") {
+      this.content.innerHTML = "";
 
-    panelData.panel.render(this.content);
+      panelData.panel.render(this.content);
 
-    console.log("Content after render:", this.content);
+      this.panel.classList.add("active");
+    }
 
-    this.panel.classList.add("active");
+    /* MODAL PANEL */
+    if (panelData.type === "modal") {
+      this.modalContent.innerHTML = "";
+
+      panelData.panel.render(this.modalContent);
+
+      this.modal.classList.add("active");
+    }
+
+    const root = document.getElementById("ui-root");
+    root.classList.add("panel-open");
   }
-  close() {
-    if (!this.activePanel) return;
 
+  /* CLOSE UI */
+  close() {
     const root = document.getElementById("ui-root");
     root.classList.remove("panel-open");
 
@@ -68,10 +72,9 @@ export class UIManager {
 
     this.activePanel = null;
     this.activeType = null;
-
-    console.log("UI Closed");
   }
 
+  /* REGISTER PANELS */
   register(name, panelObject, type = "side") {
     this.panels[name] = {
       type,

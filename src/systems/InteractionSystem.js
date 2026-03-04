@@ -167,6 +167,7 @@ export class InteractionSystem {
           window.app.gameManager.activateBatmanMode();
         }
       }
+
       if (clicked.userData.type === "monitor_left") {
         if (window.app && window.app.ui) {
           window.app.ui.open("projects");
@@ -178,10 +179,15 @@ export class InteractionSystem {
           window.app.ui.open("work");
         }
       }
-    }
-  }
 
-  // FIXED: Properly placed inside class (not inside onClick)
+      /* ⚽ FOOTBALL GAME */
+      if (clicked.userData.type === "football") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("footballGame");
+        }
+      }
+    }
+  } // FIXED: Properly placed inside class (not inside onClick)
   getRootInteractive(object) {
     let current = object;
 
