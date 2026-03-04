@@ -73,7 +73,10 @@ export class Experience {
     this.interaction.init();
 
     // expose for interaction system
-    window.app = this;
+    window.app = {
+      ui: this.ui,
+      gameManager: this.gameManager,
+    };
 
     this.animate();
   }

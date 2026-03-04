@@ -33,35 +33,30 @@ export class UIManager {
   }
 
   open(panelName) {
+    console.log("Opening panel:", panelName);
+
     const panelData = this.panels[panelName];
 
+    console.log("Panel data:", panelData);
+
     if (!panelData) {
-      console.warn(`Panel "${panelName}" not registered.`);
+      console.warn("Panel not registered:", panelName);
       return;
     }
 
-    if (this.activePanel === panelName) return;
-
-    this.close(); // close any open panel
+    console.log("Render function:", panelData.panel.render);
 
     this.activePanel = panelName;
     this.activeType = panelData.type;
 
-    const root = document.getElementById("ui-root");
-    root.classList.add("panel-open");
+    this.content.innerHTML = "";
 
-    if (panelData.type === "modal") {
-      this.modalContent.innerHTML = panelData.render();
-      this.modal.classList.add("active");
-    } else {
-      this.content.innerHTML = panelData.render();
-      this.panel.classList.add("initialized");
-      this.panel.classList.add("active");
-    }
+    panelData.panel.render(this.content);
 
-    console.log("UI Open:", panelName);
+    console.log("Content after render:", this.content);
+
+    this.panel.classList.add("active");
   }
-
   close() {
     if (!this.activePanel) return;
 
@@ -77,10 +72,10 @@ export class UIManager {
     console.log("UI Closed");
   }
 
-  register(name, renderFn, type = "side") {
+  register(name, panelObject, type = "side") {
     this.panels[name] = {
       type,
-      render: renderFn,
+      panel: panelObject,
     };
   }
 

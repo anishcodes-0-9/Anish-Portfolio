@@ -1,11 +1,7 @@
-import { testPanel } from "./panels/testPanel.js";
-import { gamePanel } from "./panels/gamePanel.js";
-import { demoModal } from "./panels/demoModal.js";
+import { createProjectsPanel } from "./panels/projectsPanel.js";
+import { createWorkPanel } from "./panels/workPanel.js";
 
 export function registerAllPanels(ui) {
-  const panels = [testPanel, gamePanel, demoModal];
-
-  panels.forEach((panel) => {
-    ui.register(panel.name, panel.render, panel.type);
-  });
+  ui.register("projects", createProjectsPanel());
+  ui.register("work", createWorkPanel());
 }

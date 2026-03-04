@@ -167,6 +167,17 @@ export class InteractionSystem {
           window.app.gameManager.activateBatmanMode();
         }
       }
+      if (clicked.userData.type === "monitor_left") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("projects");
+        }
+      }
+
+      if (clicked.userData.type === "monitor_right") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("work");
+        }
+      }
     }
   }
 
