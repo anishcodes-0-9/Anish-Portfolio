@@ -17,12 +17,10 @@ export class Experience {
   constructor() {
     this.scene = new THREE.Scene();
 
-    /* Gotham style fog */
-
     this.scene.fog = new THREE.FogExp2(0x050510, 0.045);
     this.scene.background = new THREE.Color(0x111111);
 
-    /* core systems */
+    /* core */
 
     this.camera = new Camera();
     this.renderer = new Renderer();
@@ -38,7 +36,7 @@ export class Experience {
       this.renderer.instance.domElement,
     );
 
-    /* environment system */
+    /* environment */
 
     this.environmentSystem = new EnvironmentSystem(this.scene);
 
@@ -52,19 +50,17 @@ export class Experience {
     this.audio = new AudioManager();
     this.audio.register("batman", "/audio/batman-theme.mp3", true);
 
-    /* time manager */
+    /* time */
 
     this.time = new TimeManager();
 
-    /* world lighting */
+    /* lighting */
 
     this.lighting = new Lighting(this.scene, this.renderer.instance);
 
-    /* light manager */
-
     this.lightManager = new LightManager(this.lighting, this.renderer.instance);
 
-    /* game manager */
+    /* gameplay */
 
     this.gameManager = new GameManager(this.lightManager);
 
@@ -80,7 +76,7 @@ export class Experience {
     window.addEventListener("resize", this.onResize.bind(this));
   }
 
-  /* initialize experience */
+  /* init */
 
   init() {
     this.renderer.init();
@@ -93,31 +89,25 @@ export class Experience {
 
     this.interaction.init();
 
-    /* expose global systems */
-
     window.app = {
       ui: this.ui,
-
       audio: this.audio,
-
       gameManager: this.gameManager,
-
       lightManager: this.lightManager,
-
       environmentSystem: this.environmentSystem,
     };
 
     this.animate();
   }
 
-  /* resize handler */
+  /* resize */
 
   onResize() {
     this.camera.onResize();
     this.renderer.onResize();
   }
 
-  /* render loop */
+  /* loop */
 
   animate() {
     requestAnimationFrame(this.animate.bind(this));
@@ -126,9 +116,9 @@ export class Experience {
 
     this.lightManager.update(delta);
 
-    /* bat light flicker */
-
     this.gameManager.update(performance.now() * 0.001);
+
+    this.environmentSystem.update(performance.now() * 0.001);
 
     this.interaction.update();
 
