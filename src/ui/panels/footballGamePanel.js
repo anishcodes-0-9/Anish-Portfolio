@@ -68,8 +68,8 @@ Score: <span id="score">0</span>
       let y = 140;
       let velocity = 0;
 
-      let gravity = 0.14;
-      let flapPower = -4.2;
+      let gravity = 0.2;
+      let flapPower = -2.8;
 
       let postX = 420;
       let gapY = 120;
@@ -133,9 +133,9 @@ Score: <span id="score">0</span>
       function flap() {
         if (!playing) return;
 
-        /* consistent upward kick */
+        /* smaller controlled kick */
 
-        velocity = flapPower;
+        velocity = Math.min(flapPower, velocity - 1);
       }
 
       /* GAME LOOP */
