@@ -179,7 +179,12 @@ export class InteractionSystem {
           window.app.ui.open("work");
         }
       }
+      /*Window*/
+      if (clicked.userData.type === "window") {
+        if (window.app.gameManager.batmanMode) return;
 
+        window.app.environmentSystem.cycleTimeOfDay();
+      }
       /* ⚽ FOOTBALL GAME */
       if (clicked.userData.type === "football") {
         if (window.app && window.app.ui) {

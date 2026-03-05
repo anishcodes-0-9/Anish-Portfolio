@@ -11,13 +11,18 @@ import { AudioManager } from "../systems/AudioManager.js";
 import { TimeManager } from "../systems/TimeManager.js";
 import { LightManager } from "../systems/LightManager.js";
 import { GameManager } from "../systems/GameManager.js";
+import { EnvironmentSystem } from "../systems/EnvironmentSystem.js";
 
 export class Experience {
   constructor() {
     this.scene = new THREE.Scene();
-    // Gotham style fog around the environment
+
+    /* Gotham style fog */
+
     this.scene.fog = new THREE.FogExp2(0x050510, 0.045);
     this.scene.background = new THREE.Color(0x111111);
+
+    /* core systems */
 
     this.camera = new Camera();
     this.renderer = new Renderer();
@@ -33,25 +38,38 @@ export class Experience {
       this.renderer.instance.domElement,
     );
 
-    // UI
+    /* environment system */
+
+    this.environmentSystem = new EnvironmentSystem(this.scene);
+
+    /* UI */
+
     this.ui = new UIManager();
     registerAllPanels(this.ui);
 
-    // Systems
+    /* audio */
+
     this.audio = new AudioManager();
     this.audio.register("batman", "/audio/batman-theme.mp3", true);
+
+    /* time manager */
+
     this.time = new TimeManager();
 
-    // World lighting
+    /* world lighting */
+
     this.lighting = new Lighting(this.scene, this.renderer.instance);
 
-    // LightManager must be created AFTER Lighting
+    /* light manager */
+
     this.lightManager = new LightManager(this.lighting, this.renderer.instance);
 
-    // GameManager now receives LightManager
+    /* game manager */
+
     this.gameManager = new GameManager(this.lightManager);
 
-    // World
+    /* world */
+
     this.room = new PortfolioRoom(
       this.scene,
       this.camera.instance,
@@ -62,8 +80,11 @@ export class Experience {
     window.addEventListener("resize", this.onResize.bind(this));
   }
 
+  /* initialize experience */
+
   init() {
     this.renderer.init();
+
     this.lighting.init();
 
     this.room.init(() => {
@@ -72,19 +93,31 @@ export class Experience {
 
     this.interaction.init();
 
-    // expose for interaction system
+    /* expose global systems */
+
     window.app = {
       ui: this.ui,
+
+      audio: this.audio,
+
       gameManager: this.gameManager,
+
+      lightManager: this.lightManager,
+
+      environmentSystem: this.environmentSystem,
     };
 
     this.animate();
   }
 
+  /* resize handler */
+
   onResize() {
     this.camera.onResize();
     this.renderer.onResize();
   }
+
+  /* render loop */
 
   animate() {
     requestAnimationFrame(this.animate.bind(this));
@@ -92,8 +125,13 @@ export class Experience {
     const delta = 0.016;
 
     this.lightManager.update(delta);
-    this.gameManager.update(performance.now() * 0.001); // bat light flicker
+
+    /* bat light flicker */
+
+    this.gameManager.update(performance.now() * 0.001);
+
     this.interaction.update();
+
     this.controls.update();
 
     this.renderer.render(this.scene, this.camera.instance);

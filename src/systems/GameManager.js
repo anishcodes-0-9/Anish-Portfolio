@@ -39,6 +39,7 @@ export class GameManager {
     }
 
     console.log("Batman mode activated");
+    window.app.environmentSystem.hideSun();
 
     const objects = window.portfolioObjects || {};
     const batLogo = objects.batmanLogo;
@@ -108,7 +109,7 @@ export class GameManager {
     console.log("Batman mode disabled");
 
     this.batmanMode = false;
-
+    window.app.environmentSystem.showSun();
     // restore lighting
     if (this.lightManager) {
       this.lightManager.clearOverride();

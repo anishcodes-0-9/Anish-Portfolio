@@ -18,6 +18,7 @@ export class PortfolioRoom {
 
       model.traverse((child) => {
         if (!child.isMesh) return;
+        console.log(child.name);
 
         child.castShadow = true;
         child.receiveShadow = true;
@@ -38,6 +39,10 @@ export class PortfolioRoom {
 
         if (child.name === "Window") {
           window.portfolioObjects.window = child;
+
+          /* make window interactive */
+
+          child.userData.type = "window";
         }
         this.tagInteractiveObjects(child);
       });
