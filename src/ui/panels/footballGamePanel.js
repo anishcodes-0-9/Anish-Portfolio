@@ -11,9 +11,6 @@ export function createFootballGamePanel() {
 
 <div id="ball">⚽</div>
 
-<div id="post-top" class="goal-post"></div>
-<div id="post-bottom" class="goal-post"></div>
-
 </div>
 
 <div class="game-ui">
@@ -62,37 +59,40 @@ Score: <span id="score">0</span>
       const startBtn = container.querySelector("#start-game");
       const scoreEl = container.querySelector("#score");
 
-      const postTop = container.querySelector("#post-top");
-      const postBottom = container.querySelector("#post-bottom");
-
       let y = 140;
       let velocity = 0;
+      let rotation = 0;
 
-      let gravity = 0.2;
+      let gravity = 0.16;
       let flapPower = -2.8;
 
-      let postX = 420;
-      let gapY = 120;
-
       let score = 0;
-
       let playing = false;
 
       const GAP_SIZE = 140;
+
+      const POSTS = [];
+      const POST_SPACING = 200;
+      const POST_COUNT = 4;
 
       /* RESET GAME */
 
       function resetGame() {
         y = 140;
         velocity = 0;
-
-        postX = 420;
+        rotation = 0;
 
         score = 0;
-
         scoreEl.textContent = score;
 
-        gapY = randomGap();
+        POSTS.length = 0;
+
+        for (let i = 0; i < POST_COUNT; i++) {
+          POSTS.push({
+            x: 420 + i * POST_SPACING,
+            gapY: randomGap(),
+          });
+        }
 
         updatePosts();
 
@@ -108,23 +108,40 @@ Score: <span id="score">0</span>
       /* UPDATE POSTS */
 
       function updatePosts() {
-        postTop.style.height = gapY + "px";
+        POSTS.forEach((post, index) => {
+          let top = container.querySelector(`#post-top-${index}`);
+          let bottom = container.querySelector(`#post-bottom-${index}`);
 
-        postBottom.style.height = 260 - gapY - GAP_SIZE + "px";
+          if (!top) {
+            top = document.createElement("div");
+            bottom = document.createElement("div");
 
-        postBottom.style.bottom = "0px";
+            top.className = "goal-post";
+            bottom.className = "goal-post";
 
-        postTop.style.left = postX + "px";
-        postBottom.style.left = postX + "px";
+            top.id = `post-top-${index}`;
+            bottom.id = `post-bottom-${index}`;
+
+            area.appendChild(top);
+            area.appendChild(bottom);
+          }
+
+          top.style.height = post.gapY + "px";
+
+          bottom.style.height = 260 - post.gapY - GAP_SIZE + "px";
+
+          top.style.left = post.x + "px";
+          bottom.style.left = post.x + "px";
+
+          bottom.style.bottom = "0px";
+        });
       }
 
       /* START GAME */
 
       function startGame() {
         resetGame();
-
         playing = true;
-
         loop();
       }
 
@@ -132,8 +149,6 @@ Score: <span id="score">0</span>
 
       function flap() {
         if (!playing) return;
-
-        /* smaller controlled kick */
 
         velocity = Math.min(flapPower, velocity - 1);
       }
@@ -143,62 +158,61 @@ Score: <span id="score">0</span>
       function loop() {
         if (!playing) return;
 
-        /* physics */
-
         velocity += gravity;
-
-        /* clamp fall speed */
-
         velocity = Math.min(velocity, 4);
 
         y += velocity;
 
         ball.style.top = y + "px";
 
+        /* spin ball */
+
+        rotation += velocity * 2;
+        ball.style.transform = `rotate(${rotation}deg)`;
+
         /* move posts */
 
-        postX -= 1.2;
+        POSTS.forEach((post) => {
+          post.x -= 1.2;
 
-        /* obstacle reset */
+          if (post.x < -60) {
+            post.x = 420 + POST_SPACING;
 
-        if (postX < -60) {
-          postX = 420;
+            post.gapY = randomGap();
 
-          gapY = randomGap();
+            score++;
+            scoreEl.textContent = score;
 
-          updatePosts();
+            /* increase difficulty gradually */
 
-          score++;
+            if (score % 5 === 0) {
+              gravity += 0.01;
+            }
+          }
+        });
 
-          scoreEl.textContent = score;
-        }
-
-        /* apply position */
-
-        postTop.style.left = postX + "px";
-        postBottom.style.left = postX + "px";
+        updatePosts();
 
         /* collision detection */
 
         const ballTop = y;
         const ballBottom = y + 40;
 
-        const gapTop = gapY;
-        const gapBottom = gapY + GAP_SIZE;
+        POSTS.forEach((post) => {
+          if (post.x < 200 && post.x > 120) {
+            const gapTop = post.gapY;
+            const gapBottom = post.gapY + GAP_SIZE;
 
-        if (postX < 200 && postX > 120) {
-          if (ballTop < gapTop || ballBottom > gapBottom) {
-            gameOver();
-
-            return;
+            if (ballTop < gapTop || ballBottom > gapBottom) {
+              gameOver();
+            }
           }
-        }
+        });
 
         /* floor / ceiling */
 
         if (y < 0 || y > 230) {
           gameOver();
-
           return;
         }
 
@@ -222,7 +236,6 @@ Score: <span id="score">0</span>
       function keyHandler(e) {
         if (e.code === "Space") {
           e.preventDefault();
-
           flap();
         }
       }
