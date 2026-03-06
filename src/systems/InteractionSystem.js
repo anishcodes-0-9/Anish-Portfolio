@@ -191,6 +191,12 @@ export class InteractionSystem {
           window.app.ui.open("footballGame");
         }
       }
+      /* 🤖 ALEXA AI CHAT */
+      if (clicked.userData.type === "alexa") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("aiChat");
+        }
+      }
     }
   } // FIXED: Properly placed inside class (not inside onClick)
   getRootInteractive(object) {
