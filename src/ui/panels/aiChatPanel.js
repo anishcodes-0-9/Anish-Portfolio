@@ -12,12 +12,10 @@ export function createAIChatPanel() {
             <input 
               id="ai-chat-input"
               type="text"
-              placeholder="Ask about Anish's skills, projects, or experience..."
+              placeholder="Ask about Anish's projects, skills, or experience..."
             />
 
-            <button id="ai-chat-send">
-              Send
-            </button>
+            <button id="ai-chat-send">Send</button>
           </div>
 
         </div>
@@ -56,32 +54,40 @@ export function createAIChatPanel() {
               "Content-Type": "application/json",
             },
 
-            body: JSON.stringify({
-              message,
-            }),
+            body: JSON.stringify({ message }),
           });
 
           const data = await res.json();
 
           addMessage("ai", data.reply);
-        } catch (err) {
-          addMessage("ai", "Error contacting AI server.");
+        } catch (error) {
+          console.error(error);
 
-          console.error(err);
+          addMessage("ai", "Error contacting AI server.");
         }
       }
 
       sendBtn.addEventListener("click", sendMessage);
 
       input.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+
         if (e.key === "Enter") {
+          e.preventDefault();
           sendMessage();
         }
+      });
+      input.addEventListener("focus", () => {
+        document.body.classList.add("typing");
+      });
+
+      input.addEventListener("blur", () => {
+        document.body.classList.remove("typing");
       });
 
       addMessage(
         "ai",
-        "Hi. I'm Alexa. Ask me about Anish's skills, projects, or experience.",
+        "Hi, I'm Alexa. Ask me about Anish's projects, skills, or experience.",
       );
     },
   };

@@ -18,7 +18,6 @@ export class InteractionSystem {
 
     this.hoverScale = 1.06;
 
-    // FIXED: removed comma inside "phone"
     this.wallTypes = [
       "monitor_left",
       "monitor_right",
@@ -56,7 +55,6 @@ export class InteractionSystem {
       return;
     }
 
-    // FIXED: always resolve to root interactive object
     const hit = this.getRootInteractive(intersects[0].object);
 
     if (this.hovered !== hit) {
@@ -76,7 +74,6 @@ export class InteractionSystem {
       this.originalPositions.set(object, object.position.clone());
     }
 
-    // Subtle glow for wall objects
     if (
       this.wallTypes.includes(object.userData.type) &&
       object.material &&
@@ -92,11 +89,13 @@ export class InteractionSystem {
     if (!this.hovered) return;
 
     const originalPos = this.originalPositions.get(this.hovered);
+
     if (originalPos) {
       this.hovered.position.copy(originalPos);
     }
 
     const originalScale = this.originalScales.get(this.hovered);
+
     if (originalScale) {
       this.hovered.scale.copy(originalScale);
     }
@@ -106,6 +105,7 @@ export class InteractionSystem {
     }
 
     this.hovered = null;
+
     this.domElement.style.cursor = "default";
   }
 
@@ -114,7 +114,6 @@ export class InteractionSystem {
 
     const type = this.hovered.userData.type;
 
-    // WALL OBJECTS → move toward camera slightly
     if (this.wallTypes.includes(type)) {
       const original = this.originalPositions.get(this.hovered);
       if (!original) return;
@@ -131,14 +130,15 @@ export class InteractionSystem {
       const target = original.clone().add(offset);
 
       this.hovered.position.lerp(target, 0.15);
+
       return;
     }
 
-    // OTHER OBJECTS → scale pop
     const originalScale = this.originalScales.get(this.hovered);
     if (!originalScale) return;
 
     const targetScale = originalScale.clone().multiplyScalar(this.hoverScale);
+
     this.hovered.scale.lerp(targetScale, 0.1);
   }
 
@@ -162,43 +162,50 @@ export class InteractionSystem {
     if (clicked.userData.type) {
       console.log("Clicked:", clicked.userData.type);
 
+      /* Batman */
       if (clicked.userData.type === "batman") {
         if (window.app && window.app.gameManager) {
           window.app.gameManager.activateBatmanMode();
         }
       }
 
+      /* Projects */
       if (clicked.userData.type === "monitor_left") {
         if (window.app && window.app.ui) {
           window.app.ui.open("projects");
         }
       }
 
+      /* Work */
       if (clicked.userData.type === "monitor_right") {
         if (window.app && window.app.ui) {
           window.app.ui.open("work");
         }
       }
-      /*Window*/
+
+      /* Window */
       if (clicked.userData.type === "window") {
         if (window.app.gameManager.batmanMode) return;
 
         window.app.environmentSystem.cycleTimeOfDay();
       }
-      /* ⚽ FOOTBALL GAME */
+
+      /* Football */
       if (clicked.userData.type === "football") {
         if (window.app && window.app.ui) {
           window.app.ui.open("footballGame");
         }
       }
-      /* 🤖 ALEXA AI CHAT */
+
+      /* Alexa AI Chat */
       if (clicked.userData.type === "alexa") {
         if (window.app && window.app.ui) {
           window.app.ui.open("aiChat");
         }
       }
     }
-  } // FIXED: Properly placed inside class (not inside onClick)
+  }
+
   getRootInteractive(object) {
     let current = object;
 

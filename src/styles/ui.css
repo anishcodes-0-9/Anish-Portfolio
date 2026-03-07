@@ -1,4 +1,5 @@
 /* Root */
+@import "./chat.css";
 #ui-root {
   position: fixed;
   inset: 0;

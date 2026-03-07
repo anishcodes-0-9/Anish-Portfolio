@@ -10,6 +10,6 @@ export function registerAllPanels(ui) {
 
   ui.register("footballGame", createFootballGamePanel(), "modal");
 
-  /* 🤖 AI CHATBOT */
+  /* Alexa AI Chat */
   ui.register("aiChat", createAIChatPanel(), "modal");
 }
