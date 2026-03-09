@@ -193,79 +193,85 @@ The assistant uses a **system prompt containing portfolio knowledge** so it only
 
 ---
 
-# 🧩 Application Architecture
+## 🧩 Application Architecture
 
+```
 Three.js Scene
 │
 ├── InteractionSystem
-│ Handles raycasting and object clicks
+│ Handles raycasting and object click detection
 │
 ├── PortfolioRoom
-│ Loads GLB model and tags interactive objects
+│ Loads the GLB room model
+│ Tags interactive objects
 │
 ├── UIManager
-│ Manages side panels and modal windows
+│ Controls UI panels and modals
 │
 ├── Panels
-│ Projects Panel
-│ Work Panel
-│ Football Game
-│ AI Chat Panel
+│ ├── Projects Panel
+│ ├── Work Panel
+│ ├── Football Game Panel
+│ └── AI Chat Panel
 │
 └── Backend
-Node.js API
-OpenAI Integration
+Node.js + Express API
+OpenAI integration
+
+```
 
 ---
 
-# 📁 Project Structure
+## 📁 Project Structure
 
+```
 Anish-Portfolio
 │
 ├── backend
-│ ├── server.js
-│ ├── chatRoute.js
-│ ├── package.json
-│ └── .env
+│   ├── server.js
+│   ├── chatRoute.js
+│   ├── package.json
+│   └── .env
 │
 ├── public
-│ ├── audio
-│ └── textures
+│   ├── audio
+│   └── textures
 │
 ├── src
-│ ├── assets
-│ │ └── models
-│ │
-│ ├── core
-│ │ ├── Camera.js
-│ │ ├── Controls.js
-│ │ ├── Renderer.js
-│ │ └── Experience.js
-│ │
-│ ├── systems
-│ │ ├── InteractionSystem.js
-│ │ ├── GameManager.js
-│ │ ├── EnvironmentSystem.js
-│ │ ├── LightManager.js
-│ │ └── TimeManager.js
-│ │
-│ ├── ui
-│ │ ├── UIManager.js
-│ │ ├── registerPanels.js
-│ │ └── panels
-│ │ ├── projectsPanel.js
-│ │ ├── workPanel.js
-│ │ ├── footballGamePanel.js
-│ │ └── aiChatPanel.js
-│ │
-│ ├── world
-│ │ └── PortfolioRoom.js
-│ │
-│ └── main.js
+│   ├── assets
+│   │   └── models
+│   │
+│   ├── core
+│   │   ├── Camera.js
+│   │   ├── Controls.js
+│   │   ├── Renderer.js
+│   │   └── Experience.js
+│   │
+│   ├── systems
+│   │   ├── InteractionSystem.js
+│   │   ├── GameManager.js
+│   │   ├── EnvironmentSystem.js
+│   │   ├── LightManager.js
+│   │   └── TimeManager.js
+│   │
+│   ├── ui
+│   │   ├── UIManager.js
+│   │   ├── registerPanels.js
+│   │   └── panels
+│   │       ├── projectsPanel.js
+│   │       ├── workPanel.js
+│   │       ├── footballGamePanel.js
+│   │       └── aiChatPanel.js
+│   │
+│   ├── world
+│   │   └── PortfolioRoom.js
+│   │
+│   └── main.js
 │
 ├── index.html
 ├── vite.config.js
 └── package.json
+```
 
 ---
 
@@ -375,3 +381,7 @@ Planned upgrades include:
 This portfolio was built to **reimagine what a developer portfolio can be**.
 
 Instead of reading about my work on a webpage, visitors **explore a world where every object tells a story**.
+
+```
+
+```
