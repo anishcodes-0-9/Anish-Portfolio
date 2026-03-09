@@ -396,7 +396,3 @@ Planned upgrades include:
 This portfolio was built to **reimagine what a developer portfolio can be**.
 
 Instead of reading about my work on a webpage, visitors **explore a world where every object tells a story**.
-
-```
-
-```
