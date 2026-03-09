@@ -1,38 +1,377 @@
-# 💜 수아's Award-Winning Room Folio 💜
+# 🏠 Interactive 3D Portfolio — Three.js + AI Assistant
 
-**[Live site](http://sooahs-room-folio.com/)**
+An **interactive 3D developer portfolio** built with **Three.js**, where visitors explore a virtual room and interact with objects to learn about my **projects, work experience, and skills**.
 
-This repo contains code of 수아's Room Folio. If you're interested, learn how to create a porfolio like this [here](https://youtu.be/AB6sulUMRGE)!! It's beginner friendly!
+Instead of navigating a traditional website, users **interact with objects inside a 3D room**. Each object triggers a different feature such as opening panels, launching mini-games, changing the environment, or chatting with an **AI assistant powered by OpenAI**.
 
-![Page screenshot](public/media/og-image.webp?raw=true "Page screenshot")
+---
 
-# Instructions
+# 🎯 Project Objective
 
-```
+This project demonstrates a combination of:
+
+- **3D development**
+- **interactive UI design**
+- **frontend engineering**
+- **backend architecture**
+- **AI integration**
+
+The goal was to create a **memorable and immersive portfolio experience** rather than a static webpage.
+
+---
+
+# 🧱 Tech Stack
+
+## **Frontend**
+
+- **Three.js**
+- **JavaScript (ES Modules)**
+- **Vite**
+- **Custom UI panel system**
+- **Raycasting interaction system**
+
+## **Backend**
+
+- **Node.js**
+- **Express**
+- **OpenAI API**
+- **Secure API proxy**
+
+## **3D Modeling**
+
+- **Blender**
+
+---
+
+# 🧭 Interactive Room Features
+
+The portfolio is presented as a **3D room environment** where every major object is interactive.
+
+Users can **hover and click objects** to trigger different actions.
+
+---
+
+# 🖱️ Object Interactions
+
+## 🖥️ **Left Monitor — Projects**
+
+Clicking the **left monitor** opens a side panel displaying:
+
+- Personal projects
+- Technical experiments
+- Engineering implementations
+
+### Interaction Flow
+
+Click Monitor_Left
+↓
+InteractionSystem detects object
+↓
+UIManager opens "projects" panel
+
+---
+
+## 🖥️ **Right Monitor — Work History**
+
+Clicking the **right monitor** opens a side panel showing:
+
+- Professional work history
+- Previous roles
+- Responsibilities
+- Career experience
+
+---
+
+## ⚽ **Football — Mini Game**
+
+Clicking the football opens an interactive **football mini-game**.
+
+### Features
+
+- Physics based movement
+- Score tracking
+- Interactive gameplay
+
+### Interaction Flow
+
+Click Football
+↓
+UIManager opens footballGame modal
+↓
+GameManager handles game logic
+
+---
+
+## 🌇 **Window — Environment Lighting**
+
+Clicking the window cycles through different **times of day**.
+
+### Environment States
+
+1. **Morning**
+2. **Noon**
+3. **Evening**
+4. **Night**
+
+### Interaction Flow
+
+Click Window
+↓
+EnvironmentSystem.cycleTimeOfDay()
+↓
+LightingManager updates scene lighting
+
+This dynamically changes the room lighting and mood.
+
+---
+
+## 🦇 **Batman Logo — Cinematic Mode**
+
+Clicking the Batman logo activates a **cinematic lighting mode**.
+
+### Effects
+
+- Darkened environment
+- Dramatic lighting
+- Cinematic atmosphere
+
+### Interaction Flow
+
+Click BatmanLogo
+↓
+GameManager.activateBatmanMode()
+↓
+Lighting system switches theme
+
+Clicking again disables cinematic mode.
+
+---
+
+## 🤖 **Alexa Device — AI Portfolio Assistant**
+
+Clicking the Alexa device opens an **AI chatbot modal**.
+
+The chatbot answers questions about:
+
+- Projects
+- Skills
+- Tech stack
+- Work experience
+- Contact information
+
+### AI Request Flow
+
+User types message
+↓
+Frontend sends POST request
+↓
+Node backend proxy
+↓
+OpenAI API
+↓
+Response returned to chat UI
+
+The backend ensures the **OpenAI API key is never exposed to the browser**.
+
+---
+
+# 🧠 AI System Architecture
+
+Three.js Frontend
+↓
+POST /api/chat
+↓
+Node.js Express Server
+↓
+OpenAI API
+↓
+AI Response
+↓
+Chat UI Updates
+
+The assistant uses a **system prompt containing portfolio knowledge** so it only answers questions related to the portfolio.
+
+---
+
+# 🧩 Application Architecture
+
+Three.js Scene
+│
+├── InteractionSystem
+│ Handles raycasting and object clicks
+│
+├── PortfolioRoom
+│ Loads GLB model and tags interactive objects
+│
+├── UIManager
+│ Manages side panels and modal windows
+│
+├── Panels
+│ Projects Panel
+│ Work Panel
+│ Football Game
+│ AI Chat Panel
+│
+└── Backend
+Node.js API
+OpenAI Integration
+
+---
+
+# 📁 Project Structure
+
+Anish-Portfolio
+│
+├── backend
+│ ├── server.js
+│ ├── chatRoute.js
+│ ├── package.json
+│ └── .env
+│
+├── public
+│ ├── audio
+│ └── textures
+│
+├── src
+│ ├── assets
+│ │ └── models
+│ │
+│ ├── core
+│ │ ├── Camera.js
+│ │ ├── Controls.js
+│ │ ├── Renderer.js
+│ │ └── Experience.js
+│ │
+│ ├── systems
+│ │ ├── InteractionSystem.js
+│ │ ├── GameManager.js
+│ │ ├── EnvironmentSystem.js
+│ │ ├── LightManager.js
+│ │ └── TimeManager.js
+│ │
+│ ├── ui
+│ │ ├── UIManager.js
+│ │ ├── registerPanels.js
+│ │ └── panels
+│ │ ├── projectsPanel.js
+│ │ ├── workPanel.js
+│ │ ├── footballGamePanel.js
+│ │ └── aiChatPanel.js
+│ │
+│ ├── world
+│ │ └── PortfolioRoom.js
+│ │
+│ └── main.js
+│
+├── index.html
+├── vite.config.js
+└── package.json
+
+---
+
+# ⚙️ How to Run the Project
+
+## **1️⃣ Clone the Repository**
+
+git clone https://github.com/anishcodes-0-9/Anish-Portfolio.git
+
+---
+
+## **2️⃣ Install Frontend Dependencies**
+
 npm install
-npm run dev
-```
 
-# Updates & Known Issues!!!
+---
 
-- There is an issue in the video's code where, at certain angles, when you hover something it starts "vibrating" or "twitching," this is because the mesh that we're using to target with our raycaster is no longer being hovered after the animation displaces/rescales the object. This triggers the tween to be "killed" and revert to its old state. When it reverts it might be rehovered which triggers the animation to play again, but that animation again makes the object no longer hovered and it keeps going back and forth. If you wanted to fix this with minimal adjustments, you can generate static invisible hitboxes for all hovered items that are passed into the raycaster for testing rather than the object itself (or you can do a combination of both, some you use the object itself, others you use a hitbox). I decided to take a dual approach, some have hitboxes, others use the default object. For the objects with intro animations, you can either create their hitboxes after the intro animation is done playing or you can generate all the hitboxes before the intro is done playing. If you do it after, the user can't interact with them until the intro is done. If you do it before, they can interact with the objects before the intro is done. There are multiple ways to handle this, you can even make the hitboxes in Blender if you want. For me I made all the static ones interactable immediately, whereas those with intro animations have their hitboxes generated after the animations are done. One issue with hitboxes is at certain angles you can't select/hover objects behind another mesh's hitbox because we're only choosing the first thing the raycast intersects. You can fix this by deciding to play a hover animation for all objects the raycaster is intersecting or checking the rotation of the camera to "guess" which one the user is actually hovering, or make a highly custom hitbox for each specific mesh that needs one in Blender, or take the dual approach I took in which the raycaster uses generated hitboxes for some objects and the default objects themselves for others. Alternatively, if you don't want a hovered state, you can simply remove the kill flag check and let it play out its animation fully.
+## **3️⃣ Install Backend Dependencies**
 
-# Inspo & Credits!!!
+cd backend
+npm install
 
-- [Bruno Simon's Room](https://my-room-in-3d.vercel.app/)
-- [Rachel Wei's Room](https://rachelqrwei.ca/)
-- [Nicky Blender](https://www.instagram.com/nicky.blender/?hl=en)
-- [Denis Wipart's Materials](https://wipart.artstation.com/store). Don't worry I have commercial license hahaha.
-- [Music](https://youtu.be/eq3C1Uwz6YU)
-- [Click SFX](https://uppbeat.io/sfx/category/digital-and-ui/ui)
-- [Piano SFX](https://pixabay.com/sound-effects/all-88-keys-on-a-piano-playing-fast-free-high-quality-sound-effects-71279/)
-- [Cat Wallpaper](https://wallpapersok.com/wallpapers/kawaii-hd-smiling-cats-vmhjik4wp6ipc6bd.html)
-- [Peach Panda Wallpaper](https://4kwallpapers.com/cute/peach-cat-kawaii-10081.html)
-- [Anya Forger | Spy x Family Wallpaper](https://www.uhdpaper.com/2022/03/anya-forger-spy-x-family-4k-5061g.html?m=0)
-- [SVGs](https://www.svgrepo.com/)
-- [Fonts](https://www.fontspace.com/niskala-huruf)
+---
 
-# Won some awards!! 🎉
+## **4️⃣ Add OpenAI API Key**
 
-- [Awwwards](https://www.awwwards.com/sites/suas-room-folio)
-- [CSSDA](https://www.cssdesignawards.com/sites/sooahs-room-folio/47040/)
+Create a `.env` file inside the backend folder:
+
+OPENAI_API_KEY=your_api_key_here
+
+---
+
+## **5️⃣ Start Backend Server**
+
+cd backend
+npm start
+
+Server runs on: http://localhost:3001
+
+---
+
+## **6️⃣ Start Frontend**
+
+Open a new terminal: npm run dev
+
+then Visit: http://localhost:5173
+
+---
+
+# 🎨 3D Modeling Workflow
+
+The entire environment was designed in **Blender**.
+
+### Workflow
+
+Blender Model
+↓
+Export GLB
+↓
+Load with GLTFLoader
+↓
+Three.js Scene
+↓
+Material + lighting adjustments in code
+
+---
+
+# ✨ Key Engineering Highlights
+
+This project demonstrates:
+
+- **Custom raycasting interaction system**
+- **Modular UI architecture**
+- **Interactive 3D environment**
+- **Dynamic lighting system**
+- **Mini-game integration**
+- **Secure AI backend integration**
+- **Full stack architecture**
+
+---
+
+# 🚀 Future Improvements
+
+Planned upgrades include:
+
+- Alexa **voice responses**
+- **AI explanation of GitHub repositories**
+- **Resume unlock puzzle**
+- **Real-time lighting based on user local time**
+- Additional interactive room elements
+
+---
+
+# 📬 Contact
+
+---
+
+**https://github.com/anishcodes-0-9**
+**www.linkedin.com/in/anishkrishnan09**
+
+---
+
+---
+
+# ⭐ Final Note
+
+This portfolio was built to **reimagine what a developer portfolio can be**.
+
+Instead of reading about my work on a webpage, visitors **explore a world where every object tells a story**.
