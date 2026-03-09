@@ -63,11 +63,13 @@ Clicking the **left monitor** opens a side panel displaying:
 
 ### Interaction Flow
 
+```
 Click Monitor_Left
 ↓
 InteractionSystem detects object
 ↓
 UIManager opens "projects" panel
+```
 
 ---
 
@@ -94,11 +96,13 @@ Clicking the football opens an interactive **football mini-game**.
 
 ### Interaction Flow
 
+```
 Click Football
 ↓
 UIManager opens footballGame modal
 ↓
 GameManager handles game logic
+```
 
 ---
 
@@ -115,11 +119,13 @@ Clicking the window cycles through different **times of day**.
 
 ### Interaction Flow
 
+```
 Click Window
 ↓
 EnvironmentSystem.cycleTimeOfDay()
 ↓
 LightingManager updates scene lighting
+```
 
 This dynamically changes the room lighting and mood.
 
@@ -137,11 +143,13 @@ Clicking the Batman logo activates a **cinematic lighting mode**.
 
 ### Interaction Flow
 
+```
 Click BatmanLogo
 ↓
 GameManager.activateBatmanMode()
 ↓
 Lighting system switches theme
+```
 
 Clicking again disables cinematic mode.
 
@@ -161,6 +169,7 @@ The chatbot answers questions about:
 
 ### AI Request Flow
 
+```
 User types message
 ↓
 Frontend sends POST request
@@ -170,6 +179,7 @@ Node backend proxy
 OpenAI API
 ↓
 Response returned to chat UI
+```
 
 The backend ensures the **OpenAI API key is never exposed to the browser**.
 
@@ -177,6 +187,7 @@ The backend ensures the **OpenAI API key is never exposed to the browser**.
 
 # 🧠 AI System Architecture
 
+```
 Three.js Frontend
 ↓
 POST /api/chat
@@ -188,6 +199,7 @@ OpenAI API
 AI Response
 ↓
 Chat UI Updates
+```
 
 The assistant uses a **system prompt containing portfolio knowledge** so it only answers questions related to the portfolio.
 
@@ -327,6 +339,7 @@ The entire environment was designed in **Blender**.
 
 ### Workflow
 
+```
 Blender Model
 ↓
 Export GLB
@@ -336,6 +349,7 @@ Load with GLTFLoader
 Three.js Scene
 ↓
 Material + lighting adjustments in code
+```
 
 ---
 
@@ -370,6 +384,7 @@ Planned upgrades include:
 ---
 
 **https://github.com/anishcodes-0-9**
+
 **www.linkedin.com/in/anishkrishnan09**
 
 ---
