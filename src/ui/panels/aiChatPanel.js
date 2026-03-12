@@ -1,3 +1,8 @@
+import {
+  startAlexaThinking,
+  stopAlexaThinking,
+} from "../../systems/AlexaAnimation.js";
+
 export function createAIChatPanel() {
   return {
     render(container) {
@@ -8,7 +13,20 @@ export function createAIChatPanel() {
 
           <div id="ai-chat-messages" class="ai-chat-messages"></div>
 
+          <div class="chat-suggestions">
+
+            <button class="chat-btn">What projects has Anish built?</button>
+
+            <button class="chat-btn">Tell me about Anish's tech stack</button>
+
+            <button class="chat-btn">What skills does Anish have?</button>
+
+            <button class="chat-btn">How can I contact Anish?</button>
+
+          </div>
+
           <div class="ai-chat-input">
+
             <input 
               id="ai-chat-input"
               type="text"
@@ -16,6 +34,7 @@ export function createAIChatPanel() {
             />
 
             <button id="ai-chat-send">Send</button>
+
           </div>
 
         </div>
@@ -37,6 +56,15 @@ export function createAIChatPanel() {
         messages.scrollTop = messages.scrollHeight;
       }
 
+      function speak(text) {
+        const speech = new SpeechSynthesisUtterance(text);
+
+        speech.rate = 1;
+        speech.pitch = 1;
+
+        window.speechSynthesis.speak(speech);
+      }
+
       async function sendMessage() {
         const message = input.value.trim();
 
@@ -47,6 +75,8 @@ export function createAIChatPanel() {
         input.value = "";
 
         try {
+          startAlexaThinking();
+
           const res = await fetch("http://localhost:3001/api/chat", {
             method: "POST",
 
@@ -59,8 +89,14 @@ export function createAIChatPanel() {
 
           const data = await res.json();
 
+          stopAlexaThinking();
+
           addMessage("ai", data.reply);
+
+          speak(data.reply);
         } catch (error) {
+          stopAlexaThinking();
+
           console.error(error);
 
           addMessage("ai", "Error contacting AI server.");
@@ -74,20 +110,38 @@ export function createAIChatPanel() {
 
         if (e.key === "Enter") {
           e.preventDefault();
+
           sendMessage();
         }
       });
+
       input.addEventListener("focus", () => {
         document.body.classList.add("typing");
+
+        if (window.app?.controls) {
+          window.app.controls.enabled = false;
+        }
       });
 
       input.addEventListener("blur", () => {
         document.body.classList.remove("typing");
+
+        if (window.app?.controls) {
+          window.app.controls.enabled = true;
+        }
+      });
+
+      container.querySelectorAll(".chat-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          input.value = btn.innerText;
+
+          sendMessage();
+        });
       });
 
       addMessage(
         "ai",
-        "Hi, I'm Alexa. Ask me about Anish's projects, skills, or experience.",
+        "Hi! I'm Alexa. I can tell you about Anish's projects, skills, tech stack, and work experience. Try asking something below or type your own question.",
       );
     },
   };

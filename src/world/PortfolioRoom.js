@@ -217,6 +217,24 @@ export class PortfolioRoom {
 
       case "Alexa_Base":
         child.userData.type = "alexa";
+
+        /* create larger invisible interaction area */
+
+        const hitbox = new THREE.Mesh(
+          new THREE.BoxGeometry(1.2, 1.2, 1.2),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+          }),
+        );
+
+        hitbox.position.copy(child.position);
+        hitbox.userData.type = "alexa";
+
+        this.scene.add(hitbox);
+        this.interaction.register(hitbox);
+
+        break;
         break;
 
       default:
