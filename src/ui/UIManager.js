@@ -64,11 +64,21 @@ export class UIManager {
 
   /* CLOSE UI */
   close() {
+    // Stop Alexa speech immediately
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+
     const root = document.getElementById("ui-root");
     root.classList.remove("panel-open");
 
-    this.panel.classList.remove("active");
-    this.modal.classList.remove("active");
+    if (this.panel) {
+      this.panel.classList.remove("active");
+    }
+
+    if (this.modal) {
+      this.modal.classList.remove("active");
+    }
 
     this.activePanel = null;
     this.activeType = null;
