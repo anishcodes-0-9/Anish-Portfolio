@@ -57,6 +57,9 @@ export function createAIChatPanel() {
       }
 
       function speak(text) {
+        /* Stop any speech currently playing */
+        window.speechSynthesis.cancel();
+
         const speech = new SpeechSynthesisUtterance(text);
 
         speech.rate = 1;
@@ -74,16 +77,21 @@ export function createAIChatPanel() {
 
         input.value = "";
 
+        /* Show typing indicator */
+        const typingMsg = document.createElement("div");
+        typingMsg.className = "ai-msg ai typing";
+        typingMsg.innerText = "Alexa is thinking...";
+        messages.appendChild(typingMsg);
+        messages.scrollTop = messages.scrollHeight;
+
         try {
           startAlexaThinking();
 
           const res = await fetch("http://localhost:3001/api/chat", {
             method: "POST",
-
             headers: {
               "Content-Type": "application/json",
             },
-
             body: JSON.stringify({ message }),
           });
 
@@ -91,7 +99,8 @@ export function createAIChatPanel() {
 
           stopAlexaThinking();
 
-          addMessage("ai", data.reply);
+          /* Replace typing message with actual reply */
+          typingMsg.innerText = data.reply;
 
           speak(data.reply);
         } catch (error) {
@@ -99,10 +108,9 @@ export function createAIChatPanel() {
 
           console.error(error);
 
-          addMessage("ai", "Error contacting AI server.");
+          typingMsg.innerText = "Error contacting AI server.";
         }
       }
-
       sendBtn.addEventListener("click", sendMessage);
 
       input.addEventListener("keydown", (e) => {
