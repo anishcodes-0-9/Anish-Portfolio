@@ -22,6 +22,6 @@ export async function loadResume() {
       resolve(text);
     });
 
-    pdfParser.loadPDF("./resume.pdf");
+    pdfParser.loadPDF("./Anish_Krishnan_Resume.pdf");
   });
 }

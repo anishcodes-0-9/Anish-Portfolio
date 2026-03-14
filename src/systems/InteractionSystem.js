@@ -215,6 +215,11 @@ export class InteractionSystem {
           window.app.ui.open("personalProjects");
         }
       }
+      /* Resume via Mouse */
+
+      if (clicked.userData.type === "mouse") {
+        window.open("/Anish_Krishnan_Resume.html", "_blank");
+      }
     }
   }
 
