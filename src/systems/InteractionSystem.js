@@ -209,6 +209,12 @@ export class InteractionSystem {
           window.app.ui.open("phone");
         }
       }
+      /* Personal Projects */
+      if (clicked.userData.type === "keyboard") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("personalProjects");
+        }
+      }
     }
   }
 

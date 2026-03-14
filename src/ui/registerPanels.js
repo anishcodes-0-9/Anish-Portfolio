@@ -3,6 +3,7 @@ import { createWorkPanel } from "./panels/workPanel.js";
 import { createFootballGamePanel } from "./panels/footballGamePanel.js";
 import { createAIChatPanel } from "./panels/aiChatPanel.js";
 import { createPhonePanel } from "./panels/phonePanel.js";
+import { createPersonalProjectsPanel } from "./panels/personalProjectsPanel.js";
 
 export function registerAllPanels(ui) {
   /* Projects */
@@ -15,4 +16,6 @@ export function registerAllPanels(ui) {
   ui.register("footballGame", createFootballGamePanel(), "modal");
   /* Alexa AI Chat */
   ui.register("aiChat", createAIChatPanel(), "modal");
+  /*personal projects */
+  ui.register("personalProjects", createPersonalProjectsPanel(), "side");
 }
