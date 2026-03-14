@@ -5,48 +5,52 @@ export function createPhonePanel() {
       panel.className = "panel";
 
       panel.innerHTML = `
-        <h2>Contact Anish</h2>
+  <h2>Contact Anish</h2>
 
-        <div class="contact-item">
-          📧 Email
-          <div class="contact-row">
-            <span>anishkrishnan72@gmail.com</span>
-            <button class="copy-btn" data-copy="anishkrishnan72@gmail.com">
-              ${copyIcon()}
-            </button>
-          </div>
-        </div>
+  <div class="contact-item">
+    📧 Email
+    <div class="contact-row">
+      <a href="mailto:anishkrishnan72@gmail.com">anishkrishnan72@gmail.com</a>
+      <button class="copy-btn" data-copy="anishkrishnan72@gmail.com">
+        ${copyIcon()}
+      </button>
+    </div>
+  </div>
 
-        <div class="contact-item">
-          📱 Phone
-          <div class="contact-row">
-            <span>+91 7986402875</span>
-            <button class="copy-btn" data-copy="+917986402875">
-              ${copyIcon()}
-            </button>
-          </div>
-        </div>
+  <div class="contact-item">
+    📱 Phone
+    <div class="contact-row">
+      <a href="tel:+917986402875">+91 7986402875</a>
+      <button class="copy-btn" data-copy="+917986402875">
+        ${copyIcon()}
+      </button>
+    </div>
+  </div>
 
-        <div class="contact-item">
-          💼 LinkedIn
-          <div class="contact-row">
-            <span>linkedin.com/in/anishkrishnan09</span>
-            <button class="copy-btn" data-copy="https://linkedin.com/in/anishkrishnan09">
-              ${copyIcon()}
-            </button>
-          </div>
-        </div>
+  <div class="contact-item">
+    💼 LinkedIn
+    <div class="contact-row">
+      <a href="https://linkedin.com/in/anishkrishnan09" target="_blank">
+        linkedin.com/in/anishkrishnan09
+      </a>
+      <button class="copy-btn" data-copy="https://linkedin.com/in/anishkrishnan09">
+        ${copyIcon()}
+      </button>
+    </div>
+  </div>
 
-        <div class="contact-item">
-          💻 GitHub
-          <div class="contact-row">
-            <span>github.com/anishcodes</span>
-            <button class="copy-btn" data-copy="https://github.com/anishcodes-0-9">
-              ${copyIcon()}
-            </button>
-          </div>
-        </div>
-      `;
+  <div class="contact-item">
+    💻 GitHub
+    <div class="contact-row">
+      <a href="https://github.com/anishcodes-0-9" target="_blank">
+        github.com/anishcodes-0-9
+      </a>
+      <button class="copy-btn" data-copy="https://github.com/anishcodes-0-9">
+        ${copyIcon()}
+      </button>
+    </div>
+  </div>
+`;
 
       function copyIcon() {
         return `
