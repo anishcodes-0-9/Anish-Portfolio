@@ -172,11 +172,12 @@ export class PortfolioRoom {
         break;
 
       case "_Dumbell_L":
-        child.userData.type = "personal_projects";
+      case "Dumbell_L":
+        child.userData.type = "Dumbell_L";
         break;
 
       case "Dumbell_R":
-        child.userData.type = "certifications";
+        child.userData.type = "Dumbell_R";
         break;
 
       case "Window":

@@ -4,18 +4,27 @@ import { createFootballGamePanel } from "./panels/footballGamePanel.js";
 import { createAIChatPanel } from "./panels/aiChatPanel.js";
 import { createPhonePanel } from "./panels/phonePanel.js";
 import { createPersonalProjectsPanel } from "./panels/personalProjectsPanel.js";
+import { createCertificationsPanel } from "./panels/certificationsPanel.js";
+import { createEngineeringStrengthsPanel } from "./panels/engineeringStrengthsPanel.js";
 
 export function registerAllPanels(ui) {
-  /* Projects */
   ui.register("projects", createProjectsPanel(), "side");
-  /* Work */
+
   ui.register("work", createWorkPanel(), "side");
-  /* Phone */
+
   ui.register("phone", createPhonePanel(), "side");
-  /* Football Game */
+
   ui.register("footballGame", createFootballGamePanel(), "modal");
-  /* Alexa AI Chat */
+
   ui.register("aiChat", createAIChatPanel(), "modal");
-  /*personal projects */
+
   ui.register("personalProjects", createPersonalProjectsPanel(), "modal");
+
+  ui.register("certifications", createCertificationsPanel(), "modal");
+
+  ui.register(
+    "engineeringStrengths",
+    createEngineeringStrengthsPanel(),
+    "modal",
+  );
 }

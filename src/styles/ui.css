@@ -499,3 +499,23 @@ FOOTBALL FLAPPY GAME
 .project a:hover {
   background: #155bc0;
 }
+
+/*certifications*/
+.cert-links {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+}
+
+.cert-links a {
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #111;
+  color: white;
+  font-size: 13px;
+}
+
+.cert-links a:hover {
+  background: #333;
+}

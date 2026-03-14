@@ -162,63 +162,53 @@ export class InteractionSystem {
     if (clicked.userData.type) {
       console.log("Clicked:", clicked.userData.type);
 
-      /* Batman */
       if (clicked.userData.type === "batman") {
         if (window.app && window.app.gameManager) {
           window.app.gameManager.activateBatmanMode();
         }
       }
 
-      /* Projects */
       if (clicked.userData.type === "monitor_left") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("projects");
-        }
+        window.app.ui.open("projects");
       }
 
-      /* Work */
       if (clicked.userData.type === "monitor_right") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("work");
-        }
+        window.app.ui.open("work");
       }
 
-      /* Window */
       if (clicked.userData.type === "window") {
         if (window.app.gameManager.batmanMode) return;
-
         window.app.environmentSystem.cycleTimeOfDay();
       }
 
-      /* Football */
       if (clicked.userData.type === "football") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("footballGame");
-        }
+        window.app.ui.open("footballGame");
       }
 
-      /* Alexa AI Chat */
       if (clicked.userData.type === "alexa") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("aiChat");
-        }
+        window.app.ui.open("aiChat");
       }
-      /* Phone */
+
       if (clicked.userData.type === "phone") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("phone");
-        }
+        window.app.ui.open("phone");
       }
-      /* Personal Projects */
+
       if (clicked.userData.type === "keyboard") {
-        if (window.app && window.app.ui) {
-          window.app.ui.open("personalProjects");
-        }
+        window.app.ui.open("personalProjects");
       }
-      /* Resume via Mouse */
 
       if (clicked.userData.type === "mouse") {
         window.open("/Anish_Krishnan_Resume.html", "_blank");
+      }
+
+      /* LEFT DUMBBELL → CERTIFICATIONS */
+
+      if (clicked.userData.type === "Dumbell_L") {
+        window.app.ui.open("certifications");
+      }
+
+      if (clicked.userData.type === "Dumbell_R") {
+        window.app.ui.open("engineeringStrengths");
       }
     }
   }
