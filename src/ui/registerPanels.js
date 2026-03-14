@@ -17,5 +17,5 @@ export function registerAllPanels(ui) {
   /* Alexa AI Chat */
   ui.register("aiChat", createAIChatPanel(), "modal");
   /*personal projects */
-  ui.register("personalProjects", createPersonalProjectsPanel(), "side");
+  ui.register("personalProjects", createPersonalProjectsPanel(), "modal");
 }

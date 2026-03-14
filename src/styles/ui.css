@@ -451,15 +451,51 @@ FOOTBALL FLAPPY GAME
 }
 
 /* Personal Projects */
+
+.projects-subtitle {
+  margin-bottom: 18px;
+  color: #555;
+}
+
+/* project card */
 .project {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  padding: 16px 18px;
+
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.35);
+
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .project h3 {
   margin-bottom: 6px;
 }
 
+.project p {
+  margin-top: 6px;
+  line-height: 1.45;
+  color: #444;
+}
+
+/* GitHub button */
 .project a {
-  color: #1a73e8;
+  display: inline-block;
+  margin-top: 8px;
+
+  padding: 6px 12px;
+
+  border-radius: 6px;
+
+  background: #1a73e8;
+  color: white;
+
   text-decoration: none;
+  font-size: 14px;
+
+  transition: background 0.2s ease;
+}
+
+.project a:hover {
+  background: #155bc0;
 }
