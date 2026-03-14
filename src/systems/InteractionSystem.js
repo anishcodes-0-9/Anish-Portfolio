@@ -203,6 +203,12 @@ export class InteractionSystem {
           window.app.ui.open("aiChat");
         }
       }
+      /* Phone */
+      if (clicked.userData.type === "phone") {
+        if (window.app && window.app.ui) {
+          window.app.ui.open("phone");
+        }
+      }
     }
   }
 

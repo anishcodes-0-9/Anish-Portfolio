@@ -396,3 +396,58 @@ Planned upgrades include:
 This portfolio was built to **reimagine what a developer portfolio can be**.
 
 Instead of reading about my work on a webpage, visitors **explore a world where every object tells a story**.
+
+# Feature to work on
+
+**1** ## Future Feature Note – 3D Hover Interaction System
+
+**Goal**
+
+Improve the usability of the 3D room by giving users visual feedback when they move their cursor over interactive objects.
+
+Right now objects only respond on click, which means users must guess what is clickable. The hover interaction system will make the experience more intuitive and game-like.
+
+---
+
+**Feature Description**
+
+When the mouse **hovers over interactive objects**, the object should:
+
+1. **Slightly highlight or glow** to indicate it is interactive
+2. Display a **small tooltip near the cursor or above the object**
+3. Show a short action description of what clicking will do
+
+Example interactions:
+
+- **Keyboard → "View Personal Projects"**
+- **Right Monitor → "Work Experience"**
+- **Left Monitor → "Projects Panel"**
+- **Alexa Device → "Open AI Assistant"**
+- **Phone → "Contact Anish"**
+- **Window → "Change Time of Day"**
+- **Batman Logo → "Toggle Theme"**
+
+---
+
+**Implementation Approach**
+
+The feature will extend the existing **InteractionSystem raycasting logic**.
+
+Steps:
+
+1. Use the existing **raycaster that detects clicked objects**.
+2. Track the **currently hovered object** every frame.
+3. If the hovered object changes:
+   - Apply a **highlight material or emissive effect**.
+   - Display a **tooltip UI element** with the action label.
+
+4. Remove highlight and hide tooltip when the cursor leaves the object.
+
+---
+
+**Technical Components**
+
+The system will likely require:
+
+- Hover detection inside `InteractionSystem.js`
+- A small
