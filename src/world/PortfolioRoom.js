@@ -2,6 +2,14 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const textureLoader = new THREE.TextureLoader();
+const batTexture = textureLoader.load("/textures/batman-logo.png");
+batTexture.colorSpace = THREE.SRGBColorSpace;
+
+const photoTexture = textureLoader.load("/textures/anish-photo.png");
+photoTexture.colorSpace = THREE.SRGBColorSpace;
+photoTexture.wrapS = THREE.ClampToEdgeWrapping;
+photoTexture.wrapT = THREE.ClampToEdgeWrapping;
+photoTexture.anisotropy = 8;
 
 export class PortfolioRoom {
   constructor(scene, camera, controls, interaction) {
@@ -13,48 +21,49 @@ export class PortfolioRoom {
   }
 
   init(onLoaded) {
-    this.loader.load("/src/assets/models/portfolio-room.glb", (gltf) => {
-      const model = gltf.scene;
+    this.loader.load(
+      "/src/assets/models/updated-portfolio-room.glb",
+      (gltf) => {
+        const model = gltf.scene;
 
-      model.traverse((child) => {
-        if (!child.isMesh) return;
-        console.log(child.name);
+        model.traverse((child) => {
+          if (!child.isMesh) return;
 
-        child.castShadow = true;
-        child.receiveShadow = true;
+          console.log(child.name);
 
-        // Clone material so we don't mutate shared material
-        child.material = child.material.clone();
-        child.material.side = THREE.DoubleSide;
-        child.material.roughness = 0.7;
-        child.material.metalness = 0.1;
+          child.castShadow = true;
+          child.receiveShadow = true;
 
-        this.applyMaterialLogic(child);
-        // store references for systems
-        window.portfolioObjects = window.portfolioObjects || {};
+          if (child.material) {
+            child.material = child.material.clone();
+            child.material.side = THREE.DoubleSide;
+          }
 
-        if (child.name === "BatmanLogo") {
-          window.portfolioObjects.batmanLogo = child;
-        }
+          this.applyMaterialLogic(child);
 
-        if (child.name === "Window") {
-          window.portfolioObjects.window = child;
+          window.portfolioObjects = window.portfolioObjects || {};
 
-          /* make window interactive */
+          if (child.name === "BatmanLogo") {
+            window.portfolioObjects.batmanLogo = child;
+          }
 
-          child.userData.type = "window";
-        }
-        this.tagInteractiveObjects(child);
-      });
+          if (child.name === "Window") {
+            window.portfolioObjects.window = child;
+            child.userData.type = "window";
+          }
 
-      this.scene.add(model);
+          this.tagInteractiveObjects(child);
+        });
 
-      this.camera.position.set(0, 2.2, -6);
-      this.controls.target.set(0, 1.5, 0);
-      this.controls.update();
+        this.scene.add(model);
 
-      if (onLoaded) onLoaded();
-    });
+        this.camera.position.set(0, 2.2, -6);
+        this.controls.target.set(0, 1.5, 0);
+        this.controls.update();
+
+        if (onLoaded) onLoaded();
+      },
+    );
   }
 
   applyMaterialLogic(child) {
@@ -66,15 +75,21 @@ export class PortfolioRoom {
         break;
 
       case "Room_BackWall":
-        child.material.color.set(0xaaaaaa);
+        child.material.color.set(0xcccccc);
+        child.material.roughness = 0.7;
+        child.material.metalness = 0.05;
         break;
 
       case "Room_LeftWall":
-        child.material.color.set(0x1e3a5f);
+        child.material.color.set(0x2f5fa8);
+        child.material.roughness = 0.7;
+        child.material.metalness = 0.05;
         break;
 
       case "Room_RightWall":
-        child.material.color.set(0x5f1e1e);
+        child.material.color.set(0xa83832);
+        child.material.roughness = 0.7;
+        child.material.metalness = 0.05;
         break;
 
       case "Desk":
@@ -98,32 +113,52 @@ export class PortfolioRoom {
         child.material.color.set(0x111111);
         break;
 
-      case "Phone":
-        child.userData.type = "phone";
-        break;
-
       case "Mouse":
         child.material.color.set(0x333333);
         break;
 
-      // ⭐ Batman logo texture applied here
       case "BatmanLogo":
-        const batTexture = textureLoader.load("/textures/batman-logo.png");
-
         child.material = new THREE.MeshStandardMaterial({
           map: batTexture,
           transparent: true,
           roughness: 0.4,
           metalness: 0.2,
+          emissive: new THREE.Color(0xffff00),
+          emissiveIntensity: 0.25,
         });
-
-        // slight glow effect
-        child.material.emissive = new THREE.Color(0xffff00);
-        child.material.emissiveIntensity = 0.25;
         break;
 
       case "Photo_Frame":
-        child.material.color.set(0x00ff00);
+        child.material = new THREE.MeshStandardMaterial({
+          color: 0x5a3a1e,
+          roughness: 0.7,
+          metalness: 0.1,
+        });
+        break;
+
+      case "Photo_Image":
+        photoTexture.center.set(0.5, 0.5);
+        photoTexture.rotation = Math.PI / 2;
+
+        child.material = new THREE.MeshStandardMaterial({
+          map: photoTexture,
+          roughness: 0.9,
+          metalness: 0,
+          side: THREE.DoubleSide,
+        });
+        break;
+
+      case "Photo_Glass":
+        child.material = new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          transmission: 1,
+          opacity: 0.25,
+          transparent: true,
+          roughness: 0,
+          metalness: 0,
+          clearcoat: 1,
+          depthWrite: false,
+        });
         break;
 
       case "Window":
@@ -188,20 +223,8 @@ export class PortfolioRoom {
         child.userData.type = "batman";
         break;
 
-      case "Chair":
-        child.userData.type = "chair";
-        break;
-
       case "Keyboard":
         child.userData.type = "keyboard";
-        break;
-
-      case "Diary_LP":
-        child.userData.type = "random_fact";
-        break;
-
-      case "Diary_RP":
-        child.userData.type = "random_thought";
         break;
 
       case "Mouse":
@@ -213,13 +236,21 @@ export class PortfolioRoom {
         break;
 
       case "Photo_Frame":
+      case "Photo_Image":
+      case "Photo_Glass":
         child.userData.type = "about";
+        break;
+
+      case "Diary_LP":
+        child.userData.type = "random_fact";
+        break;
+
+      case "Diary_RP":
+        child.userData.type = "random_thought";
         break;
 
       case "Alexa_Base":
         child.userData.type = "alexa";
-
-        /* create larger invisible interaction area */
 
         const hitbox = new THREE.Mesh(
           new THREE.BoxGeometry(0.7, 0.7, 0.7),
@@ -235,15 +266,12 @@ export class PortfolioRoom {
 
         this.scene.add(hitbox);
         this.interaction.register(hitbox);
-
-        break;
         break;
 
       default:
         return;
     }
 
-    // register interactive object
     this.interaction.register(child);
   }
 }

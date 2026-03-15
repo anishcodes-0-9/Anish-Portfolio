@@ -162,54 +162,70 @@ export class InteractionSystem {
     if (clicked.userData.type) {
       console.log("Clicked:", clicked.userData.type);
 
+      /* Batman */
       if (clicked.userData.type === "batman") {
         if (window.app && window.app.gameManager) {
           window.app.gameManager.activateBatmanMode();
         }
       }
 
+      /* Projects */
       if (clicked.userData.type === "monitor_left") {
         window.app.ui.open("projects");
       }
 
+      /* Work */
       if (clicked.userData.type === "monitor_right") {
         window.app.ui.open("work");
       }
 
+      /* Window */
       if (clicked.userData.type === "window") {
         if (window.app.gameManager.batmanMode) return;
         window.app.environmentSystem.cycleTimeOfDay();
       }
 
+      /* Football */
       if (clicked.userData.type === "football") {
         window.app.ui.open("footballGame");
       }
 
+      /* Alexa AI Chat */
       if (clicked.userData.type === "alexa") {
         window.app.ui.open("aiChat");
       }
 
+      /* Phone */
       if (clicked.userData.type === "phone") {
         window.app.ui.open("phone");
       }
 
+      /* Personal Projects */
       if (clicked.userData.type === "keyboard") {
         window.app.ui.open("personalProjects");
       }
 
+      /* Resume via Mouse */
       if (clicked.userData.type === "mouse") {
         window.open("/Anish_Krishnan_Resume.html", "_blank");
       }
 
-      /* LEFT DUMBBELL → CERTIFICATIONS */
+      /* Photo Frame → About Me */
+      if (clicked.userData.type === "about") {
+        window.app.ui.open("about");
+      }
 
+      /* Dumbbell Left → Certifications */
       if (clicked.userData.type === "Dumbell_L") {
         window.app.ui.open("certifications");
       }
 
+      /* Dumbbell Right → Engineering Strengths */
       if (clicked.userData.type === "Dumbell_R") {
         window.app.ui.open("engineeringStrengths");
       }
+
+      /* CPU → Tech Stack */
       if (clicked.userData.type === "cpu") {
         window.app.ui.open("techStack");
       }

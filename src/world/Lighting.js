@@ -16,13 +16,13 @@ export class Lighting {
     // ---------------------------
     // Ambient Light
     // ---------------------------
-    this.ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    this.ambient = new THREE.AmbientLight(0xffffff, 1.1);
     this.scene.add(this.ambient);
 
     // ---------------------------
     // Directional Sun Light
     // ---------------------------
-    this.sun = new THREE.DirectionalLight(0xffffff, 1.2);
+    this.sun = new THREE.DirectionalLight(0xffffff, 2.2);
 
     // Initial position (will be overridden by LightManager)
     this.sun.position.set(10, 8, -2);

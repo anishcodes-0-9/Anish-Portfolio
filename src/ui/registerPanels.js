@@ -7,6 +7,7 @@ import { createPersonalProjectsPanel } from "./panels/personalProjectsPanel.js";
 import { createCertificationsPanel } from "./panels/certificationsPanel.js";
 import { createEngineeringStrengthsPanel } from "./panels/engineeringStrengthsPanel.js";
 import { createTechStackPanel } from "./panels/techStackPanel.js";
+import { createAboutPanel } from "./panels/aboutPanel.js";
 
 export function registerAllPanels(ui) {
   ui.register("projects", createProjectsPanel(), "side");
@@ -29,4 +30,5 @@ export function registerAllPanels(ui) {
     "modal",
   );
   ui.register("techStack", createTechStackPanel(), "modal");
+  ui.register("about", createAboutPanel(), "modal");
 }
