@@ -25,23 +25,18 @@ export class GameManager {
   }
 
   activateBatmanMode() {
-    // Toggle OFF
     if (this.batmanMode) {
       this.disableBatmanMode();
       return;
     }
 
-    // Toggle ON
     this.batmanMode = true;
+
+    console.log("Batman mode activated");
 
     if (window.app && window.app.audio) {
       window.app.audio.play("batman");
     }
-
-    console.log("Batman mode activated");
-
-    // hide sun and darken sky
-    window.app.environmentSystem.hideSun();
 
     const objects = window.portfolioObjects || {};
     const batLogo = objects.batmanLogo;
@@ -56,7 +51,7 @@ export class GameManager {
       batLogo.material.emissiveIntensity = 1.2;
     }
 
-    /* switch lighting theme */
+    /* override lighting */
 
     if (this.lightManager) {
       this.lightManager.setOverride("batman");
@@ -109,22 +104,23 @@ export class GameManager {
     }
   }
 
-  /* =========================
-DISABLE BATMAN MODE
-========================= */
-
   disableBatmanMode() {
     console.log("Batman mode disabled");
 
     this.batmanMode = false;
 
-    // restore sun
-    window.app.environmentSystem.showSun();
-
     /* restore lighting */
 
     if (this.lightManager) {
       this.lightManager.clearOverride();
+    }
+
+    /* restore environment state */
+
+    if (window.app && window.app.environmentSystem) {
+      const env = window.app.environmentSystem;
+      const state = env.states[env.index];
+      env.applyState(state);
     }
 
     /* remove fire light */
@@ -157,20 +153,12 @@ DISABLE BATMAN MODE
     }
   }
 
-  /* =========================
-UPDATE LOOP
-========================= */
-
   update(time) {
-    /* fire flicker */
-
     if (this.batLight) {
       const flicker = Math.sin(time * 8) * 0.3 + Math.sin(time * 17) * 0.15;
 
       this.batLight.intensity = 2.5 + flicker;
     }
-
-    /* logo pulse */
 
     if (this.batLogo && this.batLogo.material && this.batmanMode) {
       this.batLogo.material.emissiveIntensity =
