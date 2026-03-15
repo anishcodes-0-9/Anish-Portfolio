@@ -51,11 +51,31 @@ export class PortfolioRoom {
             window.portfolioObjects.window = child;
             child.userData.type = "window";
           }
-
+          if (child.name === "Lamp_Shade") {
+            window.portfolioObjects.lampShade = child;
+          }
           this.tagInteractiveObjects(child);
         });
 
         this.scene.add(model);
+        /* =========================
+LAMP LIGHT
+========================= */
+
+        const lampShade = model.getObjectByName("Lamp_Shade");
+
+        if (lampShade) {
+          const lampLight = new THREE.PointLight(0xffd9a6, 8, 25, 1.2);
+
+          lampLight.position.set(0, 0.45, 0);
+
+          lampLight.visible = false; // start OFF
+
+          lampShade.add(lampLight);
+
+          window.portfolioObjects = window.portfolioObjects || {};
+          window.portfolioObjects.lampLight = lampLight;
+        }
 
         this.camera.position.set(0, 2.2, -6);
         this.controls.target.set(0, 1.5, 0);
@@ -185,6 +205,16 @@ export class PortfolioRoom {
         child.material.emissive = new THREE.Color(0x00aaff);
         child.material.emissiveIntensity = 0.5;
         break;
+
+      case "Lamp_Shade":
+        child.material = new THREE.MeshStandardMaterial({
+          color: 0xffe2a8,
+          emissive: new THREE.Color(0xffcc88),
+          emissiveIntensity: 0,
+          roughness: 0.6,
+          metalness: 0.1,
+        });
+        break;
     }
   }
 
@@ -247,6 +277,12 @@ export class PortfolioRoom {
 
       case "Diary_RP":
         child.userData.type = "random_thought";
+        break;
+
+      case "Lamp_Base":
+      case "Lamp_Stand":
+      case "Lamp_Shade":
+        child.userData.type = "lamp";
         break;
 
       case "Alexa_Base":

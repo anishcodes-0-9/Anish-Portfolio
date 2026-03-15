@@ -101,7 +101,12 @@ export class InteractionSystem {
     }
 
     if (this.hovered.material && this.hovered.material.emissive) {
-      this.hovered.material.emissiveIntensity = 0;
+      if (this.hovered.userData.type === "lamp") {
+        const lamp = window.portfolioObjects?.lampLight;
+        this.hovered.material.emissiveIntensity = lamp?.visible ? 1.2 : 0;
+      } else {
+        this.hovered.material.emissiveIntensity = 0;
+      }
     }
 
     this.hovered = null;
@@ -228,6 +233,19 @@ export class InteractionSystem {
       /* CPU → Tech Stack */
       if (clicked.userData.type === "cpu") {
         window.app.ui.open("techStack");
+      }
+      /* Lamp Toggle */
+      if (clicked.userData.type === "lamp") {
+        const lamp = window.portfolioObjects?.lampLight;
+        const shade = window.portfolioObjects?.lampShade;
+
+        if (!lamp) return;
+
+        lamp.visible = !lamp.visible;
+
+        if (shade && shade.material) {
+          shade.material.emissiveIntensity = lamp.visible ? 1.2 : 0;
+        }
       }
     }
   }
