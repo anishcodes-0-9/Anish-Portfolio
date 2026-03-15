@@ -26,6 +26,9 @@ export class PortfolioRoom {
       (gltf) => {
         const model = gltf.scene;
 
+        /* STORE FULL MODEL GLOBALLY */
+        window.roomModel = model;
+
         model.traverse((child) => {
           if (!child.isMesh) return;
 
@@ -51,16 +54,17 @@ export class PortfolioRoom {
             window.portfolioObjects.window = child;
             child.userData.type = "window";
           }
+
           if (child.name === "Lamp_Shade") {
             window.portfolioObjects.lampShade = child;
           }
+
           this.tagInteractiveObjects(child);
         });
 
         this.scene.add(model);
-        /* =========================
-LAMP LIGHT
-========================= */
+
+        /* LAMP LIGHT */
 
         const lampShade = model.getObjectByName("Lamp_Shade");
 
@@ -68,17 +72,19 @@ LAMP LIGHT
           const lampLight = new THREE.PointLight(0xffd9a6, 8, 25, 1.2);
 
           lampLight.position.set(0, 0.45, 0);
-
-          lampLight.visible = false; // start OFF
+          lampLight.visible = false;
 
           lampShade.add(lampLight);
 
           window.portfolioObjects = window.portfolioObjects || {};
           window.portfolioObjects.lampLight = lampLight;
         }
-
         this.camera.position.set(0, 2.2, -6);
-        this.controls.target.set(0, 1.5, 0);
+
+        this.controls.target.set(0, 1.3, 0.5);
+
+        this.camera.lookAt(0, 1.3, 0.5);
+
         this.controls.update();
 
         if (onLoaded) onLoaded();
@@ -130,11 +136,15 @@ LAMP LIGHT
         break;
 
       case "Keyboard":
-        child.material.color.set(0x111111);
+        child.material.color.set(0x777777);
+        child.material.roughness = 0.4;
+        child.material.metalness = 0.2;
         break;
 
       case "Mouse":
-        child.material.color.set(0x333333);
+        child.material.color.set(0x999999);
+        child.material.roughness = 0.4;
+        child.material.metalness = 0.2;
         break;
 
       case "BatmanLogo":
@@ -255,14 +265,46 @@ LAMP LIGHT
 
       case "Keyboard":
         child.userData.type = "keyboard";
+
+        const keyboardHitbox = new THREE.Mesh(
+          new THREE.BoxGeometry(0.45, 0.08, 0.18),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+          }),
+        );
+
+        keyboardHitbox.position.copy(child.position);
+        keyboardHitbox.userData.type = "keyboard";
+
+        this.scene.add(keyboardHitbox);
+        this.interaction.register(keyboardHitbox);
         break;
 
       case "Mouse":
         child.userData.type = "mouse";
+
+        const mouseHitbox = new THREE.Mesh(
+          new THREE.BoxGeometry(0.12, 0.08, 0.12),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+          }),
+        );
+
+        mouseHitbox.position.copy(child.position);
+        mouseHitbox.userData.type = "mouse";
+
+        this.scene.add(mouseHitbox);
+        this.interaction.register(mouseHitbox);
         break;
 
       case "CPU":
         child.userData.type = "cpu";
+        break;
+
+      case "Chair":
+        child.userData.type = "chair";
         break;
 
       case "Photo_Frame":
@@ -289,7 +331,7 @@ LAMP LIGHT
         child.userData.type = "alexa";
 
         const hitbox = new THREE.Mesh(
-          new THREE.BoxGeometry(0.7, 0.7, 0.7),
+          new THREE.BoxGeometry(0.09, 0.09, 0.09),
           new THREE.MeshBasicMaterial({
             transparent: true,
             opacity: 0,
@@ -297,7 +339,8 @@ LAMP LIGHT
         );
 
         hitbox.position.copy(child.position);
-        hitbox.position.y += 0.3;
+        hitbox.position.y += 0.45;
+
         hitbox.userData.type = "alexa";
 
         this.scene.add(hitbox);
