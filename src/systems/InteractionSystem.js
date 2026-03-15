@@ -210,6 +210,9 @@ export class InteractionSystem {
       if (clicked.userData.type === "Dumbell_R") {
         window.app.ui.open("engineeringStrengths");
       }
+      if (clicked.userData.type === "cpu") {
+        window.app.ui.open("techStack");
+      }
     }
   }
 
