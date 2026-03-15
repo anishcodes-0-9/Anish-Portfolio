@@ -222,7 +222,7 @@ export class PortfolioRoom {
         /* create larger invisible interaction area */
 
         const hitbox = new THREE.Mesh(
-          new THREE.BoxGeometry(1.2, 1.2, 1.2),
+          new THREE.BoxGeometry(0.7, 0.7, 0.7),
           new THREE.MeshBasicMaterial({
             transparent: true,
             opacity: 0,
@@ -230,6 +230,7 @@ export class PortfolioRoom {
         );
 
         hitbox.position.copy(child.position);
+        hitbox.position.y += 0.3;
         hitbox.userData.type = "alexa";
 
         this.scene.add(hitbox);
