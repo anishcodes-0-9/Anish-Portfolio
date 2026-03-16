@@ -28,6 +28,7 @@ export class InteractionSystem {
       "random_fact",
       "random_thought",
     ];
+    this.highlightTypes = ["keyboard", "mouse", "Dumbell_L", "Dumbell_R"];
   }
 
   register(object) {
@@ -84,11 +85,19 @@ export class InteractionSystem {
     }
 
     if (
-      this.wallTypes.includes(object.userData.type) &&
+      (this.wallTypes.includes(object.userData.type) ||
+        this.highlightTypes.includes(object.userData.type)) &&
       object.material &&
       object.material.emissive
     ) {
-      object.material.emissiveIntensity = 0.4;
+      object.material.emissive = new THREE.Color(0xffa64d);
+      object.material.emissiveIntensity = 0.9;
+      if (
+        object.userData.type === "Dumbell_L" ||
+        object.userData.type === "Dumbell_R"
+      ) {
+        object.material.emissiveIntensity = 1.2;
+      }
     }
 
     this.domElement.style.cursor = "pointer";
@@ -109,6 +118,7 @@ export class InteractionSystem {
         this.hovered.material.emissiveIntensity = lamp?.visible ? 1.2 : 0;
       } else {
         this.hovered.material.emissiveIntensity = 0;
+        this.hovered.material.emissive.set(0x000000);
       }
     }
     if (window.app.tooltip) {
