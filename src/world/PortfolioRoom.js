@@ -72,7 +72,7 @@ export class PortfolioRoom {
           const lampLight = new THREE.PointLight(0xffd9a6, 8, 25, 1.2);
 
           lampLight.position.set(0, 0.45, 0);
-          lampLight.visible = false;
+          lampLight.visible = true;
 
           lampShade.add(lampLight);
 
@@ -220,7 +220,7 @@ export class PortfolioRoom {
         child.material = new THREE.MeshStandardMaterial({
           color: 0xffe2a8,
           emissive: new THREE.Color(0xffcc88),
-          emissiveIntensity: 0,
+          emissiveIntensity: 1.2,
           roughness: 0.6,
           metalness: 0.1,
         });
