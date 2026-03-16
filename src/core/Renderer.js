@@ -13,6 +13,10 @@ export class Renderer {
     this.instance.toneMapping = THREE.ACESFilmicToneMapping;
     this.instance.toneMappingExposure = 1.2;
 
+    /* enable realistic shadows */
+    this.instance.shadowMap.enabled = true;
+    this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
+
     document.body.appendChild(this.instance.domElement);
   }
 

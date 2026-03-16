@@ -95,44 +95,52 @@ export class PortfolioRoom {
   applyMaterialLogic(child) {
     switch (child.name) {
       case "Room_Floor":
-        child.material.roughness = 0.5;
-        child.material.metalness = 0.05;
-        child.material.color.set(0x444444);
+        child.material.roughness = 0.85;
+        child.material.metalness = 0.03;
+        child.material.color.set(0x2b2b2b);
         break;
 
       case "Room_BackWall":
-        child.material.color.set(0xcccccc);
+        child.material.color.set(0xf5f5dc);
         child.material.roughness = 0.7;
         child.material.metalness = 0.05;
         break;
 
       case "Room_LeftWall":
-        child.material.color.set(0x2f5fa8);
+        child.material.color.set(0xf5f5dc);
         child.material.roughness = 0.7;
         child.material.metalness = 0.05;
         break;
 
       case "Room_RightWall":
-        child.material.color.set(0xa83832);
+        child.material.color.set(0xf5f5dc);
         child.material.roughness = 0.7;
         child.material.metalness = 0.05;
         break;
 
       case "Desk":
-        child.material.color.set(0x8b5a2b);
+        child.material.color.set(0x6b4f3a);
+        child.material.roughness = 0.6;
         break;
 
       case "Chair":
-        child.material.color.set(0x222222);
+        child.material.color.set(0x2c2c2c);
+        child.material.roughness = 0.6;
         break;
 
       case "CPU":
-        child.material.color.set(0x111111);
+        child.material.color.set(0x1a1a1a);
+        child.material.roughness = 0.35;
+        child.material.metalness = 0.1;
         break;
 
       case "Monitor_Left":
       case "Monitor_Right":
-        child.material.color.set(0x101010);
+        child.material.color.set(0x1a1a1a);
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.1;
+        child.material.emissive = new THREE.Color(0x222222);
+        child.material.emissiveIntensity = 0.3;
         break;
 
       case "Keyboard":
@@ -153,8 +161,8 @@ export class PortfolioRoom {
           transparent: true,
           roughness: 0.4,
           metalness: 0.2,
-          emissive: new THREE.Color(0xffff00),
-          emissiveIntensity: 0.25,
+          emissive: new THREE.Color(0xffd400),
+          emissiveIntensity: 0.6,
         });
         break;
 
@@ -192,18 +200,23 @@ export class PortfolioRoom {
         break;
 
       case "Window":
-        child.material.color.set(0x88ccff);
-        child.material.emissive = new THREE.Color(0x2244ff);
-        child.material.emissiveIntensity = 0.8;
+        child.material.color.set(0x8ed0ff);
+        child.material.emissive = new THREE.Color(0x8ed0ff);
+        child.material.emissiveIntensity = 0.6;
+        child.material.roughness = 0.2;
         break;
 
       case "Football":
         child.material.color.set(0xffffff);
+        child.material.roughness = 0.55;
+        child.material.metalness = 0.05;
         break;
 
       case "Dumbell_L":
       case "Dumbell_R":
-        child.material.color.set(0x2b2b2b);
+        child.material.color.set(0x555555);
+        child.material.roughness = 0.35;
+        child.material.metalness = 0.65;
         break;
 
       case "Alexa_Base":

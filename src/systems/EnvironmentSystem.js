@@ -20,30 +20,67 @@ SUN
 ========================= */
 
     this.sun = new THREE.DirectionalLight(0xffffff, 1);
+
+    this.sun.castShadow = true;
+    this.sun.shadow.mapSize.width = 2048;
+    this.sun.shadow.mapSize.height = 2048;
+    this.sun.shadow.camera.near = 0.5;
+    this.sun.shadow.camera.far = 200;
+
+    /* control shadow area */
+    this.sun.shadow.camera.left = -30;
+    this.sun.shadow.camera.right = 30;
+    this.sun.shadow.camera.top = 30;
+    this.sun.shadow.camera.bottom = -30;
+
     this.sun.position.set(5, 10, 5);
     this.environmentGroup.add(this.sun);
 
     /* sun mesh */
+    const sunGeometry = new THREE.SphereGeometry(8, 32, 32);
 
-    const sunGeometry = new THREE.SphereGeometry(0.6, 32, 32);
-    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd88 });
+    const sunMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffcc66,
+    });
 
     this.sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
-    this.sunMesh.scale.set(6, 6, 6);
     this.environmentGroup.add(this.sunMesh);
 
     /* sun halo */
 
-    const sunHaloGeometry = new THREE.SphereGeometry(2, 32, 32);
+    const sunHaloGeometry = new THREE.SphereGeometry(14, 32, 32);
     const sunHaloMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffdd88,
+      color: 0xffb27a,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
 
     this.sunHalo = new THREE.Mesh(sunHaloGeometry, sunHaloMaterial);
     this.environmentGroup.add(this.sunHalo);
 
+    /* =========================
+SUN RAYS
+========================= */
+
+    const rayGeometry = new THREE.ConeGeometry(40, 120, 32, 1, true);
+
+    const rayMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffc58f,
+      transparent: true,
+      opacity: 0.18,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    });
+
+    this.sunRays = new THREE.Mesh(rayGeometry, rayMaterial);
+
+    this.sunRays.rotation.x = Math.PI / 2;
+    this.sunRays.visible = false;
+
+    this.environmentGroup.add(this.sunRays);
     /* =========================
 MOON
 ========================= */
@@ -82,7 +119,7 @@ MOON
 STAR SKY DOME
 ========================= */
 
-    const starGeometry = new THREE.SphereGeometry(500, 64, 64);
+    const starGeometry = new THREE.SphereGeometry(2000, 64, 64);
 
     const starTexture = new THREE.TextureLoader().load(
       "/textures/starfield.jpg",
@@ -105,6 +142,9 @@ STAR SKY DOME
       map: starTexture,
       side: THREE.BackSide,
       fog: false,
+      depthWrite: false,
+      transparent: true,
+      opacity: 1,
     });
 
     this.stars = new THREE.Mesh(starGeometry, starMaterial);
@@ -198,11 +238,12 @@ STATE APPLICATION
     switch (state) {
       case "morning":
         targetColor = new THREE.Color("#ffd8a8");
-        targetIntensity = 0.8;
-        targetPosition = new THREE.Vector3(10, 10, 20);
+        targetIntensity = 1.05;
+        targetPosition = new THREE.Vector3(220, 120, 400);
         targetBackground = new THREE.Color("#ffe8cc");
 
         this.sun.visible = true;
+        this.sunRays.visible = true;
         this.sunMesh.visible = true;
         this.sunHalo.visible = true;
 
@@ -215,10 +256,11 @@ STATE APPLICATION
       case "noon":
         targetColor = new THREE.Color("#ffffff");
         targetIntensity = 1.2;
-        targetPosition = new THREE.Vector3(0, 14, 22);
+        targetPosition = new THREE.Vector3(0, 120, 350);
         targetBackground = new THREE.Color("#dbefff");
 
         this.sun.visible = true;
+        this.sunRays.visible = false;
         this.sunMesh.visible = true;
         this.sunHalo.visible = true;
 
@@ -229,12 +271,19 @@ STATE APPLICATION
         break;
 
       case "evening":
-        targetColor = new THREE.Color("#ffb347");
-        targetIntensity = 0.7;
-        targetPosition = new THREE.Vector3(-10, 10, 20);
-        targetBackground = new THREE.Color("#ffd6a5");
+        /* sunset lighting */
+
+        targetColor = new THREE.Color("#ff9e6d"); // warm sunset orange
+        targetIntensity = 1.0;
+
+        targetPosition = new THREE.Vector3(-220, 120, 400);
+
+        /* pink sunset sky */
+
+        targetBackground = new THREE.Color("#ffc9a9");
 
         this.sun.visible = true;
+        this.sunRays.visible = true;
         this.sunMesh.visible = true;
         this.sunHalo.visible = true;
 
@@ -251,6 +300,7 @@ STATE APPLICATION
         targetBackground = new THREE.Color("#01030b");
 
         this.sun.visible = false;
+        this.sunRays.visible = false;
         this.sunMesh.visible = false;
         this.sunHalo.visible = false;
 
@@ -258,7 +308,7 @@ STATE APPLICATION
         this.moonHalo.visible = true;
 
         this.stars.visible = true;
-        this.stars.position.y = 15;
+        this.stars.position.y = 200;
 
         this.moonMesh.position.set(-80, 120, 200);
         this.moonHalo.position.copy(this.moonMesh.position);
@@ -295,8 +345,10 @@ STATE APPLICATION
 
       this.sun.position.lerpVectors(startPosition, targetPosition, progress);
 
-      this.sunMesh.position.copy(this.sun.position.clone().multiplyScalar(8));
       this.sunHalo.position.copy(this.sun.position);
+      this.sunRays.lookAt(0, 1.5, 0);
+      this.sunRays.rotation.z = 0.25;
+      this.sunMesh.position.copy(this.sun.position);
 
       const blended = startBackground.clone().lerp(targetBackground, progress);
 
@@ -314,7 +366,6 @@ UPDATE
 
   update(time) {
     /* slow sky movement */
-
     if (this.stars && this.stars.visible) {
       this.stars.rotation.y += 0.00002;
     }

@@ -10,46 +10,16 @@ export class Lighting {
     // ---------------------------
     // Enable shadow system
     // ---------------------------
-    //this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // ---------------------------
     // Ambient Light
     // ---------------------------
-    this.ambient = new THREE.AmbientLight(0xffffff, 1.1);
+    this.ambient = new THREE.AmbientLight(0xffffff, 0.45);
     this.scene.add(this.ambient);
 
     // ---------------------------
-    // Directional Sun Light
-    // ---------------------------
-    this.sun = new THREE.DirectionalLight(0xffffff, 2.2);
-
-    // Initial position (will be overridden by LightManager)
-    this.sun.position.set(10, 8, -2);
-
-    this.sun.castShadow = true;
-
-    // Shadow quality
-    this.sun.shadow.mapSize.width = 2048;
-    this.sun.shadow.mapSize.height = 2048;
-
-    this.sun.shadow.camera.near = 0.5;
-    this.sun.shadow.camera.far = 50;
-
-    this.sun.shadow.camera.left = -8;
-    this.sun.shadow.camera.right = 8;
-    this.sun.shadow.camera.top = 8;
-    this.sun.shadow.camera.bottom = -8;
-
-    // Soften shadow edges
-    this.sun.shadow.bias = -0.0005;
-    this.sun.shadow.radius = 2;
-
-    // Make sun aim toward center of room
-    this.sun.target.position.set(0, 2, 0);
-    this.scene.add(this.sun.target);
-
-    this.scene.add(this.sun);
 
     // ---------------------------
     // Fog Ground (environment base)
