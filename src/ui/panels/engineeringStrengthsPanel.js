@@ -6,7 +6,7 @@ export function createEngineeringStrengthsPanel() {
       panel.className = "panel";
 
       panel.innerHTML = `
-      <h2>Engineering Strengths</h2>
+      <h2>My Strengths</h2>
 
       <div class="project-item">
         <h3>Reliability First</h3>

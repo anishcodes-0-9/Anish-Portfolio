@@ -25,6 +25,8 @@ export class InteractionSystem {
       "batman",
       "about",
       "phone",
+      "random_fact",
+      "random_thought",
     ];
   }
 
@@ -229,6 +231,13 @@ export class InteractionSystem {
 
       if (clicked.userData.type === "cpu") {
         window.app.ui.open("techStack");
+      }
+      if (clicked.userData.type === "random_fact") {
+        window.app.ui.open("randomFact");
+      }
+
+      if (clicked.userData.type === "random_thought") {
+        window.app.ui.open("randomThought");
       }
 
       /* Lamp */

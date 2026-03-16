@@ -315,10 +315,40 @@ export class PortfolioRoom {
 
       case "Diary_LP":
         child.userData.type = "random_fact";
+
+        const diaryLeftHitbox = new THREE.Mesh(
+          new THREE.BoxGeometry(0.45, 0.05, 0.35),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+          }),
+        );
+
+        diaryLeftHitbox.position.copy(child.position);
+        diaryLeftHitbox.userData.type = "random_fact";
+
+        this.scene.add(diaryLeftHitbox);
+        this.interaction.register(diaryLeftHitbox);
+
         break;
 
       case "Diary_RP":
         child.userData.type = "random_thought";
+
+        const diaryRightHitbox = new THREE.Mesh(
+          new THREE.BoxGeometry(0.45, 0.05, 0.35),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+          }),
+        );
+
+        diaryRightHitbox.position.copy(child.position);
+        diaryRightHitbox.userData.type = "random_thought";
+
+        this.scene.add(diaryRightHitbox);
+        this.interaction.register(diaryRightHitbox);
+
         break;
 
       case "Lamp_Base":

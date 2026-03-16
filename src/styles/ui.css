@@ -610,3 +610,43 @@ FOOTBALL FLAPPY GAME
   border-radius: 50%;
   cursor: pointer;
 }
+/* Developer Notebook */
+
+.notebook-page {
+  background: #f6f1e7;
+  padding: 40px;
+  border-radius: 18px;
+  font-family: "Georgia", serif;
+  line-height: 1.7;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-left: 6px solid #d6c8b4;
+}
+
+.notebook-page h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.notebook-page h3 {
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 12px;
+}
+
+.notebook-page p {
+  font-size: 16px;
+  color: #333;
+}
+
+.diagram {
+  background: #faf7f2;
+  padding: 18px;
+  border-radius: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  overflow-x: auto;
+  border: 1px solid #e2d8c9;
+}
