@@ -63,6 +63,13 @@ export class InteractionSystem {
       this.clearHover();
       this.setHover(hit);
     }
+    if (this.hovered && window.app.tooltip) {
+      window.app.tooltip.show(
+        this.hovered.userData.type,
+        event.clientX,
+        event.clientY,
+      );
+    }
   }
 
   setHover(object) {
@@ -103,6 +110,9 @@ export class InteractionSystem {
       } else {
         this.hovered.material.emissiveIntensity = 0;
       }
+    }
+    if (window.app.tooltip) {
+      window.app.tooltip.hide();
     }
 
     this.hovered = null;

@@ -650,3 +650,18 @@ FOOTBALL FLAPPY GAME
   overflow-x: auto;
   border: 1px solid #e2d8c9;
 }
+/* Tooltip */
+#tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(20, 20, 20, 0.9);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -120%);
+  transition: opacity 0.15s ease;
+  z-index: 999;
+}

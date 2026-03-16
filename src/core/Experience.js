@@ -12,6 +12,7 @@ import { TimeManager } from "../systems/TimeManager.js";
 import { LightManager } from "../systems/LightManager.js";
 import { GameManager } from "../systems/GameManager.js";
 import { EnvironmentSystem } from "../systems/EnvironmentSystem.js";
+import { TooltipManager } from "../ui/TooltipManager.js";
 
 export class Experience {
   constructor() {
@@ -40,6 +41,7 @@ export class Experience {
 
     this.ui = new UIManager();
     registerAllPanels(this.ui);
+    this.tooltip = new TooltipManager();
 
     this.audio = new AudioManager();
     this.audio.register("batman", "/audio/batman-theme.mp3", true);
@@ -87,6 +89,7 @@ export class Experience {
       gameManager: this.gameManager,
       lightManager: this.lightManager,
       environmentSystem: this.environmentSystem,
+      tooltip: this.tooltip,
       enterWorkMode: this.enterWorkMode.bind(this),
     };
 
