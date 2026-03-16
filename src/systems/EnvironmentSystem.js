@@ -29,6 +29,7 @@ SUN
     const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd88 });
 
     this.sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
+    this.sunMesh.scale.set(6, 6, 6);
     this.environmentGroup.add(this.sunMesh);
 
     /* sun halo */
@@ -56,6 +57,8 @@ MOON
     this.moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
     this.environmentGroup.add(this.moonMesh);
 
+    this.moonMesh.scale.set(10, 10, 10);
+
     this.moonMesh.visible = false;
 
     /* moon glow */
@@ -65,11 +68,13 @@ MOON
     const moonHaloMaterial = new THREE.MeshBasicMaterial({
       color: 0x9fbfff,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.25,
     });
 
     this.moonHalo = new THREE.Mesh(moonHaloGeometry, moonHaloMaterial);
     this.environmentGroup.add(this.moonHalo);
+
+    this.moonHalo.scale.set(10, 10, 10);
 
     this.moonHalo.visible = false;
 
@@ -77,17 +82,18 @@ MOON
 STAR SKY DOME
 ========================= */
 
-    const starGeometry = new THREE.SphereGeometry(500, 32, 32);
+    const starGeometry = new THREE.SphereGeometry(500, 64, 64);
 
     const starTexture = new THREE.TextureLoader().load(
       "/textures/starfield.jpg",
       (texture) => {
         console.log("Star texture loaded");
 
-        texture.mapping = THREE.EquirectangularReflectionMapping;
         texture.colorSpace = THREE.SRGBColorSpace;
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.repeat.set(1, 1);
+        texture.offset.set(0, 0);
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipmapLinearFilter;
       },
@@ -254,7 +260,7 @@ STATE APPLICATION
         this.stars.visible = true;
         this.stars.position.y = 15;
 
-        this.moonMesh.position.set(-8, 14, 25);
+        this.moonMesh.position.set(-80, 120, 200);
         this.moonHalo.position.copy(this.moonMesh.position);
 
         break;
@@ -289,7 +295,7 @@ STATE APPLICATION
 
       this.sun.position.lerpVectors(startPosition, targetPosition, progress);
 
-      this.sunMesh.position.copy(this.sun.position);
+      this.sunMesh.position.copy(this.sun.position.clone().multiplyScalar(8));
       this.sunHalo.position.copy(this.sun.position);
 
       const blended = startBackground.clone().lerp(targetBackground, progress);
