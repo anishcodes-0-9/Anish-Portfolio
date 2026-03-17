@@ -12,6 +12,7 @@ export class GameManager {
     this.batLogo = null;
 
     this.textureLoader = new THREE.TextureLoader();
+    this.previousLampState = null;
   }
 
   start() {
@@ -59,6 +60,19 @@ export class GameManager {
       } catch (e) {
         console.error("Batman lighting failed:", e);
       }
+    }
+    /* 🔥 turn OFF lamp for cinematic effect */
+    const lamp = window.portfolioObjects?.lampLight;
+
+    if (lamp) {
+      this.previousLampState = lamp.visible;
+      lamp.visible = false;
+    }
+
+    /* dim lamp shade glow */
+    const shade = window.portfolioObjects?.lampShade;
+    if (shade && shade.material) {
+      shade.material.emissiveIntensity = 0;
     }
 
     /* fire light */
@@ -153,7 +167,17 @@ export class GameManager {
     }
 
     /* restore logo */
+    /* 🔥 restore lamp state */
+    const lamp = window.portfolioObjects?.lampLight;
+    const shade = window.portfolioObjects?.lampShade;
 
+    if (lamp && this.previousLampState !== null) {
+      lamp.visible = this.previousLampState;
+    }
+
+    if (shade && shade.material) {
+      shade.material.emissiveIntensity = lamp?.visible ? 1.2 : 0;
+    }
     if (this.batLogo && this.batLogo.material) {
       this.batLogo.material.color.set(0xffffff);
       this.batLogo.material.emissive = new THREE.Color(0x000000);
