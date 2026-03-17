@@ -668,9 +668,10 @@ FOOTBALL FLAPPY GAME
 /*side info*/
 #interactionGuide {
   position: fixed;
+
   bottom: 20px;
-  right: 20px;
-  left: auto;
+  left: 20px;
+  right: auto;
   top: auto;
 
   width: 240px;
@@ -693,13 +694,17 @@ FOOTBALL FLAPPY GAME
   /* animation */
   transform: translateY(0) translateX(0);
   opacity: 1;
+
   transition:
-    transform 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.25s ease;
+
+  /* polish */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
-/* hidden (slide out to bottom-right) */
+
 #interactionGuide.hidden {
-  transform: translateY(40px) translateX(40px);
+  transform: translateY(60px) translateX(0);
   opacity: 0;
 }
 #guide-header {
@@ -797,25 +802,4 @@ canvas {
 #guide-help:hover {
   background: rgba(255, 166, 77, 0.9);
   transform: scale(1.08);
-}
-/* Tour */
-#start-tour {
-  margin-top: 8px;
-  width: 100%;
-
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: none;
-
-  background: #ff9e6d;
-  color: white;
-
-  font-size: 13px;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-}
-
-#start-tour:hover {
-  background: #ffb88a;
 }
