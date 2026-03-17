@@ -855,3 +855,53 @@ BATMAN MODE FX
     left: 10px;
   }
 }
+
+/* WORK HISTORY CARDS */
+
+.work-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.work-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease;
+}
+
+.work-card:hover {
+  transform: translateY(-3px);
+}
+
+.work-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.work-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.work-header h3 {
+  margin: 0;
+}
+
+.role {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.duration {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
