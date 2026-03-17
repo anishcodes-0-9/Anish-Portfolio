@@ -94,7 +94,23 @@ MOON
       fog: false,
       depthWrite: false,
     });
+    // 🌙 MOON LIGHT (soft directional)
+    this.moonLight = new THREE.DirectionalLight(0x9bbcff, 5);
 
+    this.moonLight.position.set(0, 14, 35); // same as moon
+    this.moonLight.castShadow = true;
+    this.moonLight.shadow.mapSize.width = 1024;
+    this.moonLight.shadow.mapSize.height = 1024;
+
+    this.moonLight.shadow.camera.near = 0.5;
+    this.moonLight.shadow.camera.far = 100;
+
+    this.moonLight.shadow.camera.left = -8;
+    this.moonLight.shadow.camera.right = 8;
+    this.moonLight.shadow.camera.top = 8;
+    this.moonLight.shadow.camera.bottom = -8;
+
+    this.environmentGroup.add(this.moonLight);
     //  FORCE BRIGHTNESS BOOST
     moonMaterial.color.multiplyScalar(1.5);
 
@@ -273,6 +289,7 @@ STATE APPLICATION
       this.moonCoreGlow.visible = false;
 
       this.stars.visible = false;
+      this.moonLight.visible = false;
 
       this.scene.background = new THREE.Color("#000000");
 
@@ -345,7 +362,7 @@ STATE APPLICATION
         console.log("🌙 NIGHT MODE ACTIVE");
 
         targetColor = new THREE.Color("#9bbcff");
-        targetIntensity = 0.12;
+        targetIntensity = 5;
         targetPosition = new THREE.Vector3(0, -6, 20);
         targetBackground = new THREE.Color("#01030b");
 
@@ -361,13 +378,17 @@ STATE APPLICATION
 
         // ✅ FIXED POSITION (sky, not room)
         this.moonMesh.position.set(0, 14, 35);
+        this.moonLight.position.copy(this.moonMesh.position);
+        this.moonLight.target.position.set(0, 1.5, 0);
+        this.environmentGroup.add(this.moonLight.target);
 
         // sync all layers
         this.moonHalo.position.copy(this.moonMesh.position);
         this.moonCoreGlow.position.copy(this.moonMesh.position);
 
         // ⭐ Stars (leave as is)
-        this.stars.visible = true;
+        this.moonLight.visible = true;
+        this.stars.visible = false;
 
         break;
     }
