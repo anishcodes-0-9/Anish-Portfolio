@@ -30,6 +30,9 @@ export class UIManager {
 
   /* OPEN PANEL */
   open(panelName) {
+    if (window.app?.interaction) {
+      window.app.interaction.clearGuideHighlight();
+    }
     const panelData = this.panels[panelName];
 
     if (!panelData) {

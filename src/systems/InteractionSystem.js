@@ -174,6 +174,8 @@ export class InteractionSystem {
   }
 
   onClick(event) {
+    this.clearHover();
+    this.clearGuideHighlight();
     const rect = this.domElement.getBoundingClientRect();
     //
     const clientX = event.clientX ?? event.touches?.[0]?.clientX;
