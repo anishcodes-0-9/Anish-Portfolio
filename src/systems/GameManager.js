@@ -34,6 +34,17 @@ export class GameManager {
     this.batmanMode = true;
 
     console.log("Batman mode activated");
+    /* 🔥 UI IMPACT (flash + vignette) */
+    const overlay = document.getElementById("batman-overlay");
+
+    if (overlay) {
+      overlay.classList.add("active");
+      overlay.classList.add("flash");
+
+      setTimeout(() => {
+        overlay.classList.remove("flash");
+      }, 600);
+    }
 
     if (window.app && window.app.audio) {
       window.app.audio.play("batman");
@@ -124,6 +135,12 @@ export class GameManager {
 
   disableBatmanMode() {
     console.log("Batman mode disabled");
+    /* 🔥 remove vignette */
+    const overlay = document.getElementById("batman-overlay");
+
+    if (overlay) {
+      overlay.classList.remove("active");
+    }
 
     this.batmanMode = false;
 
