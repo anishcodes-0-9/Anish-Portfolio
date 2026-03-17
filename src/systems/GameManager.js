@@ -34,6 +34,33 @@ export class GameManager {
     this.batmanMode = true;
 
     console.log("Batman mode activated");
+    /* 🎥 camera punch */
+    const camera = window.app?.camera?.instance;
+    if (camera) {
+      const originalZ = camera.position.z;
+
+      let progress = 0;
+
+      const punch = () => {
+        progress += 0.15;
+
+        // forward hit then settle back
+        const offset =
+          progress < 0.5
+            ? -0.4 * (progress * 2)
+            : -0.4 * (1 - (progress - 0.5) * 2);
+
+        camera.position.z = originalZ + offset;
+
+        if (progress < 1) {
+          requestAnimationFrame(punch);
+        } else {
+          camera.position.z = originalZ;
+        }
+      };
+
+      punch();
+    }
     /* 🔥 UI IMPACT (flash + vignette) */
     const overlay = document.getElementById("batman-overlay");
 
@@ -204,9 +231,13 @@ export class GameManager {
 
   update(time) {
     if (this.batLight) {
-      const flicker = Math.sin(time * 8) * 0.3 + Math.sin(time * 17) * 0.15;
+      // 🔥 cinematic flicker (more chaotic, less robotic)
+      const flicker =
+        Math.sin(time * 12) * 0.25 +
+        Math.sin(time * 27) * 0.15 +
+        (Math.random() - 0.5) * 0.2;
 
-      this.batLight.intensity = 2.5 + flicker;
+      this.batLight.intensity = 2.4 + flicker;
     }
 
     if (this.batLogo && this.batLogo.material && this.batmanMode) {
