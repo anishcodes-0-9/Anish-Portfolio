@@ -38,15 +38,24 @@ export class InteractionSystem {
   }
 
   init() {
-    this.domElement.addEventListener("click", this.onClick.bind(this));
-    this.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
+    // 🔥 unified input (mouse + touch)
+    this.domElement.addEventListener("pointerdown", this.onClick.bind(this));
+    this.domElement.addEventListener(
+      "pointermove",
+      this.onMouseMove.bind(this),
+    );
   }
 
   onMouseMove(event) {
+    if (window.innerWidth < 768) return;
     const rect = this.domElement.getBoundingClientRect();
 
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    //  unified pointer support (mouse + touch)
+    const clientX = event.clientX ?? event.touches?.[0]?.clientX;
+    const clientY = event.clientY ?? event.touches?.[0]?.clientY;
+
+    this.mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -166,9 +175,12 @@ export class InteractionSystem {
 
   onClick(event) {
     const rect = this.domElement.getBoundingClientRect();
+    //
+    const clientX = event.clientX ?? event.touches?.[0]?.clientX;
+    const clientY = event.clientY ?? event.touches?.[0]?.clientY;
 
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    this.mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -194,6 +206,16 @@ export class InteractionSystem {
     if (!clicked) return;
 
     const type = clicked.userData.type;
+    //  hide guide on mobile when interacting in 3D
+    if (window.innerWidth < 768) {
+      const guide = document.getElementById("interactionGuide");
+      const helpBtn = document.getElementById("guide-help");
+
+      if (guide && helpBtn) {
+        guide.style.display = "none";
+        helpBtn.style.display = "block";
+      }
+    }
 
     if (type === "chair") window.app.enterWorkMode();
     if (type === "batman") window.app.gameManager.activateBatmanMode();

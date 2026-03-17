@@ -57,6 +57,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function handleGuideClick(type) {
     if (!window.app) return;
+    const guide = document.getElementById("interactionGuide");
+    const helpBtn = document.getElementById("guide-help");
+
+    // 🔥 hide guide on mobile before opening any panel
+    if (window.innerWidth < 768 && guide && helpBtn) {
+      guide.style.display = "none";
+      helpBtn.style.display = "block";
+    }
 
     switch (type) {
       case "monitor_left":
