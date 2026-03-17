@@ -80,6 +80,7 @@ export class PortfolioRoom {
           window.portfolioObjects.lampLight = lampLight;
         }
         this.camera.position.set(0, 2.2, -6);
+        console.log("Camera position:", this.camera.position);
 
         this.controls.target.set(0, 1.3, 0.5);
 

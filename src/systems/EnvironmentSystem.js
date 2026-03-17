@@ -88,13 +88,21 @@ MOON
     const moonGeometry = new THREE.SphereGeometry(1.4, 32, 32);
 
     const moonMaterial = new THREE.MeshBasicMaterial({
-      color: 0xf2f2f2,
+      color: 0xdfefff,
+      toneMapped: false,
+      fog: false,
+      depthWrite: false,
     });
+
+    //  FORCE BRIGHTNESS BOOST
+    moonMaterial.color.multiplyScalar(1.5);
 
     this.moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
     this.environmentGroup.add(this.moonMesh);
+    this.moonMesh.renderOrder = 10;
+    console.log("Moon created:", this.moonMesh);
 
-    this.moonMesh.scale.set(10, 10, 10);
+    this.moonMesh.scale.set(1.6, 1.6, 1.6);
 
     this.moonMesh.visible = false;
 
@@ -103,53 +111,74 @@ MOON
     const moonHaloGeometry = new THREE.SphereGeometry(3.5, 32, 32);
 
     const moonHaloMaterial = new THREE.MeshBasicMaterial({
-      color: 0x9fbfff,
+      color: 0xbcd4ff,
       transparent: true,
       opacity: 0.25,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
 
     this.moonHalo = new THREE.Mesh(moonHaloGeometry, moonHaloMaterial);
+    this.moonHalo.material.opacity = 5;
+    this.moonHalo.material.depthWrite = false;
+    this.moonHalo.material.blending = THREE.AdditiveBlending;
     this.environmentGroup.add(this.moonHalo);
+    this.moonHalo.renderOrder = 9;
 
-    this.moonHalo.scale.set(10, 10, 10);
+    this.moonHalo.scale.set(4, 4, 4);
 
     this.moonHalo.visible = false;
 
-    /* =========================
-STAR SKY DOME
-========================= */
+    const moonCoreGlowGeometry = new THREE.SphereGeometry(1.6, 32, 32);
 
-    const starGeometry = new THREE.SphereGeometry(2000, 64, 64);
-
-    const starTexture = new THREE.TextureLoader().load(
-      "/textures/starfield.jpg",
-      (texture) => {
-        console.log("Star texture loaded");
-
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-        texture.repeat.set(1, 1);
-        texture.offset.set(0, 0);
-        texture.magFilter = THREE.LinearFilter;
-        texture.minFilter = THREE.LinearMipmapLinearFilter;
-      },
-      undefined,
-      () => console.error("Star texture failed to load"),
-    );
-
-    const starMaterial = new THREE.MeshBasicMaterial({
-      map: starTexture,
-      side: THREE.BackSide,
-      fog: false,
-      depthWrite: false,
+    const moonCoreGlowMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
       transparent: true,
-      opacity: 1,
+      opacity: 0.15,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
 
-    this.stars = new THREE.Mesh(starGeometry, starMaterial);
-    this.stars.rotation.y = Math.PI;
+    this.moonCoreGlow = new THREE.Mesh(
+      moonCoreGlowGeometry,
+      moonCoreGlowMaterial,
+    );
 
+    this.environmentGroup.add(this.moonCoreGlow);
+
+    this.moonCoreGlow.scale.set(1.8, 1.8, 1.8);
+    this.moonCoreGlow.visible = false;
+
+    /* =========================
+STARS (PARTICLE SYSTEM)
+========================= */
+
+    const starCount = 1000;
+    const starGeometry = new THREE.BufferGeometry();
+
+    const positions = new Float32Array(starCount * 3);
+
+    for (let i = 0; i < starCount; i++) {
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 120;
+      positions[i * 3 + 1] = Math.random() * 60 + 20;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
+    }
+
+    starGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(positions, 3),
+    );
+
+    const starMaterial = new THREE.PointsMaterial({
+      color: 0xbcd4ff,
+      size: 2,
+      sizeAttenuation: true,
+      depthWrite: false,
+      transparent: true,
+      opacity: 0.9,
+    });
+
+    this.stars = new THREE.Points(starGeometry, starMaterial);
     this.environmentGroup.add(this.stars);
 
     this.stars.visible = false;
@@ -294,8 +323,10 @@ STATE APPLICATION
         break;
 
       case "night":
+        console.log("🌙 NIGHT MODE ACTIVE");
+
         targetColor = new THREE.Color("#9bbcff");
-        targetIntensity = 0.25;
+        targetIntensity = 0.12;
         targetPosition = new THREE.Vector3(0, -6, 20);
         targetBackground = new THREE.Color("#01030b");
 
@@ -304,14 +335,20 @@ STATE APPLICATION
         this.sunMesh.visible = false;
         this.sunHalo.visible = false;
 
+        // 🌙 Moon visible
         this.moonMesh.visible = true;
         this.moonHalo.visible = true;
+        this.moonCoreGlow.visible = true;
 
-        this.stars.visible = true;
-        this.stars.position.y = 200;
+        // ✅ FIXED POSITION (sky, not room)
+        this.moonMesh.position.set(0, 14, 35);
 
-        this.moonMesh.position.set(-80, 120, 200);
+        // sync all layers
         this.moonHalo.position.copy(this.moonMesh.position);
+        this.moonCoreGlow.position.copy(this.moonMesh.position);
+
+        // ⭐ Stars (leave as is)
+        this.stars.visible = true;
 
         break;
     }
