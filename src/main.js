@@ -33,6 +33,112 @@ window.addEventListener("DOMContentLoaded", () => {
   const guideItems = document.querySelectorAll(
     "#interactionGuide li[data-type]",
   );
+  guideItems.forEach((item) => {
+    const type = item.dataset.type;
+
+    /* hover (already working) */
+    item.addEventListener("mouseenter", () => {
+      window.app?.interaction?.highlightByType(type);
+    });
+
+    item.addEventListener("mouseleave", () => {
+      window.app?.interaction?.clearGuideHighlight();
+    });
+
+    /* ✅ NEW: click = trigger same behavior */
+    item.addEventListener("click", () => {
+      handleGuideClick(type);
+    });
+  });
+
+  /* =========================
+ GUIDE CLICK HANDLER
+========================= */
+
+  function handleGuideClick(type) {
+    if (!window.app) return;
+
+    switch (type) {
+      case "monitor_left":
+        window.app.ui.open("projects");
+        break;
+
+      case "monitor_right":
+        window.app.ui.open("work");
+        break;
+
+      case "keyboard":
+        window.app.ui.open("personalProjects");
+        break;
+
+      case "mouse":
+        window.open("/Anish_Krishnan_Resume.html", "_blank");
+        break;
+
+      case "phone":
+        window.app.ui.open("phone");
+        break;
+
+      case "random_fact":
+        window.app.ui.open("randomFact");
+        break;
+
+      case "random_thought":
+        window.app.ui.open("randomThought");
+        break;
+
+      case "alexa":
+        window.app.ui.open("aiChat");
+        break;
+
+      case "cpu":
+        window.app.ui.open("techStack");
+        break;
+
+      case "Dumbell_L":
+        window.app.ui.open("certifications");
+        break;
+
+      case "Dumbell_R":
+        window.app.ui.open("engineeringStrengths");
+        break;
+
+      case "about":
+        window.app.ui.open("about");
+        break;
+
+      case "batman":
+        window.app.gameManager.activateBatmanMode();
+        break;
+
+      case "window":
+        if (!window.app.gameManager.batmanMode) {
+          window.app.environmentSystem.cycleTimeOfDay();
+        }
+        break;
+
+      case "football":
+        window.app.ui.open("footballGame");
+        break;
+
+      case "chair":
+        window.app.enterWorkMode();
+        break;
+
+      case "lamp":
+        const lamp = window.portfolioObjects?.lampLight;
+        const shade = window.portfolioObjects?.lampShade;
+
+        if (lamp) {
+          lamp.visible = !lamp.visible;
+
+          if (shade && shade.material) {
+            shade.material.emissiveIntensity = lamp.visible ? 1.2 : 0;
+          }
+        }
+        break;
+    }
+  }
 
   guideItems.forEach((item) => {
     const type = item.dataset.type;

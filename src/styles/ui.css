@@ -729,6 +729,9 @@ FOOTBALL FLAPPY GAME
   color: #ffb88a;
   transform: translateX(4px);
 }
+#interactionGuide li[data-type]:active {
+  transform: scale(0.97);
+}
 canvas {
   position: fixed;
   top: 0;
