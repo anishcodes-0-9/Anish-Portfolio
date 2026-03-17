@@ -9,7 +9,13 @@ export function createAIChatPanel() {
       container.innerHTML = `
         <div class="ai-chat">
 
-          <h2>Alexa AI Assistant</h2>
+          <div class="ai-header">
+  <h2>Alexa AI Assistant</h2>
+  <label class="voice-toggle">
+    <input type="checkbox" id="voice-toggle" />
+    🔊 Voice
+  </label>
+</div>
 
           <div id="ai-chat-messages" class="ai-chat-messages"></div>
 
@@ -43,6 +49,38 @@ export function createAIChatPanel() {
       const messages = container.querySelector("#ai-chat-messages");
       const input = container.querySelector("#ai-chat-input");
       const sendBtn = container.querySelector("#ai-chat-send");
+      const voiceToggle = container.querySelector("#voice-toggle");
+
+      let voiceEnabled = false;
+      let lastReply = "";
+      voiceToggle.addEventListener("change", () => {
+        voiceEnabled = voiceToggle.checked;
+
+        if (!("speechSynthesis" in window)) return;
+
+        if (!voiceEnabled) {
+          // 🔴 STOP current speech
+          window.speechSynthesis.cancel();
+        } else {
+          // 🟢 REPLAY last AI response
+          if (lastReply) {
+            speak(lastReply);
+          }
+        }
+      });
+
+      // disable by default on Chrome
+      if (!isChrome()) {
+        voiceEnabled = true;
+        voiceToggle.checked = true;
+      } else {
+        voiceEnabled = false;
+        voiceToggle.checked = false;
+        voiceToggle.disabled = true;
+
+        voiceToggle.parentElement.title =
+          "Voice not supported reliably on Chrome";
+      }
 
       function addMessage(role, text) {
         const msg = document.createElement("div");
@@ -56,28 +94,61 @@ export function createAIChatPanel() {
         messages.scrollTop = messages.scrollHeight;
       }
 
+      function isChrome() {
+        return (
+          /Chrome/.test(navigator.userAgent) &&
+          /Google Inc/.test(navigator.vendor)
+        );
+      }
       function speak(text) {
-        /* Stop any speech currently playing */
-        window.speechSynthesis.cancel();
+        if (!("speechSynthesis" in window)) return;
+
+        const synth = window.speechSynthesis;
+
+        // 🔥 stop ONLY if currently speaking
+        if (synth.speaking) {
+          synth.cancel();
+        }
 
         const speech = new SpeechSynthesisUtterance(text);
 
+        let voices = synth.getVoices();
+
+        if (!voices.length) {
+          synth.onvoiceschanged = () => {
+            voices = synth.getVoices();
+          };
+        }
+
+        // 🔥 pick stable voice
+        speech.voice =
+          voices.find((v) => v.name.includes("Google")) ||
+          voices.find((v) => v.lang === "en-US") ||
+          voices[0];
+
         speech.rate = 1;
         speech.pitch = 1;
+        speech.volume = 1;
 
-        window.speechSynthesis.speak(speech);
+        // 🔥 debug logs (keep for now)
+        speech.onstart = () => console.log("🔊 speaking...");
+        speech.onend = () => console.log("✅ done speaking");
+        speech.onerror = (e) => console.error("❌ speech error", e);
+
+        synth.speak(speech);
       }
 
       async function sendMessage() {
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+        }
         const message = input.value.trim();
-
         if (!message) return;
 
         addMessage("user", message);
-
         input.value = "";
 
-        /* Show typing indicator */
+        /* typing UI */
         const typingMsg = document.createElement("div");
         typingMsg.className = "ai-msg ai typing";
         typingMsg.innerText = "Alexa is thinking...";
@@ -101,15 +172,16 @@ export function createAIChatPanel() {
 
           stopAlexaThinking();
 
-          /* Replace typing message with actual reply */
           typingMsg.innerText = data.reply;
+          lastReply = data.reply;
 
-          speak(data.reply);
+          //  NOW speech will work
+          if (voiceEnabled && !isChrome() && data.reply) {
+            speak(data.reply);
+          }
         } catch (error) {
           stopAlexaThinking();
-
           console.error(error);
-
           typingMsg.innerText = "Error contacting AI server.";
         }
       }
