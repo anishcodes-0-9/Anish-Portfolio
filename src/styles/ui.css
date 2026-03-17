@@ -663,5 +663,156 @@ FOOTBALL FLAPPY GAME
   opacity: 0;
   transform: translate(-50%, -120%);
   transition: opacity 0.15s ease;
-  z-index: 999;
+  z-index: 1002;
+}
+/*side info*/
+#interactionGuide {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: auto;
+  top: auto;
+
+  width: 240px;
+
+  background: rgba(20, 20, 25, 0.75);
+  backdrop-filter: blur(10px);
+
+  border-radius: 12px;
+  padding: 12px;
+
+  color: #fff;
+  font-family: system-ui;
+
+  font-size: 12.5px;
+  line-height: 1.4;
+
+  pointer-events: auto;
+  z-index: 9999;
+
+  /* animation */
+  transform: translateY(0) translateX(0);
+  opacity: 1;
+  transition:
+    transform 0.35s ease,
+    opacity 0.25s ease;
+}
+/* hidden (slide out to bottom-right) */
+#interactionGuide.hidden {
+  transform: translateY(40px) translateX(40px);
+  opacity: 0;
+}
+#guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+#interactionGuide h3 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#interactionGuide ul {
+  margin: 0;
+  padding-left: 14px;
+}
+
+#interactionGuide li[data-type] {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#interactionGuide li[data-type]:hover {
+  color: #ffb88a;
+  transform: translateX(4px);
+}
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+#guide-close {
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.25s ease;
+}
+
+#guide-close:hover {
+  background: #ff9e6d;
+  color: #fff;
+  transform: rotate(90deg) scale(1.1);
+}
+/* floating help button */
+#guide-help {
+  position: fixed;
+  top: auto;
+  left: auto;
+  bottom: 20px;
+  right: 20px;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #ff9e6d;
+  color: #fff;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+  z-index: 10001;
+
+  display: none; /* hidden initially */
+}
+
+/* hover effect */
+#guide-help:hover {
+  background: rgba(255, 166, 77, 0.9);
+  transform: scale(1.08);
+}
+/* Tour */
+#start-tour {
+  margin-top: 8px;
+  width: 100%;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+
+  background: #ff9e6d;
+  color: white;
+
+  font-size: 13px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+#start-tour:hover {
+  background: #ffb88a;
 }

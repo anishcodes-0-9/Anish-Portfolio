@@ -12,6 +12,7 @@ export class InteractionSystem {
     this.interactiveObjects = [];
 
     this.hovered = null;
+    this.guideHighlighted = null;
 
     this.originalScales = new Map();
     this.originalPositions = new Map();
@@ -28,6 +29,7 @@ export class InteractionSystem {
       "random_fact",
       "random_thought",
     ];
+
     this.highlightTypes = ["keyboard", "mouse", "Dumbell_L", "Dumbell_R"];
   }
 
@@ -64,6 +66,7 @@ export class InteractionSystem {
       this.clearHover();
       this.setHover(hit);
     }
+
     if (this.hovered && window.app.tooltip) {
       window.app.tooltip.show(
         this.hovered.userData.type,
@@ -90,8 +93,9 @@ export class InteractionSystem {
       object.material &&
       object.material.emissive
     ) {
-      object.material.emissive = new THREE.Color(0xffa64d);
+      object.material.emissive.set(0xffa64d);
       object.material.emissiveIntensity = 0.9;
+
       if (
         object.userData.type === "Dumbell_L" ||
         object.userData.type === "Dumbell_R"
@@ -121,12 +125,12 @@ export class InteractionSystem {
         this.hovered.material.emissive.set(0x000000);
       }
     }
+
     if (window.app.tooltip) {
       window.app.tooltip.hide();
     }
 
     this.hovered = null;
-
     this.domElement.style.cursor = "default";
   }
 
@@ -179,10 +183,8 @@ export class InteractionSystem {
 
     for (const hit of intersects) {
       const candidate = this.getRootInteractive(hit.object);
-
       if (!candidate) continue;
 
-      /* prioritize closest meaningful object */
       if (candidate.userData.type) {
         clicked = candidate;
         break;
@@ -191,98 +193,78 @@ export class InteractionSystem {
 
     if (!clicked) return;
 
-    if (clicked.userData.type) {
-      console.log("Clicked:", clicked.userData.type);
+    const type = clicked.userData.type;
 
-      /* CHAIR WORK MODE */
-      if (clicked.userData.type === "chair") {
-        window.app.enterWorkMode();
-      }
+    if (type === "chair") window.app.enterWorkMode();
+    if (type === "batman") window.app.gameManager.activateBatmanMode();
+    if (type === "monitor_left") window.app.ui.open("projects");
+    if (type === "monitor_right") window.app.ui.open("work");
 
-      /* Batman */
-      if (clicked.userData.type === "batman") {
-        window.app.gameManager.activateBatmanMode();
-      }
+    if (type === "window") {
+      if (window.app.gameManager.batmanMode) return;
+      window.app.environmentSystem.cycleTimeOfDay();
+    }
 
-      if (clicked.userData.type === "monitor_left") {
-        window.app.ui.open("projects");
-      }
+    if (type === "football") window.app.ui.open("footballGame");
+    if (type === "alexa") window.app.ui.open("aiChat");
+    if (type === "phone") window.app.ui.open("phone");
+    if (type === "keyboard") window.app.ui.open("personalProjects");
+    if (type === "mouse") window.open("/Anish_Krishnan_Resume.html", "_blank");
+    if (type === "about") window.app.ui.open("about");
+    if (type === "Dumbell_L") window.app.ui.open("certifications");
+    if (type === "Dumbell_R") window.app.ui.open("engineeringStrengths");
+    if (type === "cpu") window.app.ui.open("techStack");
+    if (type === "random_fact") window.app.ui.open("randomFact");
+    if (type === "random_thought") window.app.ui.open("randomThought");
 
-      if (clicked.userData.type === "monitor_right") {
-        window.app.ui.open("work");
-      }
+    if (type === "lamp") {
+      const lamp = window.portfolioObjects?.lampLight;
+      const shade = window.portfolioObjects?.lampShade;
 
-      if (clicked.userData.type === "window") {
-        if (window.app.gameManager.batmanMode) return;
-        window.app.environmentSystem.cycleTimeOfDay();
-      }
+      if (!lamp) return;
 
-      if (clicked.userData.type === "football") {
-        window.app.ui.open("footballGame");
-      }
+      lamp.visible = !lamp.visible;
 
-      if (clicked.userData.type === "alexa") {
-        window.app.ui.open("aiChat");
-      }
-
-      if (clicked.userData.type === "phone") {
-        window.app.ui.open("phone");
-      }
-
-      if (clicked.userData.type === "keyboard") {
-        window.app.ui.open("personalProjects");
-      }
-
-      if (clicked.userData.type === "mouse") {
-        window.open("/Anish_Krishnan_Resume.html", "_blank");
-      }
-
-      if (clicked.userData.type === "about") {
-        window.app.ui.open("about");
-      }
-
-      if (clicked.userData.type === "Dumbell_L") {
-        window.app.ui.open("certifications");
-      }
-
-      if (clicked.userData.type === "Dumbell_R") {
-        window.app.ui.open("engineeringStrengths");
-      }
-
-      if (clicked.userData.type === "cpu") {
-        window.app.ui.open("techStack");
-      }
-      if (clicked.userData.type === "random_fact") {
-        window.app.ui.open("randomFact");
-      }
-
-      if (clicked.userData.type === "random_thought") {
-        window.app.ui.open("randomThought");
-      }
-
-      /* Lamp */
-      if (clicked.userData.type === "lamp") {
-        const lamp = window.portfolioObjects?.lampLight;
-        const shade = window.portfolioObjects?.lampShade;
-
-        if (!lamp) return;
-
-        lamp.visible = !lamp.visible;
-
-        if (shade && shade.material) {
-          shade.material.emissiveIntensity = lamp.visible ? 1.2 : 0;
-        }
+      if (shade && shade.material) {
+        shade.material.emissiveIntensity = lamp.visible ? 1.2 : 0;
       }
     }
   }
 
   getRootInteractive(object) {
     let current = object;
-
     while (current && !current.userData.type) {
       current = current.parent;
     }
-
     return current || object;
+  }
+
+  /* ✅ FIXED GUIDE HIGHLIGHT */
+  highlightByType(type) {
+    const candidates = this.interactiveObjects.filter(
+      (o) => o.userData.type === type,
+    );
+
+    const obj = candidates.find((o) => o.material && o.material.emissive);
+
+    if (!obj) return;
+
+    if (this.hovered) this.clearHover();
+    if (this.guideHighlighted) this.clearGuideHighlight();
+
+    this.guideHighlighted = obj;
+
+    obj.material.emissive.set(0xffa64d);
+    obj.material.emissiveIntensity = 1.2;
+  }
+
+  clearGuideHighlight() {
+    const obj = this.guideHighlighted;
+    if (!obj || !obj.material || !obj.material.emissive) return;
+
+    obj.material.emissive.set(0x000000);
+    obj.material.emissiveIntensity = 0;
+
+    this.guideHighlighted = null;
   }
 }

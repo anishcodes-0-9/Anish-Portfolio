@@ -17,6 +17,11 @@ export class Renderer {
     this.instance.shadowMap.enabled = true;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    this.instance.domElement.style.position = "fixed";
+    this.instance.domElement.style.top = "0";
+    this.instance.domElement.style.left = "0";
+    this.instance.domElement.style.zIndex = "0";
+
     document.body.appendChild(this.instance.domElement);
   }
 
