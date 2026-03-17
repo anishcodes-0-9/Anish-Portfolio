@@ -80,6 +80,12 @@ export class LightManager {
     // Set sky instantly (sky doesn't need interpolation)
     this.lighting.setSkyColor(config.skyTop, config.skyBottom);
 
+    // ✅ SAFE GUARD: ensure lights exist before using
+    if (!this.lighting || !this.lighting.sun || !this.lighting.ambient) {
+      console.warn("LightManager: lighting not ready yet");
+      return;
+    }
+
     // Store current state before transition
     this.current.pos.copy(this.lighting.sun.position);
     this.current.color.copy(this.lighting.sun.color);
@@ -101,7 +107,7 @@ export class LightManager {
     const t = Math.min(this.progress, 1);
 
     const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-
+    if (!this.lighting || !this.lighting.sun || !this.lighting.ambient) return;
     const sun = this.lighting.sun;
     const ambient = this.lighting.ambient;
 

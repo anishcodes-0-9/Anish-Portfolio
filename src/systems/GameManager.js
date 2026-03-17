@@ -54,7 +54,11 @@ export class GameManager {
     /* override lighting */
 
     if (this.lightManager) {
-      this.lightManager.setOverride("batman");
+      try {
+        this.lightManager.setOverride("batman");
+      } catch (e) {
+        console.error("Batman lighting failed:", e);
+      }
     }
 
     /* fire light */
@@ -112,7 +116,11 @@ export class GameManager {
     /* restore lighting */
 
     if (this.lightManager) {
-      this.lightManager.clearOverride();
+      try {
+        this.lightManager.clearOverride();
+      } catch (e) {
+        console.error("Restore lighting failed:", e);
+      }
     }
 
     /* restore environment state */
