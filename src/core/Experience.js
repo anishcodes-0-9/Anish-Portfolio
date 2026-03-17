@@ -37,7 +37,7 @@ export class Experience {
       this.renderer.instance.domElement,
     );
 
-    this.environmentSystem = new EnvironmentSystem(this.scene);
+    this.gameManager = new GameManager(this.lightManager);
 
     this.ui = new UIManager();
     registerAllPanels(this.ui);
@@ -51,7 +51,10 @@ export class Experience {
     this.lighting = new Lighting(this.scene, this.renderer.instance);
     this.lightManager = new LightManager(this.lighting, this.renderer.instance);
 
-    this.gameManager = new GameManager(this.lightManager);
+    this.environmentSystem = new EnvironmentSystem(
+      this.scene,
+      this.gameManager,
+    );
 
     this.room = new PortfolioRoom(
       this.scene,

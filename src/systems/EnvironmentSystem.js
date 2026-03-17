@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
 export class EnvironmentSystem {
-  constructor(scene) {
+  constructor(scene, gameManager) {
     this.scene = scene;
+    this.gameManager = gameManager;
 
     this.states = ["morning", "noon", "evening", "night"];
 
@@ -259,6 +260,24 @@ STATE APPLICATION
 ========================= */
 
   applyState(state) {
+    console.log("applyState called, batmanMode:", this.gameManager?.batmanMode);
+    // 🔥 BATMAN MODE OVERRIDE (GLOBAL CONTROL)
+    if (this.gameManager?.batmanMode) {
+      this.sun.visible = false;
+      this.sunMesh.visible = false;
+      this.sunHalo.visible = false;
+      this.sunRays.visible = false;
+
+      this.moonMesh.visible = false;
+      this.moonHalo.visible = false;
+      this.moonCoreGlow.visible = false;
+
+      this.stars.visible = false;
+
+      this.scene.background = new THREE.Color("#000000");
+
+      return; // 🚨 STOP everything else
+    }
     let targetColor;
     let targetIntensity;
     let targetPosition;

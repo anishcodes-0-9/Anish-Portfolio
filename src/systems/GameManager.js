@@ -33,6 +33,15 @@ export class GameManager {
 
     this.batmanMode = true;
 
+    console.log("Batman mode state:", this.batmanMode);
+    console.log("Env exists?", !!window.app?.environmentSystem);
+
+    //  force environment to update immediately
+    if (window.app?.environmentSystem) {
+      const env = window.app.environmentSystem;
+      env.applyState(env.states[env.index]);
+    }
+
     console.log("Batman mode activated");
     /* 🎥 camera punch */
     const camera = window.app?.camera?.instance;
