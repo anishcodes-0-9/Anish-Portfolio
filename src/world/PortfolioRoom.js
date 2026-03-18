@@ -21,80 +21,77 @@ export class PortfolioRoom {
   }
 
   init(onLoaded) {
-    this.loader.load(
-      "/src/assets/models/updated-portfolio-room.glb",
-      (gltf) => {
-        const model = gltf.scene;
+    this.loader.load("/models/updated-portfolio-room.glb", (gltf) => {
+      const model = gltf.scene;
 
-        /* STORE FULL MODEL GLOBALLY */
-        window.roomModel = model;
+      /* STORE FULL MODEL GLOBALLY */
+      window.roomModel = model;
 
-        model.traverse((child) => {
-          if (!child.isMesh) return;
+      model.traverse((child) => {
+        if (!child.isMesh) return;
 
-          console.log(child.name);
+        console.log(child.name);
 
-          child.castShadow = true;
-          child.receiveShadow = true;
+        child.castShadow = true;
+        child.receiveShadow = true;
 
-          if (child.material) {
-            child.material = child.material.clone();
-            child.material.side = THREE.DoubleSide;
-          }
-
-          this.applyMaterialLogic(child);
-
-          window.portfolioObjects = window.portfolioObjects || {};
-
-          if (child.name === "BatmanLogo") {
-            window.portfolioObjects.batmanLogo = child;
-          }
-
-          if (child.name === "Window") {
-            window.portfolioObjects.window = child;
-            child.userData.type = "window";
-          }
-
-          if (child.name === "Lamp_Shade") {
-            window.portfolioObjects.lampShade = child;
-          }
-
-          this.tagInteractiveObjects(child);
-        });
-
-        this.scene.add(model);
-
-        /* LAMP LIGHT */
-
-        const lampShade = model.getObjectByName("Lamp_Shade");
-
-        if (lampShade) {
-          const lampLight = new THREE.PointLight(0xffd9a6, 8, 25, 1.2);
-
-          lampLight.position.set(0, 0.45, 0);
-          lampLight.visible = true;
-
-          lampShade.add(lampLight);
-
-          window.portfolioObjects = window.portfolioObjects || {};
-          window.portfolioObjects.lampLight = lampLight;
+        if (child.material) {
+          child.material = child.material.clone();
+          child.material.side = THREE.DoubleSide;
         }
-        if (window.innerWidth < 768) {
-          this.camera.position.set(0, 2.0, -5);
-        } else {
-          this.camera.position.set(0, 2.2, -6);
+
+        this.applyMaterialLogic(child);
+
+        window.portfolioObjects = window.portfolioObjects || {};
+
+        if (child.name === "BatmanLogo") {
+          window.portfolioObjects.batmanLogo = child;
         }
-        console.log("Camera position:", this.camera.position);
 
-        this.controls.target.set(0, 1.3, 0.5);
+        if (child.name === "Window") {
+          window.portfolioObjects.window = child;
+          child.userData.type = "window";
+        }
 
-        this.camera.lookAt(0, 1.3, 0.5);
+        if (child.name === "Lamp_Shade") {
+          window.portfolioObjects.lampShade = child;
+        }
 
-        this.controls.update();
+        this.tagInteractiveObjects(child);
+      });
 
-        if (onLoaded) onLoaded();
-      },
-    );
+      this.scene.add(model);
+
+      /* LAMP LIGHT */
+
+      const lampShade = model.getObjectByName("Lamp_Shade");
+
+      if (lampShade) {
+        const lampLight = new THREE.PointLight(0xffd9a6, 8, 25, 1.2);
+
+        lampLight.position.set(0, 0.45, 0);
+        lampLight.visible = true;
+
+        lampShade.add(lampLight);
+
+        window.portfolioObjects = window.portfolioObjects || {};
+        window.portfolioObjects.lampLight = lampLight;
+      }
+      if (window.innerWidth < 768) {
+        this.camera.position.set(0, 2.0, -5);
+      } else {
+        this.camera.position.set(0, 2.2, -6);
+      }
+      console.log("Camera position:", this.camera.position);
+
+      this.controls.target.set(0, 1.3, 0.5);
+
+      this.camera.lookAt(0, 1.3, 0.5);
+
+      this.controls.update();
+
+      if (onLoaded) onLoaded();
+    });
   }
 
   applyMaterialLogic(child) {
