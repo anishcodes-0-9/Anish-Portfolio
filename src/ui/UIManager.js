@@ -104,4 +104,7 @@ export class UIManager {
   getActivePanel() {
     return this.activePanel;
   }
+  isUIOpen() {
+    return this.activePanel !== null;
+  }
 }

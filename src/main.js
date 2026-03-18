@@ -56,6 +56,26 @@ window.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
   function handleGuideClick(type) {
+    // 🚫 BLOCK NON-UI ACTIONS WHEN PANEL IS OPEN
+    const allowedWhileOpen = [
+      "monitor_left",
+      "monitor_right",
+      "keyboard",
+      "mouse",
+      "phone",
+      "cpu",
+      "Dumbell_L",
+      "Dumbell_R",
+      "about",
+      "notes",
+      "architecture",
+      "alexa",
+      "football",
+    ];
+
+    if (window.app?.ui?.isUIOpen() && !allowedWhileOpen.includes(type)) {
+      return;
+    }
     if (!window.app) return;
     const guide = document.getElementById("interactionGuide");
     const helpBtn = document.getElementById("guide-help");
@@ -147,16 +167,4 @@ window.addEventListener("DOMContentLoaded", () => {
         break;
     }
   }
-
-  guideItems.forEach((item) => {
-    const type = item.dataset.type;
-
-    item.addEventListener("mouseenter", () => {
-      window.app?.interaction?.highlightByType(type);
-    });
-
-    item.addEventListener("mouseleave", () => {
-      window.app?.interaction?.clearGuideHighlight();
-    });
-  });
 });

@@ -218,7 +218,25 @@ export class InteractionSystem {
         helpBtn.style.display = "block";
       }
     }
+    const allowedWhileOpen = [
+      "monitor_left",
+      "monitor_right",
+      "keyboard",
+      "mouse",
+      "phone",
+      "cpu",
+      "Dumbell_L",
+      "Dumbell_R",
+      "about",
+      "notes",
+      "architecture",
+      "alexa",
+      "football",
+    ];
 
+    if (window.app?.ui?.isUIOpen() && !allowedWhileOpen.includes(type)) {
+      return;
+    }
     if (type === "chair") window.app.enterWorkMode();
     if (type === "batman") window.app.gameManager.activateBatmanMode();
     if (type === "monitor_left") window.app.ui.open("projects");
