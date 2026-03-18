@@ -37,13 +37,13 @@ export class UIManager {
       return;
     }
 
-    // 🔥 TOGGLE BEHAVIOR (NEW)
+    //  TOGGLE BEHAVIOR (NEW)
     if (this.activePanel === panelName) {
       this.close();
       return;
     }
 
-    // 🔥 CLOSE ANY EXISTING PANEL
+    //  CLOSE ANY EXISTING PANEL
     this.close();
 
     if (window.app?.interaction) {

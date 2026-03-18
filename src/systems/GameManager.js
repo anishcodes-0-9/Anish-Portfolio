@@ -70,7 +70,7 @@ export class GameManager {
 
       punch();
     }
-    /* 🔥 UI IMPACT (flash + vignette) */
+    /*  UI IMPACT (flash + vignette) */
     const overlay = document.getElementById("batman-overlay");
 
     if (overlay) {
@@ -108,7 +108,7 @@ export class GameManager {
         console.error("Batman lighting failed:", e);
       }
     }
-    /* 🔥 turn OFF lamp for cinematic effect */
+    /*  turn OFF lamp for cinematic effect */
     const lamp = window.portfolioObjects?.lampLight;
 
     if (lamp) {
@@ -171,7 +171,7 @@ export class GameManager {
 
   disableBatmanMode() {
     console.log("Batman mode disabled");
-    /* 🔥 remove vignette */
+    /* remove vignette */
     const overlay = document.getElementById("batman-overlay");
 
     if (overlay) {
@@ -220,7 +220,7 @@ export class GameManager {
     }
 
     /* restore logo */
-    /* 🔥 restore lamp state */
+    /*  restore lamp state */
     const lamp = window.portfolioObjects?.lampLight;
     const shade = window.portfolioObjects?.lampShade;
 
@@ -240,7 +240,7 @@ export class GameManager {
 
   update(time) {
     if (this.batLight) {
-      // 🔥 cinematic flicker (more chaotic, less robotic)
+      //  cinematic flicker (more chaotic, less robotic)
       const flicker =
         Math.sin(time * 12) * 0.25 +
         Math.sin(time * 27) * 0.15 +

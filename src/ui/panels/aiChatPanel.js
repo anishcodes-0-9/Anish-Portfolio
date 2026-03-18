@@ -105,7 +105,7 @@ export function createAIChatPanel() {
 
         const synth = window.speechSynthesis;
 
-        // 🔥 stop ONLY if currently speaking
+        //  stop ONLY if currently speaking
         if (synth.speaking) {
           synth.cancel();
         }
@@ -120,7 +120,7 @@ export function createAIChatPanel() {
           };
         }
 
-        // 🔥 pick stable voice
+        //  pick stable voice
         speech.voice =
           voices.find((v) => v.name.includes("Google")) ||
           voices.find((v) => v.lang === "en-US") ||
@@ -130,7 +130,7 @@ export function createAIChatPanel() {
         speech.pitch = 1;
         speech.volume = 1;
 
-        // 🔥 debug logs (keep for now)
+        //  debug logs (keep for now)
         speech.onstart = () => console.log("🔊 speaking...");
         speech.onend = () => console.log("✅ done speaking");
         speech.onerror = (e) => console.error("❌ speech error", e);

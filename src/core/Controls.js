@@ -4,9 +4,9 @@ import * as THREE from "three";
 export class Controls {
   constructor(camera, renderer) {
     this.instance = new OrbitControls(camera, renderer);
-    // 🔥 TOUCH SUPPORT
+    //  TOUCH SUPPORT
     this.instance.enableZoom = true;
-    // 🔥 smoother mobile feel
+    // smoother mobile feel
     this.instance.dampingFactor = 0.08;
 
     if (window.innerWidth < 768) {

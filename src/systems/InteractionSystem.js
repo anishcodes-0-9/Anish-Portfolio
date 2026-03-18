@@ -38,7 +38,7 @@ export class InteractionSystem {
   }
 
   init() {
-    // 🔥 unified input (mouse + touch)
+    //  unified input (mouse + touch)
     this.domElement.addEventListener("pointerdown", this.onClick.bind(this));
     this.domElement.addEventListener(
       "pointermove",

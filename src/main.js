@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const guide = document.getElementById("interactionGuide");
     const helpBtn = document.getElementById("guide-help");
 
-    // 🔥 hide guide on mobile before opening any panel
+    //  hide guide on mobile before opening any panel
     if (window.innerWidth < 768 && guide && helpBtn) {
       guide.style.display = "none";
       helpBtn.style.display = "block";

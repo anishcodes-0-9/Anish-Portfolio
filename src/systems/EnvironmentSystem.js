@@ -277,7 +277,7 @@ STATE APPLICATION
 
   applyState(state) {
     console.log("applyState called, batmanMode:", this.gameManager?.batmanMode);
-    // 🔥 BATMAN MODE OVERRIDE (GLOBAL CONTROL)
+    //  BATMAN MODE OVERRIDE (GLOBAL CONTROL)
     if (this.gameManager?.batmanMode) {
       this.sun.visible = false;
       this.sunMesh.visible = false;

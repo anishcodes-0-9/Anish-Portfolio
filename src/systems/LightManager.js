@@ -135,7 +135,7 @@ export class LightManager {
     );
   }
 
-  /* 🔥 ADD THESE METHODS RIGHT HERE */
+  /*  ADD THESE METHODS RIGHT HERE */
 
   setOverride(mode) {
     this.previousMode = this.currentMode;
@@ -149,5 +149,5 @@ export class LightManager {
     this.isOverride = false;
   }
 
-  /* 🔥 THEN THIS LAST BRACE CLOSES THE CLASS */
+  /*  THEN THIS LAST BRACE CLOSES THE CLASS */
 }
