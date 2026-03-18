@@ -26,8 +26,8 @@ export class InteractionSystem {
       "batman",
       "about",
       "phone",
-      "random_fact",
-      "random_thought",
+      "notes",
+      "architecture",
     ];
 
     this.highlightTypes = ["keyboard", "mouse", "Dumbell_L", "Dumbell_R"];
@@ -238,8 +238,8 @@ export class InteractionSystem {
     if (type === "Dumbell_L") window.app.ui.open("certifications");
     if (type === "Dumbell_R") window.app.ui.open("engineeringStrengths");
     if (type === "cpu") window.app.ui.open("techStack");
-    if (type === "random_fact") window.app.ui.open("randomFact");
-    if (type === "random_thought") window.app.ui.open("randomThought");
+    if (type === "notes") window.app.ui.open("notes");
+    if (type === "architecture") window.app.ui.open("architecture");
 
     if (type === "lamp") {
       const lamp = window.portfolioObjects?.lampLight;

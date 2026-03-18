@@ -332,7 +332,7 @@ export class PortfolioRoom {
         break;
 
       case "Diary_LP":
-        child.userData.type = "random_fact";
+        child.userData.type = "notes";
 
         const diaryLeftHitbox = new THREE.Mesh(
           new THREE.BoxGeometry(0.45, 0.05, 0.35),
@@ -343,7 +343,7 @@ export class PortfolioRoom {
         );
 
         diaryLeftHitbox.position.copy(child.position);
-        diaryLeftHitbox.userData.type = "random_fact";
+        diaryLeftHitbox.userData.type = "notes";
 
         this.scene.add(diaryLeftHitbox);
         this.interaction.register(diaryLeftHitbox);
@@ -351,7 +351,7 @@ export class PortfolioRoom {
         break;
 
       case "Diary_RP":
-        child.userData.type = "random_thought";
+        child.userData.type = "architecture";
 
         const diaryRightHitbox = new THREE.Mesh(
           new THREE.BoxGeometry(0.45, 0.05, 0.35),
@@ -362,7 +362,7 @@ export class PortfolioRoom {
         );
 
         diaryRightHitbox.position.copy(child.position);
-        diaryRightHitbox.userData.type = "random_thought";
+        diaryRightHitbox.userData.type = "architecture";
 
         this.scene.add(diaryRightHitbox);
         this.interaction.register(diaryRightHitbox);

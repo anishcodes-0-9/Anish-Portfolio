@@ -28,8 +28,8 @@ export class TooltipManager {
       Dumbell_L: "Certifications",
       Dumbell_R: "Engineering Strengths",
 
-      random_fact: "Project Notebook",
-      random_thought: "System Architecture",
+      notes: "Project Notebook",
+      architecture: "System Architecture",
     };
   }
 

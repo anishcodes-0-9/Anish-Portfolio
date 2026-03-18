@@ -87,12 +87,12 @@ window.addEventListener("DOMContentLoaded", () => {
         window.app.ui.open("phone");
         break;
 
-      case "random_fact":
-        window.app.ui.open("randomFact");
+      case "notes":
+        window.app.ui.open("notes");
         break;
 
-      case "random_thought":
-        window.app.ui.open("randomThought");
+      case "architecture":
+        window.app.ui.open("architecture");
         break;
 
       case "alexa":

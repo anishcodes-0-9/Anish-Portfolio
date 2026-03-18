@@ -8,8 +8,8 @@ import { createCertificationsPanel } from "./panels/certificationsPanel.js";
 import { createEngineeringStrengthsPanel } from "./panels/engineeringStrengthsPanel.js";
 import { createTechStackPanel } from "./panels/techStackPanel.js";
 import { createAboutPanel } from "./panels/aboutPanel.js";
-import { createRandomFactPanel } from "./panels/randomFactPanel.js";
-import { createRandomThoughtPanel } from "./panels/randomThoughtPanel.js";
+import { createNotesPanel } from "./panels/notesPanel.js";
+import { createArchitecturePanel } from "./panels/architecturePanel.js";
 
 export function registerAllPanels(ui) {
   ui.register("projects", createProjectsPanel(), "side");
@@ -33,6 +33,6 @@ export function registerAllPanels(ui) {
   );
   ui.register("techStack", createTechStackPanel(), "modal");
   ui.register("about", createAboutPanel(), "modal");
-  ui.register("randomFact", createRandomFactPanel(), "modal");
-  ui.register("randomThought", createRandomThoughtPanel(), "modal");
+  ui.register("notes", createNotesPanel(), "modal");
+  ui.register("architecture", createArchitecturePanel(), "modal");
 }

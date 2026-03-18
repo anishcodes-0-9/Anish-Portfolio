@@ -1,4 +1,4 @@
-export function createRandomFactPanel() {
+export function createNotesPanel() {
   const facts = [
     "Built this entire portfolio using Three.js and Blender.",
     "Enjoys solving complex engineering problems.",

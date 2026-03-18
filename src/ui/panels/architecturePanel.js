@@ -1,4 +1,4 @@
-export function createRandomThoughtPanel() {
+export function createArchitecturePanel() {
   return {
     render(container) {
       container.innerHTML = `
