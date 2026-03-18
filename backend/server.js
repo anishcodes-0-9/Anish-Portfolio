@@ -8,9 +8,19 @@ import chatRoute from "./chatRoute.js";
 
 const app = express();
 
+const allowedOrigins = ["http://localhost:5173", process.env.FRONTEND_URL];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://your-frontend-url.vercel.app"],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true,
   }),
@@ -25,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/chat", chatRoute);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log("AI server running on port", PORT);
