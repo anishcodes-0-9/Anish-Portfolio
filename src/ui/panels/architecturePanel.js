@@ -5,9 +5,9 @@ export function createArchitecturePanel() {
 
 <div class="notebook-page">
 
-<h2>Developer Notebook</h2>
+<h2>System Architecture</h2>
 
-<h3>System Architecture Overview</h3>
+<h3>Overview</h3>
 
 <p>
 This portfolio is built as a modular 3D application where each system has a clear responsibility.
@@ -132,6 +132,13 @@ assets
   audio
 
 </pre>
+<h3>Why This Architecture</h3>
+
+<ul class="notebook-list">
+  <li>Separating interaction from UI prevents tight coupling between 3D objects and application state.</li>
+  <li>Feature systems (lighting, environment, game logic) operate independently to avoid cross-system side effects.</li>
+  <li>The architecture allows new interactive objects or panels to be added without modifying core systems.</li>
+</ul>
 
 </div>
 

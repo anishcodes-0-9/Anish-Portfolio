@@ -21,76 +21,68 @@ export function createNotesPanel() {
       container.innerHTML = `
         <div class="notebook-page">
 
-          <h2>Anish's Notebook</h2>
+  <h2>My Notebook</h2>
 
-          <h3>About This Project</h3>
+  <h3>What This Project Is</h3>
 
-          <h2>Developer Notebook</h2>
-
-<h3>Project Idea</h3>
-
-<ul class="notebook-list">
-<li>This portfolio is designed as an interactive 3D developer workspace.</li>
-<li>Instead of scrolling through a traditional website, visitors explore a room and interact with objects.</li>
-<li>Every desk object represents a section of the portfolio.</li>
-<li>The goal was to create a memorable portfolio that demonstrates both creativity and engineering skill.</li>
-</ul>
+  <ul class="notebook-list">
+    <li>This portfolio is built as an interactive 3D workspace instead of a traditional website.</li>
+    <li>The goal was to create something that reflects how engineers explore systems, not just scroll through pages.</li>
+    <li>Each object in the room represents a part of my work, making the experience more intuitive and memorable.</li>
+  </ul>
 
 
-<h3>Tech Stack</h3>
+  <h3>Why I Built It This Way</h3>
 
-<ul class="notebook-list">
-<li>Three.js – 3D rendering and scene management</li>
-<li>Blender – modeling the entire portfolio room</li>
-<li>JavaScript – interaction systems and logic</li>
-<li>Vite – development server and bundling</li>
-</ul>
-
-
-<h3>Key Design Principles</h3>
-
-<ul class="notebook-list">
-<li>Make the portfolio feel like a real developer workspace.</li>
-<li>Use physical objects to represent sections of the portfolio.</li>
-<li>Focus on exploration rather than scrolling.</li>
-<li>Keep systems modular so features can be extended easily.</li>
-</ul>
+  <ul class="notebook-list">
+    <li>Traditional portfolios don’t demonstrate engineering depth beyond UI.</li>
+    <li>I wanted to showcase system thinking, interaction design, and real problem-solving.</li>
+    <li>The 3D environment forces better thinking around state, interaction, and user flow.</li>
+  </ul>
 
 
-<h3>Execution Approach</h3>
+  <h3>Key Engineering Decisions</h3>
 
-<ul class="notebook-list">
-<li>The room was modeled in Blender and exported as a GLB scene.</li>
-<li>Three.js loads the scene and assigns materials dynamically.</li>
-<li>Each mesh is tagged and registered with an interaction system.</li>
-<li>A raycasting system detects hover and click events.</li>
-<li>UI panels open when objects are interacted with.</li>
-</ul>
-
-
-<h3>Challenges Faced</h3>
-
-<ul class="notebook-list">
-<li>Managing interaction detection across many meshes.</li>
-<li>Ensuring small objects like the keyboard and mouse were easy to click.</li>
-<li>Balancing lighting between different times of day.</li>
-<li>Preventing overlapping interactions between nearby objects.</li>
-</ul>
+  <ul class="notebook-list">
+    <li>Used object-based navigation instead of routing to create a more natural interaction model.</li>
+    <li>Introduced invisible hitboxes to improve usability for small objects.</li>
+    <li>Separated interaction logic from UI to keep the system modular.</li>
+    <li>Ensured only one UI state is active at a time to prevent overlapping panels.</li>
+  </ul>
 
 
-<h3>Tradeoffs Made</h3>
+  <h3>Challenges & How I Solved Them</h3>
+
+  <ul class="notebook-list">
+    <li>Precision issues in 3D interactions → solved using hitboxes and controlled raycasting.</li>
+    <li>Overlapping UI panels → solved with centralized UI state management.</li>
+    <li>Balancing realism vs usability → prioritized interaction clarity over visual complexity.</li>
+    <li>Handling multiple systems together → designed loosely coupled modules for stability.</li>
+  </ul>
+
+
+  <h3>Tradeoffs</h3>
+
+  <ul class="notebook-list">
+    <li>Chose performance and usability over ultra-realistic graphics.</li>
+    <li>Avoided embedding UI directly in 3D to keep updates simple and scalable.</li>
+    <li>Limited heavy animations to maintain smooth performance across devices.</li>
+  </ul>
+
+  <ul class="notebook-list">
+    ${getFacts()}
+  </ul>
+
+  <h3>Known Limitations & Improvements</h3>
 
 <ul class="notebook-list">
-<li>Prioritized usability over ultra-realistic lighting.</li>
-<li>Used modular UI panels instead of embedding text directly in the 3D world.</li>
-<li>Added invisible hitboxes for small objects to improve interaction reliability.</li>
+  <li>Speech synthesis behavior is inconsistent across browsers (notably Chrome vs Safari).</li>
+  <li>Raycasting precision can vary slightly on smaller interactive objects, requiring hitbox tuning.</li>
+  <li>Mobile interaction UX is functional but can be further optimized for smaller screens.</li>
+  <li>Lighting and shadow balance can be refined further for improved visual realism.</li>
 </ul>
 
-          <ul class="notebook-list">
-            ${getFacts()}
-          </ul>
-
-        </div>
+</div>
       `;
     },
   };
