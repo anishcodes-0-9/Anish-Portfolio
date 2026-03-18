@@ -80,7 +80,7 @@ export class LightManager {
     // Set sky instantly (sky doesn't need interpolation)
     this.lighting.setSkyColor(config.skyTop, config.skyBottom);
 
-    // ✅ SAFE GUARD: ensure lights exist before using
+    //  SAFE GUARD to ensure lights exist before using
     if (!this.lighting || !this.lighting.sun || !this.lighting.ambient) {
       console.warn("LightManager: lighting not ready yet");
       return;

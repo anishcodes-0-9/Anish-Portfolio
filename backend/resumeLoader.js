@@ -6,7 +6,7 @@ export async function loadResume() {
     const pdfParser = new PDFParser();
 
     pdfParser.on("pdfParser_dataError", (err) => {
-      console.error("❌ Resume parsing failed:", err);
+      console.error(" Resume parsing failed:", err);
       resolve("Resume could not be loaded.");
     });
 

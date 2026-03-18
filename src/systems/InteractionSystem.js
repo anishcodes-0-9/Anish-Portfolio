@@ -281,7 +281,7 @@ export class InteractionSystem {
     return current || object;
   }
 
-  /* ✅ FIXED GUIDE HIGHLIGHT */
+  /* GUIDE HIGHLIGHT */
   highlightByType(type) {
     const candidates = this.interactiveObjects.filter(
       (o) => o.userData.type === type,

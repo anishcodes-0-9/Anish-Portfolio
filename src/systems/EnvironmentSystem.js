@@ -376,7 +376,7 @@ STATE APPLICATION
         this.moonHalo.visible = true;
         this.moonCoreGlow.visible = true;
 
-        // ✅ FIXED POSITION (sky, not room)
+        //  FIXED POSITION (sky, not room)
         this.moonMesh.position.set(0, 14, 35);
         this.moonLight.position.copy(this.moonMesh.position);
         this.moonLight.target.position.set(0, 1.5, 0);

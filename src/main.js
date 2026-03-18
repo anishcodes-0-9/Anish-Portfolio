@@ -28,7 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
     helpBtn.style.display = "none";
   });
 
-  /* ✅ GUIDE HOVER FIX (THIS WAS THE BUG) */
+  /*  GUIDE HOVER FIX (THIS WAS THE BUG) */
 
   const guideItems = document.querySelectorAll(
     "#interactionGuide li[data-type]",
@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", () => {
       window.app?.interaction?.clearGuideHighlight();
     });
 
-    /* ✅ NEW: click = trigger same behavior */
+    /*  NEW: click = trigger same behavior */
     item.addEventListener("click", () => {
       handleGuideClick(type);
     });

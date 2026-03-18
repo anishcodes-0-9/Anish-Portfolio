@@ -131,9 +131,9 @@ export function createAIChatPanel() {
         speech.volume = 1;
 
         //  debug logs (keep for now)
-        speech.onstart = () => console.log("🔊 speaking...");
-        speech.onend = () => console.log("✅ done speaking");
-        speech.onerror = (e) => console.error("❌ speech error", e);
+        speech.onstart = () => console.log(" speaking...");
+        speech.onend = () => console.log(" done speaking");
+        speech.onerror = (e) => console.error(" speech error", e);
 
         synth.speak(speech);
       }

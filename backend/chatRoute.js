@@ -12,7 +12,7 @@ let conversationHistory = [];
 
 /* Check API key */
 if (!process.env.OPENAI_API_KEY) {
-  console.error("❌ OPENAI_API_KEY is missing. Check your .env file.");
+  console.error(" OPENAI_API_KEY is missing. Check your .env file.");
 }
 
 /* Initialize OpenAI */
@@ -35,9 +35,9 @@ let resumeText = "";
     console.log(resumeText);
     console.log("=======================");
 
-    console.log("✅ Resume loaded successfully");
+    console.log(" Resume loaded successfully");
   } catch (err) {
-    console.error("❌ Failed to load resume:", err);
+    console.error(" Failed to load resume:", err);
   }
 })();
 

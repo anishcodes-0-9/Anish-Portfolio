@@ -1,33 +1,38 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 
-/* Resolve current directory */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/* Explicitly load .env file */
-dotenv.config({ path: path.join(__dirname, ".env") });
+dotenv.config();
 
 import chatRoute from "./chatRoute.js";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://your-frontend-url.vercel.app"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
+
+/* HEALTH CHECK */
+app.get("/", (req, res) => {
+  res.send("API running");
+});
 
 app.use("/api/chat", chatRoute);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log("AI server running on port", PORT);
 
   if (!process.env.OPENAI_API_KEY) {
-    console.log("⚠️ OPENAI_API_KEY NOT LOADED");
+    console.log("OPENAI_API_KEY NOT LOADED");
   } else {
-    console.log("✅ OPENAI_API_KEY loaded");
+    console.log("OPENAI_API_KEY loaded");
   }
 });
