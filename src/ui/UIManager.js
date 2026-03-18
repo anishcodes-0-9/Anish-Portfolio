@@ -30,14 +30,24 @@ export class UIManager {
 
   /* OPEN PANEL */
   open(panelName) {
-    if (window.app?.interaction) {
-      window.app.interaction.clearGuideHighlight();
-    }
     const panelData = this.panels[panelName];
 
     if (!panelData) {
       console.warn("Panel not registered:", panelName);
       return;
+    }
+
+    // 🔥 TOGGLE BEHAVIOR (NEW)
+    if (this.activePanel === panelName) {
+      this.close();
+      return;
+    }
+
+    // 🔥 CLOSE ANY EXISTING PANEL
+    this.close();
+
+    if (window.app?.interaction) {
+      window.app.interaction.clearGuideHighlight();
     }
 
     this.activePanel = panelName;
@@ -46,18 +56,14 @@ export class UIManager {
     /* SIDE PANEL */
     if (panelData.type === "side") {
       this.content.innerHTML = "";
-
       panelData.panel.render(this.content);
-
       this.panel.classList.add("active");
     }
 
     /* MODAL PANEL */
     if (panelData.type === "modal") {
       this.modalContent.innerHTML = "";
-
       panelData.panel.render(this.modalContent);
-
       this.modal.classList.add("active");
     }
 
