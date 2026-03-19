@@ -21,9 +21,10 @@ This project demonstrates full-stack engineering, 3D development, interactive UI
 
 ## 🎯 Motivation
 
-Most developer portfolios are static pages. The goal here was to ask: *what if a portfolio was a place you could explore?*
+Most developer portfolios are static pages. The goal here was to ask: _what if a portfolio was a place you could explore?_
 
 This project was built to:
+
 - Demonstrate depth across frontend, backend, and 3D development
 - Create a genuinely engaging first impression
 - Show AI integration in a natural, contextual way
@@ -35,59 +36,63 @@ This project was built to:
 
 Every object in the room is clickable. Here's what each one does:
 
-| Object | Action |
-|--------|--------|
-| 🖥 Left Monitor | Opens **Projects** panel |
-| 🖥 Right Monitor | Opens **Work Experience** panel |
-| ⌨️ Keyboard | Opens **Personal Projects** |
-| 🖱 Mouse | Opens **Resume** |
-| 📞 Phone | Opens **Contact Me** |
-| 📔 Diary (Left Page) | Opens **My Notes** |
-| 📔 Diary (Right Page) | Opens **System Flow** |
-| 🔦 Lamp | Toggles **room lights** on/off |
-| 🤖 Alexa | Opens **AI Portfolio Assistant** chat |
-| 🧠 CPU | Opens **Skills** panel |
-| 🪑 Chair | Toggles **Work Mode** |
-| 🏋️ Left Dumbbell | Opens **Certifications** |
-| 🏋️ Right Dumbbell | Opens **My Strengths** |
-| 🙋 Photo | Opens **About Me** |
-| 🦇 Batman Logo | Toggles **Cinematic/Dark Mode** |
-| 🪟 Window | Cycles **time of day** (Morning → Noon → Evening → Night) |
-| ⚽ Football | Launches **Football Mini Game** |
+| Object                | Action                                                    |
+| --------------------- | --------------------------------------------------------- |
+| 🖥 Left Monitor       | Opens **Projects** panel                                  |
+| 🖥 Right Monitor      | Opens **Work Experience** panel                           |
+| ⌨️ Keyboard           | Opens **Personal Projects**                               |
+| 🖱 Mouse              | Opens **Resume**                                          |
+| 📞 Phone              | Opens **Contact Me**                                      |
+| 📔 Diary (Left Page)  | Opens **My Notes**                                        |
+| 📔 Diary (Right Page) | Opens **System Flow**                                     |
+| 🔦 Lamp               | Toggles **room lights** on/off                            |
+| 🤖 Alexa              | Opens **AI Portfolio Assistant** chat                     |
+| 🧠 CPU                | Opens **Skills** panel                                    |
+| 🪑 Chair              | Toggles **Work Mode**                                     |
+| 🏋️ Left Dumbbell      | Opens **Certifications**                                  |
+| 🏋️ Right Dumbbell     | Opens **My Strengths**                                    |
+| 🙋 Photo              | Opens **About Me**                                        |
+| 🦇 Batman Logo        | Toggles **Cinematic/Dark Mode**                           |
+| 🪟 Window             | Cycles **time of day** (Morning → Noon → Evening → Night) |
+| ⚽ Football           | Launches **Football Mini Game**                           |
 
 ---
 
 ## 🧱 Tech Stack
 
 ### Frontend
-| Technology | Role |
-|------------|------|
-| **Three.js** | 3D scene rendering, camera, lighting |
-| **JavaScript (ES Modules)** | Application logic |
-| **Vite** | Dev server and bundler |
-| **GSAP / Custom Animations** | UI transitions and panel animations |
-| **Custom Raycasting System** | Mouse-to-3D object interaction |
-| **Custom UI Panel System** | Modular panel and modal management |
+
+| Technology                   | Role                                 |
+| ---------------------------- | ------------------------------------ |
+| **Three.js**                 | 3D scene rendering, camera, lighting |
+| **JavaScript (ES Modules)**  | Application logic                    |
+| **Vite**                     | Dev server and bundler               |
+| **GSAP / Custom Animations** | UI transitions and panel animations  |
+| **Custom Raycasting System** | Mouse-to-3D object interaction       |
+| **Custom UI Panel System**   | Modular panel and modal management   |
 
 ### Backend
-| Technology | Role |
-|------------|------|
-| **Node.js** | Server runtime |
-| **Express** | HTTP routing |
-| **OpenAI API** | AI assistant responses |
-| **dotenv** | Secure environment variable management |
+
+| Technology     | Role                                   |
+| -------------- | -------------------------------------- |
+| **Node.js**    | Server runtime                         |
+| **Express**    | HTTP routing                           |
+| **OpenAI API** | AI assistant responses                 |
+| **dotenv**     | Secure environment variable management |
 
 ### 3D Assets
-| Technology | Role |
-|------------|------|
-| **Blender** | Full room environment modelling |
-| **GLB / GLTF** | 3D model export format |
-| **Three.js GLTFLoader** | Loading models into the scene |
+
+| Technology              | Role                            |
+| ----------------------- | ------------------------------- |
+| **Blender**             | Full room environment modelling |
+| **GLB / GLTF**          | 3D model export format          |
+| **Three.js GLTFLoader** | Loading models into the scene   |
 
 ### Deployment
-| Technology | Role |
-|------------|------|
-| **Vercel** | Frontend hosting |
+
+| Technology         | Role                               |
+| ------------------ | ---------------------------------- |
+| **Vercel**         | Frontend hosting                   |
 | **Node.js server** | Backend API (self-hosted or cloud) |
 
 ---
@@ -317,26 +322,31 @@ GLB packages geometry, materials, and textures into a single binary file, making
 ## ⚖️ Design Tradeoffs
 
 ### 3D Room vs Traditional Layout
+
 - **Pro:** Memorable and differentiated — visitors engage longer
 - **Con:** Higher initial load time for model assets; not SEO-friendly; requires WebGL support
 - **Mitigation:** Vite asset optimisation, compressed GLB exports, graceful fallback messaging for unsupported devices
 
 ### Custom Raycasting vs Physics Library
+
 - **Pro:** Full control, zero overhead from a physics engine for purely visual interactions
 - **Con:** More manual work to add complex behaviours (e.g., object dragging)
 - **Mitigation:** Raycasting is well-suited here since most interactions are click-to-open, not physics-driven (the football game is isolated)
 
 ### OpenAI Proxy Backend vs Direct API Call
+
 - **Pro:** API key never exposed in the browser; centralised place for rate limiting and logging
 - **Con:** Additional infrastructure to maintain and deploy separately
 - **Mitigation:** The backend is lightweight (single route) and can be deployed to any Node.js host alongside the frontend
 
 ### Single GLB Model vs Modular Asset Loading
+
 - **Pro:** One network request, simpler scene graph management
 - **Con:** Larger initial load; harder to swap individual assets at runtime
 - **Mitigation:** Acceptable tradeoff for a portfolio — load happens once per visit
 
 ### Modular Panel System vs Inline HTML
+
 - **Pro:** Each panel is independently defined and registered; easy to add new interactions without touching core logic
 - **Con:** Minor indirection when debugging (need to trace panel ID through registry)
 - **Mitigation:** Clear naming conventions and centralised `registerPanels.js` file
@@ -356,22 +366,19 @@ GLB packages geometry, materials, and textures into a single binary file, making
 
 ## 🚀 Planned Improvements
 
-- [ ] **Hover highlight system** — emissive glow and tooltip labels when cursor enters interactive objects, making discoverability intuitive
-- [ ] **Alexa voice responses** — text-to-speech playback of AI replies
+-
 - [ ] **AI GitHub repository explainer** — AI reads and summarises pinned repos dynamically
 - [ ] **Resume unlock puzzle** — interactive puzzle that reveals the resume as a reward
-- [ ] **Real-time lighting from local time** — room lighting automatically matches the visitor's current time of day
-- [ ] **Mobile touch support** — tap interactions for touchscreen devices
 - [ ] **Loading screen with progress bar** — feedback during GLB model fetch
 
 ---
 
 ## 📬 Contact
 
-| Platform | Link |
-|----------|------|
-| GitHub | [github.com/anishcodes-0-9](https://github.com/anishcodes-0-9) |
-| LinkedIn | [linkedin.com/in/anishkrishnan09](https://www.linkedin.com/in/anishkrishnan09) |
+| Platform       | Link                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| GitHub         | [github.com/anishcodes-0-9](https://github.com/anishcodes-0-9)                            |
+| LinkedIn       | [linkedin.com/in/anishkrishnan09](https://www.linkedin.com/in/anishkrishnan09)            |
 | Live Portfolio | [anish-portfolio-gamma-steel.vercel.app](https://anish-portfolio-gamma-steel.vercel.app/) |
 
 ---
@@ -382,4 +389,4 @@ This project is personal portfolio work. Feel free to draw inspiration, but plea
 
 ---
 
-*Built to reimagine what a developer portfolio can be — not a page to read, but a room to explore.*
+_Built to reimagine what a developer portfolio can be — not a page to read, but a room to explore._
