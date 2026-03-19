@@ -1,284 +1,142 @@
-# 🏠 Interactive 3D Portfolio — Three.js + AI Assistant
+# 🏠 Anish Portfolio — Interactive 3D Developer Portfolio
 
-An **interactive 3D developer portfolio** built with **Three.js**, where visitors explore a virtual room and interact with objects to learn about my **projects, work experience, and skills**.
+> **A fully immersive 3D room you explore — not a webpage you scroll.**
 
-Instead of navigating a traditional website, users **interact with objects inside a 3D room**. Each object triggers a different feature such as opening panels, launching mini-games, changing the environment, or chatting with an **AI assistant powered by OpenAI**.
-
----
-
-# 🎯 Project Objective
-
-This project demonstrates a combination of:
-
-- **3D development**
-- **interactive UI design**
-- **frontend engineering**
-- **backend architecture**
-- **AI integration**
-
-The goal was to create a **memorable and immersive portfolio experience** rather than a static webpage.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://anish-portfolio-gamma-steel.vercel.app/)
+[![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=threedotjs)](https://threejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
 
 ---
 
-# 🧱 Tech Stack
+## 📖 Overview
 
-## **Frontend**
+Instead of navigating a traditional website, visitors step into a **3D virtual room** and interact with objects to discover projects, experience, skills, and more. Every object in the room has a purpose — click the monitor to see projects, ask the AI assistant questions, kick the football, or toggle cinematic mode with the Batman logo.
 
-- **Three.js**
-- **JavaScript (ES Modules)**
-- **Vite**
-- **Custom UI panel system**
-- **Raycasting interaction system**
+This project demonstrates full-stack engineering, 3D development, interactive UI design, and AI integration — all wrapped in an experience meant to be memorable.
 
-## **Backend**
-
-- **Node.js**
-- **Express**
-- **OpenAI API**
-- **Secure API proxy**
-
-## **3D Modeling**
-
-- **Blender**
+**[→ Try it live](https://anish-portfolio-gamma-steel.vercel.app/)**
 
 ---
 
-# 🧭 Interactive Room Features
+## 🎯 Motivation
 
-The portfolio is presented as a **3D room environment** where every major object is interactive.
+Most developer portfolios are static pages. The goal here was to ask: *what if a portfolio was a place you could explore?*
 
-Users can **hover and click objects** to trigger different actions.
-
----
-
-# 🖱️ Object Interactions
-
-## 🖥️ **Left Monitor — Projects**
-
-Clicking the **left monitor** opens a side panel displaying:
-
-- Personal projects
-- Technical experiments
-- Engineering implementations
-
-### Interaction Flow
-
-```
-Click Monitor_Left
-↓
-InteractionSystem detects object
-↓
-UIManager opens "projects" panel
-```
+This project was built to:
+- Demonstrate depth across frontend, backend, and 3D development
+- Create a genuinely engaging first impression
+- Show AI integration in a natural, contextual way
+- Push beyond what a typical portfolio is expected to look like
 
 ---
 
-## 🖥️ **Right Monitor — Work History**
+## ✨ Interactive Objects & Features
 
-Clicking the **right monitor** opens a side panel showing:
+Every object in the room is clickable. Here's what each one does:
 
-- Professional work history
-- Previous roles
-- Responsibilities
-- Career experience
-
----
-
-## ⚽ **Football — Mini Game**
-
-Clicking the football opens an interactive **football mini-game**.
-
-### Features
-
-- Physics based movement
-- Score tracking
-- Interactive gameplay
-
-### Interaction Flow
-
-```
-Click Football
-↓
-UIManager opens footballGame modal
-↓
-GameManager handles game logic
-```
+| Object | Action |
+|--------|--------|
+| 🖥 Left Monitor | Opens **Projects** panel |
+| 🖥 Right Monitor | Opens **Work Experience** panel |
+| ⌨️ Keyboard | Opens **Personal Projects** |
+| 🖱 Mouse | Opens **Resume** |
+| 📞 Phone | Opens **Contact Me** |
+| 📔 Diary (Left Page) | Opens **My Notes** |
+| 📔 Diary (Right Page) | Opens **System Flow** |
+| 🔦 Lamp | Toggles **room lights** on/off |
+| 🤖 Alexa | Opens **AI Portfolio Assistant** chat |
+| 🧠 CPU | Opens **Skills** panel |
+| 🪑 Chair | Toggles **Work Mode** |
+| 🏋️ Left Dumbbell | Opens **Certifications** |
+| 🏋️ Right Dumbbell | Opens **My Strengths** |
+| 🙋 Photo | Opens **About Me** |
+| 🦇 Batman Logo | Toggles **Cinematic/Dark Mode** |
+| 🪟 Window | Cycles **time of day** (Morning → Noon → Evening → Night) |
+| ⚽ Football | Launches **Football Mini Game** |
 
 ---
 
-## 🌇 **Window — Environment Lighting**
+## 🧱 Tech Stack
 
-Clicking the window cycles through different **times of day**.
+### Frontend
+| Technology | Role |
+|------------|------|
+| **Three.js** | 3D scene rendering, camera, lighting |
+| **JavaScript (ES Modules)** | Application logic |
+| **Vite** | Dev server and bundler |
+| **GSAP / Custom Animations** | UI transitions and panel animations |
+| **Custom Raycasting System** | Mouse-to-3D object interaction |
+| **Custom UI Panel System** | Modular panel and modal management |
 
-### Environment States
+### Backend
+| Technology | Role |
+|------------|------|
+| **Node.js** | Server runtime |
+| **Express** | HTTP routing |
+| **OpenAI API** | AI assistant responses |
+| **dotenv** | Secure environment variable management |
 
-1. **Morning**
-2. **Noon**
-3. **Evening**
-4. **Night**
+### 3D Assets
+| Technology | Role |
+|------------|------|
+| **Blender** | Full room environment modelling |
+| **GLB / GLTF** | 3D model export format |
+| **Three.js GLTFLoader** | Loading models into the scene |
 
-### Interaction Flow
-
-```
-Click Window
-↓
-EnvironmentSystem.cycleTimeOfDay()
-↓
-LightingManager updates scene lighting
-```
-
-This dynamically changes the room lighting and mood.
-
----
-
-## 🦇 **Batman Logo — Cinematic Mode**
-
-Clicking the Batman logo activates a **cinematic lighting mode**.
-
-### Effects
-
-- Darkened environment
-- Dramatic lighting
-- Cinematic atmosphere
-
-### Interaction Flow
-
-```
-Click BatmanLogo
-↓
-GameManager.activateBatmanMode()
-↓
-Lighting system switches theme
-```
-
-Clicking again disables cinematic mode.
+### Deployment
+| Technology | Role |
+|------------|------|
+| **Vercel** | Frontend hosting |
+| **Node.js server** | Backend API (self-hosted or cloud) |
 
 ---
 
-## 🤖 **Alexa Device — AI Portfolio Assistant**
-
-Clicking the Alexa device opens an **AI chatbot modal**.
-
-The chatbot answers questions about:
-
-- Projects
-- Skills
-- Tech stack
-- Work experience
-- Contact information
-
-### AI Request Flow
+## 🗂 Project Structure
 
 ```
-User types message
-↓
-Frontend sends POST request
-↓
-Node backend proxy
-↓
-OpenAI API
-↓
-Response returned to chat UI
-```
-
-The backend ensures the **OpenAI API key is never exposed to the browser**.
-
----
-
-# 🧠 AI System Architecture
-
-```
-Three.js Frontend
-↓
-POST /api/chat
-↓
-Node.js Express Server
-↓
-OpenAI API
-↓
-AI Response
-↓
-Chat UI Updates
-```
-
-The assistant uses a **system prompt containing portfolio knowledge** so it only answers questions related to the portfolio.
-
----
-
-## 🧩 Application Architecture
-
-```
-Three.js Scene
+Anish-Portfolio/
 │
-├── InteractionSystem
-│ Handles raycasting and object click detection
-│
-├── PortfolioRoom
-│ Loads the GLB room model
-│ Tags interactive objects
-│
-├── UIManager
-│ Controls UI panels and modals
-│
-├── Panels
-│ ├── Projects Panel
-│ ├── Work Panel
-│ ├── Football Game Panel
-│ └── AI Chat Panel
-│
-└── Backend
-Node.js + Express API
-OpenAI integration
-
-```
-
----
-
-## 📁 Project Structure
-
-```
-Anish-Portfolio
-│
-├── backend
-│   ├── server.js
-│   ├── chatRoute.js
+├── backend/
+│   ├── server.js          # Express server entry point
+│   ├── chatRoute.js       # /api/chat endpoint — OpenAI proxy
 │   ├── package.json
-│   └── .env
+│   └── .env               # OPENAI_API_KEY (never committed)
 │
-├── public
-│   ├── audio
-│   └── textures
+├── public/
+│   ├── audio/             # Ambient or interaction sounds
+│   └── textures/          # Static texture assets
 │
-├── src
-│   ├── assets
-│   │   └── models
+├── src/
+│   ├── assets/
+│   │   └── models/        # GLB room model and props
 │   │
-│   ├── core
-│   │   ├── Camera.js
-│   │   ├── Controls.js
-│   │   ├── Renderer.js
-│   │   └── Experience.js
+│   ├── core/
+│   │   ├── Experience.js  # Root class — bootstraps everything
+│   │   ├── Camera.js      # Camera setup and controls
+│   │   ├── Controls.js    # OrbitControls or custom navigation
+│   │   └── Renderer.js    # WebGL renderer configuration
 │   │
-│   ├── systems
-│   │   ├── InteractionSystem.js
-│   │   ├── GameManager.js
-│   │   ├── EnvironmentSystem.js
-│   │   ├── LightManager.js
-│   │   └── TimeManager.js
+│   ├── systems/
+│   │   ├── InteractionSystem.js   # Raycasting, hover & click detection
+│   │   ├── GameManager.js         # Football game + Batman mode logic
+│   │   ├── EnvironmentSystem.js   # Time-of-day cycling
+│   │   ├── LightManager.js        # Dynamic lighting updates
+│   │   └── TimeManager.js         # Delta time and animation loop
 │   │
-│   ├── ui
-│   │   ├── UIManager.js
-│   │   ├── registerPanels.js
-│   │   └── panels
+│   ├── ui/
+│   │   ├── UIManager.js           # Panel orchestration
+│   │   ├── registerPanels.js      # Registers all panel definitions
+│   │   └── panels/
 │   │       ├── projectsPanel.js
 │   │       ├── workPanel.js
 │   │       ├── footballGamePanel.js
 │   │       └── aiChatPanel.js
 │   │
-│   ├── world
-│   │   └── PortfolioRoom.js
+│   ├── world/
+│   │   └── PortfolioRoom.js       # Loads GLB, tags interactive objects
 │   │
-│   └── main.js
+│   └── main.js                    # Application entry point
 │
 ├── index.html
 ├── vite.config.js
@@ -287,167 +145,241 @@ Anish-Portfolio
 
 ---
 
-# ⚙️ How to Run the Project
+## 🔄 Application Architecture & Data Flow
 
-## **1️⃣ Clone the Repository**
+### Scene Initialization
 
+```
+main.js
+  └── Experience.js (root)
+        ├── Renderer.js         → Creates WebGL renderer
+        ├── Camera.js           → Sets up perspective camera
+        ├── Controls.js         → Attaches user navigation
+        ├── PortfolioRoom.js    → Loads GLB model via GLTFLoader
+        │     └── Tags interactive mesh objects by name
+        ├── InteractionSystem.js → Attaches raycaster to canvas
+        ├── UIManager.js        → Initialises panel registry
+        └── TimeManager.js      → Starts render loop (requestAnimationFrame)
+```
+
+### Interaction Flow (Click)
+
+```
+User clicks on canvas
+  └── InteractionSystem.js
+        └── Raycaster casts ray from camera through mouse position
+              └── Intersects tagged mesh?
+                    YES → Looks up object name in interaction map
+                          └── UIManager.openPanel(panelId)
+                                └── Relevant panel renders into DOM
+```
+
+### AI Chat Flow
+
+```
+User types message in AI panel
+  └── aiChatPanel.js
+        └── POST /api/chat  { message: "..." }
+              └── chatRoute.js (Express)
+                    └── OpenAI API (GPT model)
+                          └── System prompt with portfolio context
+                                └── Response returned to chat UI
+```
+
+The system prompt constrains the model to only answer questions related to the portfolio — preventing off-topic usage and keeping the assistant in character.
+
+### Environment / Lighting Flow
+
+```
+User clicks Window
+  └── InteractionSystem detects "Window" mesh
+        └── EnvironmentSystem.cycleTimeOfDay()
+              └── LightManager.applyPreset(timeOfDay)
+                    └── Updates DirectionalLight, AmbientLight, sky color
+```
+
+### Batman Cinematic Mode
+
+```
+User clicks BatmanLogo
+  └── GameManager.activateBatmanMode()
+        └── LightManager switches to cinematic preset
+              → Reduces ambient light
+              → Adds dramatic directional spotlight
+        └── Click again → restores previous lighting state
+```
+
+---
+
+## 🤖 AI Assistant Architecture
+
+The AI assistant is powered by OpenAI but proxied through the backend to keep the API key off the client.
+
+```
+Browser (aiChatPanel.js)
+    │
+    │  POST /api/chat
+    │  { "message": "What projects have you built?" }
+    ▼
+Node.js Express Server (chatRoute.js)
+    │
+    │  OpenAI API request
+    │  with system prompt containing portfolio knowledge
+    ▼
+OpenAI GPT Model
+    │
+    ▼
+Response text → Back to browser → Rendered in chat UI
+```
+
+**Why proxy through the backend?**
+Calling OpenAI directly from the browser would expose the API key in network requests. The Express proxy keeps the key in a `.env` file server-side and adds a layer to rate-limit or validate requests if needed.
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Node.js v18+
+- npm
+- An OpenAI API key
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/anishcodes-0-9/Anish-Portfolio.git
+cd Anish-Portfolio
+```
 
----
+### 2. Install Frontend Dependencies
 
-## **2️⃣ Install Frontend Dependencies**
-
+```bash
 npm install
+```
 
----
+### 3. Install Backend Dependencies
 
-## **3️⃣ Install Backend Dependencies**
-
+```bash
 cd backend
 npm install
+```
 
----
+### 4. Configure Environment Variables
 
-## **4️⃣ Add OpenAI API Key**
+Create a `.env` file inside the `backend/` folder:
 
-Create a `.env` file inside the backend folder:
-
+```env
 OPENAI_API_KEY=your_api_key_here
+```
 
----
+> ⚠️ Never commit this file. It is already in `.gitignore`.
 
-## **5️⃣ Start Backend Server**
+### 5. Start the Backend Server
 
+```bash
 cd backend
 npm start
-
-Server runs on: http://localhost:3001
-
----
-
-## **6️⃣ Start Frontend**
-
-Open a new terminal: npm run dev
-
-then Visit: http://localhost:5173
-
----
-
-# 🎨 3D Modeling Workflow
-
-The entire environment was designed in **Blender**.
-
-### Workflow
-
+# Server runs at http://localhost:3001
 ```
-Blender Model
-↓
-Export GLB
-↓
-Load with GLTFLoader
-↓
-Three.js Scene
-↓
-Material + lighting adjustments in code
+
+### 6. Start the Frontend Dev Server
+
+Open a new terminal from the project root:
+
+```bash
+npm run dev
+# App runs at http://localhost:5173
 ```
 
 ---
 
-# ✨ Key Engineering Highlights
+## 🎨 3D Modelling Workflow
 
-This project demonstrates:
+The entire room environment — furniture, props, and all interactive objects — was modelled from scratch in Blender.
 
-- **Custom raycasting interaction system**
-- **Modular UI architecture**
-- **Interactive 3D environment**
-- **Dynamic lighting system**
-- **Mini-game integration**
-- **Secure AI backend integration**
-- **Full stack architecture**
+```
+Blender (.blend)
+  └── Model & UV unwrap all objects
+        └── Assign materials and bake lighting (optional)
+              └── Export as .glb (binary GLTF)
+                    └── Load with GLTFLoader in Three.js
+                          └── Traverse scene graph
+                                └── Tag meshes by name for interaction
+                                      └── Fine-tune materials & lighting in code
+```
 
----
-
-# 🚀 Future Improvements
-
-Planned upgrades include:
-
-- Alexa **voice responses**
-- **AI explanation of GitHub repositories**
-- **Resume unlock puzzle**
-- **Real-time lighting based on user local time**
-- Additional interactive room elements
+**Why GLB over OBJ or FBX?**
+GLB packages geometry, materials, and textures into a single binary file, making it ideal for web delivery — smaller transfer size and simpler loading compared to multi-file formats.
 
 ---
 
-# 📬 Contact
+## ⚖️ Design Tradeoffs
+
+### 3D Room vs Traditional Layout
+- **Pro:** Memorable and differentiated — visitors engage longer
+- **Con:** Higher initial load time for model assets; not SEO-friendly; requires WebGL support
+- **Mitigation:** Vite asset optimisation, compressed GLB exports, graceful fallback messaging for unsupported devices
+
+### Custom Raycasting vs Physics Library
+- **Pro:** Full control, zero overhead from a physics engine for purely visual interactions
+- **Con:** More manual work to add complex behaviours (e.g., object dragging)
+- **Mitigation:** Raycasting is well-suited here since most interactions are click-to-open, not physics-driven (the football game is isolated)
+
+### OpenAI Proxy Backend vs Direct API Call
+- **Pro:** API key never exposed in the browser; centralised place for rate limiting and logging
+- **Con:** Additional infrastructure to maintain and deploy separately
+- **Mitigation:** The backend is lightweight (single route) and can be deployed to any Node.js host alongside the frontend
+
+### Single GLB Model vs Modular Asset Loading
+- **Pro:** One network request, simpler scene graph management
+- **Con:** Larger initial load; harder to swap individual assets at runtime
+- **Mitigation:** Acceptable tradeoff for a portfolio — load happens once per visit
+
+### Modular Panel System vs Inline HTML
+- **Pro:** Each panel is independently defined and registered; easy to add new interactions without touching core logic
+- **Con:** Minor indirection when debugging (need to trace panel ID through registry)
+- **Mitigation:** Clear naming conventions and centralised `registerPanels.js` file
 
 ---
 
-**https://github.com/anishcodes-0-9**
+## 🔑 Key Engineering Highlights
 
-**www.linkedin.com/in/anishkrishnan09**
-
----
-
----
-
-# ⭐ Final Note
-
-This portfolio was built to **reimagine what a developer portfolio can be**.
-
-Instead of reading about my work on a webpage, visitors **explore a world where every object tells a story**.
-
-# Feature to work on
-
-**1** ## Future Feature Note – 3D Hover Interaction System
-
-**Goal**
-
-Improve the usability of the 3D room by giving users visual feedback when they move their cursor over interactive objects.
-
-Right now objects only respond on click, which means users must guess what is clickable. The hover interaction system will make the experience more intuitive and game-like.
+- **Custom raycasting interaction system** — handles hover state, click detection, and cursor feedback across all tagged 3D objects without a physics engine
+- **Modular UI panel architecture** — panels are self-contained and registered declaratively; adding a new interactive object requires minimal changes to core systems
+- **Dynamic lighting system** — four time-of-day presets (Morning, Noon, Evening, Night) update ambient and directional lights at runtime, changing room mood without reloading assets
+- **Secure AI proxy** — OpenAI API key lives server-side; the frontend never touches credentials
+- **Full-stack architecture** — Vite-powered frontend and Express backend share a clean API contract at `/api/chat`
+- **Blender-to-Three.js pipeline** — custom naming conventions on Blender meshes map directly to interaction IDs in code, keeping the 3D asset and application logic in sync
 
 ---
 
-**Feature Description**
+## 🚀 Planned Improvements
 
-When the mouse **hovers over interactive objects**, the object should:
-
-1. **Slightly highlight or glow** to indicate it is interactive
-2. Display a **small tooltip near the cursor or above the object**
-3. Show a short action description of what clicking will do
-
-Example interactions:
-
-- **Keyboard → "View Personal Projects"**
-- **Right Monitor → "Work Experience"**
-- **Left Monitor → "Projects Panel"**
-- **Alexa Device → "Open AI Assistant"**
-- **Phone → "Contact Anish"**
-- **Window → "Change Time of Day"**
-- **Batman Logo → "Toggle Theme"**
+- [ ] **Hover highlight system** — emissive glow and tooltip labels when cursor enters interactive objects, making discoverability intuitive
+- [ ] **Alexa voice responses** — text-to-speech playback of AI replies
+- [ ] **AI GitHub repository explainer** — AI reads and summarises pinned repos dynamically
+- [ ] **Resume unlock puzzle** — interactive puzzle that reveals the resume as a reward
+- [ ] **Real-time lighting from local time** — room lighting automatically matches the visitor's current time of day
+- [ ] **Mobile touch support** — tap interactions for touchscreen devices
+- [ ] **Loading screen with progress bar** — feedback during GLB model fetch
 
 ---
 
-**Implementation Approach**
+## 📬 Contact
 
-The feature will extend the existing **InteractionSystem raycasting logic**.
-
-Steps:
-
-1. Use the existing **raycaster that detects clicked objects**.
-2. Track the **currently hovered object** every frame.
-3. If the hovered object changes:
-   - Apply a **highlight material or emissive effect**.
-   - Display a **tooltip UI element** with the action label.
-
-4. Remove highlight and hide tooltip when the cursor leaves the object.
+| Platform | Link |
+|----------|------|
+| GitHub | [github.com/anishcodes-0-9](https://github.com/anishcodes-0-9) |
+| LinkedIn | [linkedin.com/in/anishkrishnan09](https://www.linkedin.com/in/anishkrishnan09) |
+| Live Portfolio | [anish-portfolio-gamma-steel.vercel.app](https://anish-portfolio-gamma-steel.vercel.app/) |
 
 ---
 
-**Technical Components**
+## 📄 License
 
-The system will likely require:
+This project is personal portfolio work. Feel free to draw inspiration, but please do not clone and deploy as your own portfolio without significant modification.
 
-- Hover detection inside `InteractionSystem.js`
-- A small
+---
+
+*Built to reimagine what a developer portfolio can be — not a page to read, but a room to explore.*
