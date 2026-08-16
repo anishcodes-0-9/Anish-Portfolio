@@ -2,7 +2,7 @@
 
 > **A fully immersive 3D room you explore — not a webpage you scroll.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://anish-portfolio-gamma-steel.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://anish-3d-room-gamma-steel.vercel.app/)
 [![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=threedotjs)](https://threejs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
@@ -15,7 +15,7 @@ Instead of navigating a traditional website, visitors step into a **3D virtual r
 
 This project demonstrates full-stack engineering, 3D development, interactive UI design, and AI integration — all wrapped in an experience meant to be memorable.
 
-**[→ Try it live](https://anish-portfolio-gamma-steel.vercel.app/)**
+**[→ Try it live](https://anish-3d-room-gamma-steel.vercel.app/)**
 
 ---
 
